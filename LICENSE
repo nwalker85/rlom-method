@@ -1,0 +1,21 @@
+Copyright (c) 2026 Ravenhelm LLC. All rights reserved.
+
+TODO: Replace this file with the final license boilerplate and enforcement
+language. This placeholder matches the marker present at the top of every
+chapter file:
+
+    <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
+    <!-- TODO: replace with final license boilerplate and enforcement language -->
+
+Pending decisions:
+- Choose a license model: proprietary licensed material, source-available
+  with field-of-use restriction, or a permissive license with attribution
+  and commercial-use carve-out.
+- Decide whether to publish as a public freemium artifact (whole document
+  freely readable, engagement gated) or as a partially-restricted asset
+  (preview chapters public, full document under license).
+- Define the enforcement language (attribution requirements, derivative-work
+  policy, no-warranty disclaimer, governing law).
+
+Until this is resolved, treat all material in this repository as licensed,
+unpublished material owned by Ravenhelm LLC. Do not redistribute.

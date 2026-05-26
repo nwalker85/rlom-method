@@ -1,0 +1,15 @@
+# CODEOWNERS — Ravenhelm Linear Operating Method
+# Syntax: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything
+*                                       @nwalker85
+
+# Doctrine is load-bearing — explicit owner
+/docs/_shared/PRINCIPLES.md             @nwalker85
+/docs/_shared/CONTEXT.md                @nwalker85
+/docs/chapters/03-numbered-principles.md  @nwalker85
+/docs/architecture/decisions/           @nwalker85
+
+# Licensing surface
+/LICENSE                                @nwalker85
+/CONTRIBUTING.md                        @nwalker85
