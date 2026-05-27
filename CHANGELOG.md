@@ -9,11 +9,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 - Initial 12-chapter draft authored against the spec in `docs/_shared/CONTEXT.md`.
 - Canonical principle scaffold (P-1..P-28) in `docs/_shared/PRINCIPLES.md`.
-- Repository scaffolding (Tier 2 layout per the EPAS structure template).
+- Repository scaffolding (Tier 2 layout per the Ravenhelm Repo Structure Template).
+- `docs/architecture/repo-structure.md` — vendored template + conformance decisions table; travels with the repo so the convention does not depend on an external standards file.
+- `docs/architecture/README.md` — index for the architecture directory.
 
 ### Pending
 - Final license boilerplate (`LICENSE` is currently a TODO marker).
-- ADR template and first doctrine ADR.
+- First doctrine ADR (template exists at `docs/architecture/decisions/0000-template.md`).
 - Markdownlint rules tuned for chapter conventions (callout boxes, license header).
 - Single-file build via `scripts/compile.sh`.
 

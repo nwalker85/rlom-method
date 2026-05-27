@@ -41,7 +41,9 @@ Twelve chapters, ~27,000 words. Nine of them are usable on Linear Free immediate
 │   │   ├── CONTEXT.md      # Voice, neutralization rules, callout formats, rubric
 │   │   └── PRINCIPLES.md   # Canonical P-1..P-28 scaffold
 │   └── architecture/
-│       └── decisions/      # ADRs for doctrine evolution
+│       ├── README.md
+│       ├── repo-structure.md  # Structural template + this repo's conformance
+│       └── decisions/         # ADRs for doctrine evolution
 ├── scripts/
 │   └── compile.sh          # Concatenate chapters into a single document
 ├── .github/                # PR and issue templates, lint workflow
@@ -53,6 +55,8 @@ Twelve chapters, ~27,000 words. Nine of them are usable on Linear Free immediate
 ├── SECURITY.md
 └── CODEOWNERS
 ```
+
+This repo conforms to **Tier 2** of the Ravenhelm Repository Structure Template. See [`docs/architecture/repo-structure.md`](docs/architecture/repo-structure.md) for the full template and the specific decisions this repo made. The same convention governs all sibling repos under [`~/src/products/rlom/`](../README.md).
 
 ## Building a single-file edition
 

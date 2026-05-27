@@ -6,6 +6,12 @@ This document is licensed material. Contributions are scoped to maintainers and 
 
 RLOM is a freemium consulting deliverable. Every chapter doubles as a sales artifact for the Ravenhelm Operating Assessment. Editorial discipline is high — see `docs/_shared/CONTEXT.md` for the authoritative voice, formatting, neutralization, and rubric rules.
 
+## Repository conventions
+
+This repo conforms to **Tier 2** of the Ravenhelm Repository Structure Template, vendored at [`docs/architecture/repo-structure.md`](docs/architecture/repo-structure.md). Structural changes — adding top-level directories, moving metadata files, switching CI providers — should consult that document and ideally land with an ADR in [`docs/architecture/decisions/`](docs/architecture/decisions/).
+
+The same template governs every sibling repo under the RLOM product (`assessment-toolkit/`, `agent-extensions/`, ...). When in doubt about layout, match what other RLOM repos do; if no other repo has the answer, the template does.
+
 ## Local setup
 
 No build dependencies. Authoring is plain Markdown. Optional tooling:
