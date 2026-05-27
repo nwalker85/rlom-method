@@ -7,16 +7,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ## [Unreleased]
 
 ### Added
+
 - Initial 12-chapter draft authored against the spec in `docs/_shared/CONTEXT.md`.
 - Canonical principle scaffold (P-1..P-28) in `docs/_shared/PRINCIPLES.md`.
 - Repository scaffolding (Tier 2 layout per the Ravenhelm Repo Structure Template).
 - `docs/architecture/repo-structure.md` — vendored template + conformance decisions table; travels with the repo so the convention does not depend on an external standards file.
 - `docs/architecture/README.md` — index for the architecture directory.
+- `.markdownlint.yml` tuned to the chapter style (preserves the directive-period principle headings, the multi-paragraph callout blockquotes, the vendored-document multi-H1 case, etc.); structural rules remain active.
 
 ### Pending
+
 - Final license boilerplate (`LICENSE` is currently a TODO marker).
 - First doctrine ADR (template exists at `docs/architecture/decisions/0000-template.md`).
-- Markdownlint rules tuned for chapter conventions (callout boxes, license header).
 - Single-file build via `scripts/compile.sh`.
 
 ## [0.1.0] — 2026-05-26
