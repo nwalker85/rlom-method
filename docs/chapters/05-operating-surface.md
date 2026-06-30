@@ -18,7 +18,7 @@ The Method uses eight namespaced label groups. They are namespaced because flat 
 - `type:*` — Feature, Bug, Chore, Documentation, Research, Gate. Every issue gets exactly one. The "Gate" type marks issues whose only purpose is to hold a decision or an approval until it lands.
 - `component:*` — one per service or subsystem the team owns. Let the reader fill in the names; the Method does not prescribe them. A team running three services might have `component:api`, `component:web`, `component:worker`. A team with one monolith might skip this namespace until they split.
 - `domain:*` — broad areas of concern: `domain:security`, `domain:infrastructure`, `domain:product`, `domain:operations`. Use sparingly. Domain answers "who would be interested in this if it broke" — not "what code does it touch."
-- `risk:*` — `low`, `medium`, `high`. Applied at Triage. Drives one view (Blocked Critical Path) and one report (the weekly risk roll-up in Chapter 12).
+- `risk:*` — `low`, `medium`, `high`. Applied at Triage. Drives one view (Blocked Critical Path) and one report (the weekly risk roll-up in Chapter 13).
 - `source:*` — `asks`, `slack`, `support`, `github`, `sentry`. Where the work came in from. Drives Triage analytics: if eighty percent of incoming work is `source:slack`, the team needs Asks (Chapter 7), not more meetings.
 - `release:*` — `production`, `staging`, `internal`, `none`. Marks the deployment surface so the Validation gate (Chapter 10) knows what evidence to require. `release:production` means runtime evidence is non-negotiable before Done (P-9).
 - `stage:*` — `design`, `qa`, `uat`, `soft-launch`. These are the "states that aren't states" (P-11). The workflow canon is nine states (Chapter 10); anything that looks like a tenth state — pending approval, in QA, soft-launch — is a stage label applied during In Progress, In Review, or Validation. The canon stays at nine.
@@ -27,6 +27,8 @@ The Method uses eight namespaced label groups. They are namespaced because flat 
 Each namespace serves at least one view. `type:Bug` plus `risk:high` plus `release:production` is the filter behind the Operator's morning incident scan. `source:slack` is the filter behind the weekly Asks review. `stage:uat` is the filter behind the Validation queue. `parking-reason:*` populates a sanity-check view the Operator runs before standup: *what am I claiming is urgent that I am actually not working on, and why?*
 
 This is P-16 in action. No view, no label. Before adding `type:Spike`, ask which view it serves. If the answer is "I just want to find them later," that is what search is for.
+
+One more discipline before views: prefer Linear's native typed fields over labels for anything Linear already models. Priority, estimate, workflow state, and project health are single-valued typed fields — a label that duplicates one of them (a `priority:high` label, a `red` health label, a `done` label) is drift waiting to happen, because a label is set membership and a native field is a single enforced value. The `bug`/`Bug`/`defect` collision that opens this chapter is what labels do when they impersonate a typed field. Reach for a label only when the concept is a genuine many-to-one index that no native field captures.
 
 > **Augmentation Surface — Surface Maintenance**
 >
@@ -70,6 +72,14 @@ A template is a default. The right behavior should be the easy behavior (P-17). 
 
 These templates encode locality (P-18). The template is the workspace default; a project description can override it for that project; an individual issue's acceptance criteria override the project default for that issue. Closer-to-the-work guidance wins.
 
+### Relations and recurring issues
+
+Two native primitives the Method uses deliberately but does not over-invest in.
+
+**Issue relations.** Linear models relations between issues — *blocking* / *blocked-by*, *related*, and *duplicate*. The Method leans on the dependency pair and uses the rest sparingly. *Blocked-by* is the structural complement to the Blocked state (P-10): the state says "this is stuck," the relation says "on what." When a Blocked issue is held up by another tracked issue, link it *blocked-by* in addition to naming the blocker in a comment — so the dependency shows on the blocker's side too and nobody has to carry the chain in their head. *Duplicate* is set at Triage (it is a native status type). *Related* is for genuine cross-references, not a substitute for a parent issue (P-12) or a project — if you are building a tree out of *related* links, the work wanted a parent-and-sub-issues shape instead. Relations are an index of dependency, not a second hierarchy.
+
+**Recurring issues.** Repeating operating work — the weekly project-update sweep, the Monday Triage clear, the monthly label-hygiene pass, the quarterly overbuild audit (P-24) — should be a recurring issue, not a reminder in someone's head or a line in a doc that rots. A recurring issue puts the cadence in the work graph where the Method can see it: it appears in views, carries evidence when it is done, and surfaces on Stale Triage if it is ignored. The Method's own maintenance — the verification it depends on (P-25) — is the first thing to make recurring.
+
 ### The overbuild test
 
 Before adding any new label, view, or template, run it through P-24's five questions. Does it help the Operator decide faster? Does it help an executor execute faster? Does it preserve evidence the team would otherwise lose? Does it reduce repeated PM work? Does it make risk visible earlier? Four or more yes — adopt. Three or fewer — skip.
@@ -87,7 +97,7 @@ The operating surface gets cluttered the same way a kitchen counter does: each i
   content: pass
   funnel: pass
   chapter-type-extras: n/a (not a tier, doctrine, integration, reporting, or closing chapter)
-  word-count: ~2000 prose (file wc -w 2191 including license header and rubric)
-  principle-citations: P-3, P-4, P-6, P-7, P-8, P-9, P-10, P-11, P-13, P-15, P-16, P-17, P-18, P-19, P-20, P-24, P-25
+  word-count: ~2400 prose (expanded with relations/recurring + typed-fields note)
+  principle-citations: P-3, P-4, P-6, P-7, P-8, P-9, P-10, P-11, P-12, P-13, P-15, P-16, P-17, P-18, P-19, P-20, P-24, P-25
   flagged-principle-gaps: none
 -->

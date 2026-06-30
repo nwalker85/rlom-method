@@ -79,19 +79,19 @@ For production-affecting work, no artifact means no Done (P-7). Engineer A's CI/
 
 Analytics is the last layer because it depends on every layer above it being clean. Throughput, cycle time, stale-project counts, Triage SLA health, agent throughput — all of these are derivable from a workspace where projects have updates, issues have evidence, and views are real. In a workspace where projects are stale and issues close without evidence, the same metrics measure theater.
 
-The Method uses analytics sparingly at the 3-person stage: one Insights panel showing issue count by status on the Now view, one showing project age on the Stale view. As the team grows, dashboards consolidate the metrics the Operator hands upward — and the monthly review (Chapter 12) rolls initiative health up to the Leadership Team. The chain holds only because each lower layer carries its own evidence (P-28).
+The Method uses analytics sparingly at the 3-person stage: one Insights panel showing issue count by status on the Now view, one showing project age on the Stale view. As the team grows, dashboards consolidate the metrics the Operator hands upward — and the monthly review (Chapter 13) rolls initiative health up to the Leadership Team. The chain holds only because each lower layer carries its own evidence (P-28).
 
 ### Layer-to-capability map
 
 | Layer | Primary Linear capability | Deep-dive chapter |
 |---|---|---|
-| Initiatives | Initiatives + initiative updates | Chapter 12 (Reporting Up) |
-| Projects | Projects, milestones, project updates, dependencies | Chapter 10 (Workflow Canon), Chapter 12 |
+| Initiatives | Initiatives + initiative updates | Chapter 13 (Reporting Up) |
+| Projects | Projects, milestones, project updates, dependencies | Chapter 10 (Workflow Canon), Chapter 13 |
 | Issues | Issues, parent/sub-issues, exit criteria, labels | Chapter 5 (Operating Surface), Chapter 10 |
 | Views | Custom views, label filters, Insights panels | Chapter 5 |
 | Intake | Triage, Triage Intelligence, Asks, Customer Requests | Chapter 8 (Tier 3) |
-| Delivery evidence | GitHub/GitLab integration, Releases, SLAs | Chapter 11 (Code Host Integration) |
-| Analytics | Insights, dashboards | Chapter 12 |
+| Delivery evidence | GitHub/GitLab integration, Releases, SLAs | Chapter 12 (Code Host Integration) |
+| Analytics | Insights, dashboards | Chapter 13 |
 
 ### Closing
 

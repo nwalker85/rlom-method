@@ -8,36 +8,37 @@ A single PM running a 3-person team — one operator/PM, two engineers — repor
 
 ## What's inside
 
-Thirteen chapters, ~30,000 words. Nine of them are usable on Linear Free immediately; the rest cover Basic, Business, Enterprise, and the edge of self-install.
+Fourteen chapters, ~34,000 words. Ten of them are usable on Linear Free immediately; the rest cover Basic, Business, Enterprise, and the edge of self-install.
 
 | # | Chapter | Words |
 |---|---|---|
-| 1 | [What This Is and Who It's For](docs/chapters/01-what-this-is.md) | 1,578 |
+| 1 | [What This Is and Who It's For](docs/chapters/01-what-this-is.md) | 1,633 |
 | 2 | [The Seven Operating Layers](docs/chapters/02-seven-layers.md) | 2,098 |
-| 3 | [The Numbered Principles](docs/chapters/03-numbered-principles.md) | 3,627 |
+| 3 | [The Numbered Principles](docs/chapters/03-numbered-principles.md) | 3,655 |
 | 4 | [The PM Operator Role](docs/chapters/04-operator-role.md) | 1,993 |
-| 5 | [The Operating Surface: Labels, Views, Templates](docs/chapters/05-operating-surface.md) | 2,201 |
+| 5 | [The Operating Surface: Labels, Views, Templates](docs/chapters/05-operating-surface.md) | 2,559 |
 | 6 | [Tier 1: Linear Free Install](docs/chapters/06-tier-1-free.md) | 2,814 |
 | 7 | [Tier 2: Linear Basic Upgrade](docs/chapters/07-tier-2-basic.md) | 1,641 |
 | 8 | [Tier 3: Linear Business and the Edge of Self-Install](docs/chapters/08-tier-3-business.md) | 2,972 |
 | 9 | [Tier 4: Linear Enterprise and the Method as Operating System](docs/chapters/09-tier-4-enterprise.md) | 2,624 |
 | 10 | [Workflow Canon and the Validation Gate](docs/chapters/10-workflow-canon.md) | 2,400 |
-| 11 | [Code Host Integration: GitHub Primary, GitLab Parallel](docs/chapters/11-code-host-integration.md) | 2,404 |
-| 12 | [Reporting Up](docs/chapters/12-reporting-up.md) | 2,231 |
-| 13 | [The Assessment](docs/chapters/13-the-assessment.md) | 1,571 |
+| 11 | [Cycles, Roadmaps & Cadence](docs/chapters/11-cycles-roadmaps-cadence.md) | 2,072 |
+| 12 | [Code Host Integration: GitHub Primary, GitLab Parallel](docs/chapters/12-code-host-integration.md) | 2,404 |
+| 13 | [Reporting Up](docs/chapters/13-reporting-up.md) | 3,259 |
+| 14 | [The Assessment](docs/chapters/14-the-assessment.md) | 1,572 |
 
 ## How to read it
 
 - **In order.** The chapters build on each other. Chapter 3 (Principles) is cited by every later chapter as `P-#`.
-- **By role.** A PM at a 3-person team starting on Linear Free should read chapters 1, 2, 4, 5, 6, 10, 12 (the install path) and skim the rest.
-- **By need.** A team already on Basic wanting to deepen practice reads 10, 11, 12 first.
+- **By role.** A PM at a 3-person team starting on Linear Free should read chapters 1, 2, 4, 5, 6, 10, 13 (the install path) and skim the rest.
+- **By need.** A team already on Basic wanting to deepen practice reads 10, 11, 12, 13 first.
 
 ## Repository layout
 
 ```
 .
 ├── docs/
-│   ├── chapters/           # The 13-chapter deliverable
+│   ├── chapters/           # The 14-chapter deliverable
 │   ├── _shared/            # Authoring spec
 │   │   ├── CONTEXT.md      # Voice, neutralization rules, callout formats, rubric
 │   │   └── PRINCIPLES.md   # Canonical P-1..P-28 scaffold
@@ -65,7 +66,7 @@ This repo conforms to **Tier 2** of the Ravenhelm Repository Structure Template.
 ./scripts/compile.sh > build/rlom.md
 ```
 
-Concatenates the 13 chapters in order with a generated table of contents.
+Concatenates the 14 chapters in order with a generated table of contents.
 
 ## Contributing
 

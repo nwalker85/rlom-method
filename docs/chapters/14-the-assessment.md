@@ -1,9 +1,9 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
 <!-- TODO: replace with final license boilerplate and enforcement language -->
 
-## Chapter 13 — The Assessment: What This Document Doesn't Cover
+## Chapter 14 — The Assessment: What This Document Doesn't Cover
 
-You are the Operator. You read the previous twelve chapters in two sittings. You recognized your team in every one of them — the Triage queue that grew a second backlog inside it, the Validation gate you've been wanting to install, the project updates Leadership keeps quietly rephrasing back to you in their own format. You can install most of this. You believe in it.
+You are the Operator. You read the previous thirteen chapters in two sittings. You recognized your team in every one of them — the Triage queue that grew a second backlog inside it, the Validation gate you've been wanting to install, the project updates Leadership keeps quietly rephrasing back to you in their own format. You can install most of this. You believe in it.
 
 You also do not have the time. And the canonical 3-person team in this document is not exactly your team. Yours has four engineers and a contract designer. Or it has two engineers and a customer-success person who files half the bug reports. Or it's three engineers but two of them split time across a parallel product that lives in a separate GitLab group. The shape of the Method fits you. The fit of the install does not, yet.
 
@@ -25,7 +25,7 @@ That's the gap this chapter exists to close.
 
 **Tuning to your specific code host stack.** The Method assumed GitHub primary with a GitLab parallel. Your team uses both, plus a private Gitea mirror for the on-prem build, plus a Bitbucket repo for the legacy product you can't decommission yet. The Validation → Done transition needs evidence from each one (P-9). Webhook design, branch naming conventions, and release-pipeline configuration are bespoke to the stack you actually have.
 
-**Tuning to your leadership team's reporting taste.** The three templates in Chapter 12 are a starting point. The format Leadership actually consumes — pillar dashboards, OKR scorecards, board-pack narratives, a Slack-channel weekly with three bullets — is a translation layer on top of the Method's evidence chain (P-28). Project updates feed initiative updates which feed the monthly review; the format of the monthly review depends on what your leadership reads without resentment. That is a design decision, and it is yours.
+**Tuning to your leadership team's reporting taste.** The three templates in Chapter 13 are a starting point. The format Leadership actually consumes — pillar dashboards, OKR scorecards, board-pack narratives, a Slack-channel weekly with three bullets — is a translation layer on top of the Method's evidence chain (P-28). Project updates feed initiative updates which feed the monthly review; the format of the monthly review depends on what your leadership reads without resentment. That is a design decision, and it is yours.
 
 **Tuning to your intake sources.** The Method named Triage, Customer Requests, and Asks. Your team's intake includes a support ticket queue from a separate help desk, a Sentry stream that fires three times a day, a Slack alerts channel, customer-success escalations forwarded by email, and an open-source GitHub Issues queue with weekly contributions. Each one needs a designed entry point that lands somewhere the Method can pick it up (P-22). None of those entry points existed in the canonical example.
 

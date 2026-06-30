@@ -6,7 +6,7 @@ The full Ravenhelm Linear Operating Method lives here.
 
 ```
 docs/
-├── chapters/         # The 13-chapter deliverable
+├── chapters/         # The 14-chapter deliverable
 ├── _shared/          # Authoring spec — load-bearing for any editorial work
 │   ├── CONTEXT.md    # Voice, neutralization, callout formats, rubric, chapter ordering
 │   └── PRINCIPLES.md # Canonical P-1..P-28 — every chapter cites from here
@@ -28,17 +28,18 @@ Read in order on first pass. Cross-references between chapters use the canonical
 8. [Tier 3: Linear Business and the Edge of Self-Install](chapters/08-tier-3-business.md)
 9. [Tier 4: Linear Enterprise and the Method as Operating System](chapters/09-tier-4-enterprise.md)
 10. [Workflow Canon and the Validation Gate](chapters/10-workflow-canon.md)
-11. [Code Host Integration: GitHub Primary, GitLab Parallel](chapters/11-code-host-integration.md)
-12. [Reporting Up: Project Updates, Initiative Health, Monthly Review](chapters/12-reporting-up.md)
-13. [The Assessment: What This Document Doesn't Cover](chapters/13-the-assessment.md)
+11. [Cycles, Roadmaps & Cadence](chapters/11-cycles-roadmaps-cadence.md)
+12. [Code Host Integration: GitHub Primary, GitLab Parallel](chapters/12-code-host-integration.md)
+13. [Reporting Up: Project Updates, Initiative Health, Monthly Review](chapters/13-reporting-up.md)
+14. [The Assessment: What This Document Doesn't Cover](chapters/14-the-assessment.md)
 
 ## Reading paths
 
-- **Install-now PM (Linear Free, 3-person team).** 1 → 2 → 4 → 5 → 6 → 10 → 12. Skim 3 once. Defer 7, 8, 9, 11, 13 until needed.
-- **PM already on Basic.** 1 → 3 → 7 → 10 → 11 → 12. Then revisit 5 to tune labels and views.
-- **PM evaluating Business / agent layer.** 3 → 8 → 12 → 13.
-- **PM scaling across teams (Enterprise).** 1 → 4 → 9 → 12.
-- **Leadership / executive.** 1 → 12 → 13.
+- **Install-now PM (Linear Free, 3-person team).** 1 → 2 → 4 → 5 → 6 → 10 → 13. Skim 3 once. Defer 7, 8, 9, 11, 12, 14 until needed.
+- **PM already on Basic.** 1 → 3 → 7 → 10 → 11 → 12 → 13. Then revisit 5 to tune labels and views.
+- **PM evaluating Business / agent layer.** 3 → 8 → 13 → 14.
+- **PM scaling across teams (Enterprise).** 1 → 4 → 9 → 11 → 13.
+- **Leadership / executive.** 1 → 13 → 14.
 
 ## Doctrine
 

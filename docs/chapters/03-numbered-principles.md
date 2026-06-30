@@ -243,7 +243,7 @@ The 28 principles fall into nine groups (A–I). The counter-examples are diagno
 
 #### P-26. Capacity commits to seventy percent.
 
-**Rule.** Sprint or cycle planning commits seventy percent of expected capacity; the remaining thirty percent is reserved for unplanned work.
+**Rule.** Sprint or cycle planning commits seventy percent of expected capacity; the remaining thirty percent is reserved for unplanned work. Cycles are optional in the Method (Chapter 11); the seventy-percent rule applies to whatever planning horizon the team commits against, whether a cycle, a milestone, or a week.
 
 **Rationale.** Unplanned work is recurring, not a special case. Teams that commit to 100% slip every cycle and learn nothing because the explanation is always "something came up"; teams at 70% finish on time and surface real overcapacity when they finish early.
 
