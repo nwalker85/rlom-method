@@ -6,7 +6,7 @@ The full Ravenhelm Linear Operating Method lives here.
 
 ```
 docs/
-├── chapters/         # The 12-chapter deliverable
+├── chapters/         # The 13-chapter deliverable
 ├── _shared/          # Authoring spec — load-bearing for any editorial work
 │   ├── CONTEXT.md    # Voice, neutralization, callout formats, rubric, chapter ordering
 │   └── PRINCIPLES.md # Canonical P-1..P-28 — every chapter cites from here
@@ -24,19 +24,21 @@ Read in order on first pass. Cross-references between chapters use the canonical
 4. [The PM Operator Role](chapters/04-operator-role.md)
 5. [The Operating Surface: Labels, Views, Templates](chapters/05-operating-surface.md)
 6. [Tier 1: Linear Free Install](chapters/06-tier-1-free.md)
-7. [Tier 2: Linear Plus Upgrade](chapters/07-tier-2-plus.md)
+7. [Tier 2: Linear Basic Upgrade](chapters/07-tier-2-basic.md)
 8. [Tier 3: Linear Business and the Edge of Self-Install](chapters/08-tier-3-business.md)
-9. [Workflow Canon and the Validation Gate](chapters/09-workflow-canon.md)
-10. [Code Host Integration: GitHub Primary, GitLab Parallel](chapters/10-code-host-integration.md)
-11. [Reporting Up: Project Updates, Initiative Health, Monthly Review](chapters/11-reporting-up.md)
-12. [The Assessment: What This Document Doesn't Cover](chapters/12-the-assessment.md)
+9. [Tier 4: Linear Enterprise and the Method as Operating System](chapters/09-tier-4-enterprise.md)
+10. [Workflow Canon and the Validation Gate](chapters/10-workflow-canon.md)
+11. [Code Host Integration: GitHub Primary, GitLab Parallel](chapters/11-code-host-integration.md)
+12. [Reporting Up: Project Updates, Initiative Health, Monthly Review](chapters/12-reporting-up.md)
+13. [The Assessment: What This Document Doesn't Cover](chapters/13-the-assessment.md)
 
 ## Reading paths
 
-- **Install-now PM (Linear Free, 3-person team).** 1 → 2 → 4 → 5 → 6 → 9 → 11. Skim 3 once. Defer 7, 8, 10, 12 until needed.
-- **PM already on Plus.** 1 → 3 → 7 → 9 → 10 → 11. Then revisit 5 to tune labels and views.
-- **PM evaluating Business / agent layer.** 3 → 8 → 11 → 12.
-- **Leadership / executive.** 1 → 11 → 12.
+- **Install-now PM (Linear Free, 3-person team).** 1 → 2 → 4 → 5 → 6 → 10 → 12. Skim 3 once. Defer 7, 8, 9, 11, 13 until needed.
+- **PM already on Basic.** 1 → 3 → 7 → 10 → 11 → 12. Then revisit 5 to tune labels and views.
+- **PM evaluating Business / agent layer.** 3 → 8 → 12 → 13.
+- **PM scaling across teams (Enterprise).** 1 → 4 → 9 → 12.
+- **Leadership / executive.** 1 → 12 → 13.
 
 ## Doctrine
 

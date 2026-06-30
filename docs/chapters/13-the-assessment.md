@@ -1,9 +1,9 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
 <!-- TODO: replace with final license boilerplate and enforcement language -->
 
-## Chapter 12 — The Assessment: What This Document Doesn't Cover
+## Chapter 13 — The Assessment: What This Document Doesn't Cover
 
-You are the Operator. You read the previous eleven chapters in two sittings. You recognized your team in every one of them — the Triage queue that grew a second backlog inside it, the Validation gate you've been wanting to install, the project updates Leadership keeps quietly rephrasing back to you in their own format. You can install most of this. You believe in it.
+You are the Operator. You read the previous twelve chapters in two sittings. You recognized your team in every one of them — the Triage queue that grew a second backlog inside it, the Validation gate you've been wanting to install, the project updates Leadership keeps quietly rephrasing back to you in their own format. You can install most of this. You believe in it.
 
 You also do not have the time. And the canonical 3-person team in this document is not exactly your team. Yours has four engineers and a contract designer. Or it has two engineers and a customer-success person who files half the bug reports. Or it's three engineers but two of them split time across a parallel product that lives in a separate GitLab group. The shape of the Method fits you. The fit of the install does not, yet.
 
@@ -15,7 +15,7 @@ That's the gap this chapter exists to close.
 
 **The doctrine.** Twenty-eight numbered principles, each with a rationale and a counter-example. The principles are the part of the Method you can carry into any future tooling change. Linear could be replaced; the principles would survive the replacement.
 
-**The install path for three tiers.** Free, Plus, Business — each with the specific capabilities the tier adds, the install steps the Operator can run alone, and the ceiling signals that tell you you've outgrown your plan. The tiering is honest: most 3-person teams live happily on Plus, and the Method is designed to make that possible.
+**The install path for four tiers.** Free, Basic, Business, Enterprise — each with the specific capabilities the tier adds, the install steps the Operator can run alone, and the ceiling signals that tell you you've outgrown your plan. The tiering is honest: most 3-person teams live happily on Free, and the Method is designed to make that possible.
 
 **The reporting cadence.** Three templates the Operator hands upward — the weekly project update, the biweekly initiative health roll-up, the monthly review. The cadence is the chain that makes Leadership's consumption of summaries (P-27) into a system rather than a habit.
 
@@ -25,7 +25,7 @@ That's the gap this chapter exists to close.
 
 **Tuning to your specific code host stack.** The Method assumed GitHub primary with a GitLab parallel. Your team uses both, plus a private Gitea mirror for the on-prem build, plus a Bitbucket repo for the legacy product you can't decommission yet. The Validation → Done transition needs evidence from each one (P-9). Webhook design, branch naming conventions, and release-pipeline configuration are bespoke to the stack you actually have.
 
-**Tuning to your leadership team's reporting taste.** The three templates in Chapter 11 are a starting point. The format Leadership actually consumes — pillar dashboards, OKR scorecards, board-pack narratives, a Slack-channel weekly with three bullets — is a translation layer on top of the Method's evidence chain (P-28). Project updates feed initiative updates which feed the monthly review; the format of the monthly review depends on what your leadership reads without resentment. That is a design decision, and it is yours.
+**Tuning to your leadership team's reporting taste.** The three templates in Chapter 12 are a starting point. The format Leadership actually consumes — pillar dashboards, OKR scorecards, board-pack narratives, a Slack-channel weekly with three bullets — is a translation layer on top of the Method's evidence chain (P-28). Project updates feed initiative updates which feed the monthly review; the format of the monthly review depends on what your leadership reads without resentment. That is a design decision, and it is yours.
 
 **Tuning to your intake sources.** The Method named Triage, Customer Requests, and Asks. Your team's intake includes a support ticket queue from a separate help desk, a Sentry stream that fires three times a day, a Slack alerts channel, customer-success escalations forwarded by email, and an open-source GitHub Issues queue with weekly contributions. Each one needs a designed entry point that lands somewhere the Method can pick it up (P-22). None of those entry points existed in the canonical example.
 
@@ -47,7 +47,7 @@ The engagement is shaped as five sequential steps. Each step has a defined outpu
 
 **5. Ongoing maturity coaching.** Adapted from the long-horizon maturity pattern in the Method's canon. For the first quarter after install, the engagement provides monthly Operator coaching: stuck-decision review, drift detection in the workspace, the next-tier readiness call when ceiling signals start appearing. Coaching is optional for the engagement — named here so the reader knows it exists and can choose. The Method is built to keep working without external help; the coaching is for the team that wants someone else carrying the operating-model maintenance load while the Operator focuses on the work itself.
 
-The five steps run in order. The discovery and audit can be completed inside two weeks; the install plan lands inside four weeks of engagement start; the install itself runs against your team's capacity, typically four to eight weeks for a Plus-tier install at a 5-to-12-person team. The coaching, if chosen, begins the month after install close.
+The five steps run in order. The discovery and audit can be completed inside two weeks; the install plan lands inside four weeks of engagement start; the install itself runs against your team's capacity, typically four to eight weeks for a Business-tier install at a 5-to-12-person team. The coaching, if chosen, begins the month after install close.
 
 ### Engaging
 

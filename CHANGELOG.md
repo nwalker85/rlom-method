@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `docs/architecture/repo-structure.md` — vendored template + conformance decisions table; travels with the repo so the convention does not depend on an external standards file.
 - `docs/architecture/README.md` — index for the architecture directory.
 - `.markdownlint.yml` tuned to the chapter style (preserves the directive-period principle headings, the multi-paragraph callout blockquotes, the vendored-document multi-H1 case, etc.); structural rules remain active.
+- Chapter 9 — Tier 4: Linear Enterprise and the Method as Operating System (scale across teams: SSO/SCIM, sub-teams, workspace Dashboards, and the hub-and-spoke + community-of-practice operating pattern). Existing chapters renumbered: Workflow Canon → 10, Code Host Integration → 11, Reporting Up → 12, The Assessment → 13.
+- `docs/architecture/linear-feature-matrix.md` and `docs/architecture/feature-completeness-spec.md` — Phase-0 feature-completeness audit (feature × tier matrix) and per-chapter edit blueprint.
+
+### Changed
+
+- Corrected tier gating to current Linear plans (Free / Basic / Business / Enterprise). Tier 2 renamed "Plus" → "Basic". Initiatives, Customer Requests, Cycles, Releases, and Pulse are now documented as **Free**; Insights moved to **Business**; Dashboards and Asks web forms moved to **Enterprise**. Re-tiered chapters 06 (Free), 07 (Basic), 08 (Business) accordingly.
 
 ### Pending
 

@@ -69,7 +69,7 @@ For the 3-person team, intake is thin: the Operator creates most issues, Enginee
 
 **Definition.** Delivery evidence is the set of artifacts produced outside Linear that prove an issue is implemented: PR URLs with merge status, CI results, deploy logs, screenshots, release notes, acceptance comments.
 
-This is the layer that distinguishes the Method from teams that "use Linear." Code that is merged is implemented; code that has evidence of running in the target environment is trusted (P-6). The Method's Validation state (covered in detail in Chapter 9) is the gate between the two, and the gate is only as good as the evidence flowing into it. The code host produces that evidence (P-8): GitHub posts merge state, CI checks, and deploy outcomes; the GitLab equivalent posts merge request state, pipeline status, and deployment jobs. Linear links to those artifacts; Linear does not duplicate them.
+This is the layer that distinguishes the Method from teams that "use Linear." Code that is merged is implemented; code that has evidence of running in the target environment is trusted (P-6). The Method's Validation state (covered in detail in Chapter 10) is the gate between the two, and the gate is only as good as the evidence flowing into it. The code host produces that evidence (P-8): GitHub posts merge state, CI checks, and deploy outcomes; the GitLab equivalent posts merge request state, pipeline status, and deployment jobs. Linear links to those artifacts; Linear does not duplicate them.
 
 For production-affecting work, no artifact means no Done (P-7). Engineer A's CI/CD Backbone issue stays in Validation until the pipeline has run a real deployment end-to-end and the log is linked in the issue. The Operator's job at that gate is to verify the link is real, not to take Engineer A's word for it.
 
@@ -79,23 +79,23 @@ For production-affecting work, no artifact means no Done (P-7). Engineer A's CI/
 
 Analytics is the last layer because it depends on every layer above it being clean. Throughput, cycle time, stale-project counts, Triage SLA health, agent throughput — all of these are derivable from a workspace where projects have updates, issues have evidence, and views are real. In a workspace where projects are stale and issues close without evidence, the same metrics measure theater.
 
-The Method uses analytics sparingly at the 3-person stage: one Insights panel showing issue count by status on the Now view, one showing project age on the Stale view. As the team grows, dashboards consolidate the metrics the Operator hands upward — and the monthly review (Chapter 11) rolls initiative health up to the Leadership Team. The chain holds only because each lower layer carries its own evidence (P-28).
+The Method uses analytics sparingly at the 3-person stage: one Insights panel showing issue count by status on the Now view, one showing project age on the Stale view. As the team grows, dashboards consolidate the metrics the Operator hands upward — and the monthly review (Chapter 12) rolls initiative health up to the Leadership Team. The chain holds only because each lower layer carries its own evidence (P-28).
 
 ### Layer-to-capability map
 
 | Layer | Primary Linear capability | Deep-dive chapter |
 |---|---|---|
-| Initiatives | Initiatives + initiative updates | Chapter 11 (Reporting Up) |
-| Projects | Projects, milestones, project updates, dependencies | Chapter 9 (Workflow Canon), Chapter 11 |
-| Issues | Issues, parent/sub-issues, exit criteria, labels | Chapter 5 (Operating Surface), Chapter 9 |
+| Initiatives | Initiatives + initiative updates | Chapter 12 (Reporting Up) |
+| Projects | Projects, milestones, project updates, dependencies | Chapter 10 (Workflow Canon), Chapter 12 |
+| Issues | Issues, parent/sub-issues, exit criteria, labels | Chapter 5 (Operating Surface), Chapter 10 |
 | Views | Custom views, label filters, Insights panels | Chapter 5 |
 | Intake | Triage, Triage Intelligence, Asks, Customer Requests | Chapter 8 (Tier 3) |
-| Delivery evidence | GitHub/GitLab integration, Releases, SLAs | Chapter 10 (Code Host Integration) |
-| Analytics | Insights, dashboards | Chapter 11 |
+| Delivery evidence | GitHub/GitLab integration, Releases, SLAs | Chapter 11 (Code Host Integration) |
+| Analytics | Insights, dashboards | Chapter 12 |
 
 ### Closing
 
-The seven layers are necessary; you cannot drop one without weakening the work graph. The operating surface — labels, views, templates — covered in Chapter 5 is how those layers actually show up in the workspace day to day. The workflow canon and the Validation gate in Chapter 9 are the most opinionated part of the Method, and they sit on top of these seven layers. Everything that follows in this document assumes the layers are named, owned, and used as defined here.
+The seven layers are necessary; you cannot drop one without weakening the work graph. The operating surface — labels, views, templates — covered in Chapter 5 is how those layers actually show up in the workspace day to day. The workflow canon and the Validation gate in Chapter 10 are the most opinionated part of the Method, and they sit on top of these seven layers. Everything that follows in this document assumes the layers are named, owned, and used as defined here.
 
 > **Where this gets hard**
 >
