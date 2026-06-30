@@ -5,17 +5,17 @@
 
 The Operator signed up for Linear Free on Sunday night. Monday morning the workspace is empty: one team named after the company, a default workflow with five states nobody chose, a sample project nobody asked for, and a blinking cursor where the first issue should go. Engineer A and Engineer B are waiting. Leadership wants to know what the team is working on by Friday. The Operator has six prior tools' worth of dead muscle memory and no idea which Linear feature actually matters yet.
 
-This chapter is for that Monday. It is the minimum install — a workspace a 3-person team can stand up in five working days on Free, with no upgrades and no features the team will outgrow in a week. The install is deliberately small. The overbuild test (P-24) is the filter: every label, view, and template has to earn its slot by helping the Operator decide faster or preserving evidence the team would otherwise lose.
+This chapter is for that Monday. It is the minimum install — a workspace a 3-person team can stand up in about a week on Free, with no upgrade and no features the team will outgrow in a week. The install is deliberately small. The overbuild test (P-24) is the filter: every label, view, and template has to earn its slot by helping the Operator decide faster or preserving evidence the team would otherwise lose.
 
-By Friday the workspace should hold one team, nine workflow states, four labels, four shared views, one project with one update, and a GitHub PR linked to the issue it implements. That's the install. Everything else waits.
+By Friday the workspace should hold one team, nine workflow states, four labels, four shared views, one project with one update, and a GitHub PR linked to the issue it implements. That's the install. Everything else waits — and most of it waits *on Free*, not behind a paywall.
 
-### What Free gives you, and what it doesn't
+### What Free actually gives you
 
-Linear Free covers what a small team needs to run for months: one team, unlimited issues, unlimited members up to the plan cap, customizable workflows, shared custom views, basic project tracking, and GitHub PR linking. A 3-person team can ship work, track it, and report on it without paying.
+Linear Free is far more capable than its price suggests, and the first job of this chapter is to correct a misreading earlier drafts of the Method made: most of what the Method leans on is already on Free. Free gives you up to two teams (start with one, named for its remit); the nine-state workflow; namespaced labels; shared custom views; projects with milestones and documents; project **and initiative** updates; the full objective layer — **Initiatives**, with health rollup and their own update cadence; **Cycles**; **Customer Requests** as a core intake type; **Releases** with up to fifteen pipelines; **Pulse** update digests; native issue relations (blocking, related, duplicate); sub-issues; templates; the Triage inbox; priority and estimates; GitHub and GitLab PR linking; and the GraphQL API with webhooks. The objective, intake, cadence, and release layers the Method runs on are not behind a paywall. They are on the free tier, waiting for the team to need them.
 
-What Free leaves out is the rollup and intake layer above the team: Initiatives (the objective layer per P-2), Customer Requests as a structured intake type, Insights as a queryable analytics surface on shared views, Triage Intelligence, Asks, SLA timers, and the full Releases pipeline. The Method uses all of them — but not on day one and not for a team that hasn't yet outgrown eyeballing four views. Chapter 7 covers the Plus upgrade and what triggers it; Chapter 8 covers Business and where self-install starts to break.
+What Free actually withholds is narrower than it looks, and it falls into two buckets. The first is **scale**: Free caps you at two teams, 250 issues, and 10 MB uploads. Those are the real ceilings — mechanical limits, not missing capabilities. The second is a short list of **analytics and automation surfaces**: Insights (the queryable analytics layer on views) is Business, not Free; Triage Intelligence, Linear Asks, and SLA timers are Business; Dashboards are Enterprise. Admin roles and the lift on the caps arrive with Basic. The feature-tier matrix carries the authoritative gating — when in doubt, read it, don't guess. Net: nothing in the objective, intake, cadence, or release layer costs money. What you pay for later is room to grow (teams, issues) and the analytics and automation that sit on top of the primitives — never the primitives themselves.
 
-The trap on Free is the opposite of feature scarcity. It's the temptation to compensate for missing features by building elaborate label taxonomies, twenty saved views, and parallel workflows in documents. Don't. The Method's discipline (P-16, P-24) applies harder on Free than anywhere else.
+The trap on Free is not scarcity; it is the opposite. Because the objective layer, Cycles, Customer Requests, and Releases are all sitting right there, the temptation is to install all of them in week one. Don't. A 3-person team that turns on initiatives, cycles, customer requests, and release pipelines on Monday has built six surfaces it cannot yet keep current. The overbuild test (P-24) applies harder on Free than anywhere, precisely because Free no longer stops you. The Method's discipline (P-16, P-24) is the only thing that does. Chapter 7 covers the Basic upgrade and what triggers it; Chapter 8 covers Business and where self-install starts to break.
 
 ### Week one install
 
@@ -35,7 +35,7 @@ Then configure the workflow. Linear's default is close to what the Method wants 
 8. **Done** — evidence on file.
 9. **Canceled** — no longer matters; the reason is in a comment.
 
-The state to install carefully is **Validation** (P-6). On Free, no automation will move an issue into Validation — that's a Plus/Business feature. Install Validation anyway. Merged code is *implemented*, not *trusted*. The gap between "the PR is in main" and "the change actually works in the environment users hit" is where the Method earns its keep. Without Validation, the team moves issues straight from In Review to Done on PR merge, and the workspace starts lying within a month. With Validation, the Operator owns the closing act: confirm the deploy, paste the evidence link, mark the issue Done. The state is the prompt.
+The state to install carefully is **Validation** (P-6). Install it as a manual gate. Even where the integration can move issues automatically on PR events, the Method keeps the move into Validation — and the move out of it to Done — a human act (P-7); no automation closes the loop for you. Merged code is *implemented*, not *trusted*. The gap between "the PR is in main" and "the change actually works in the environment users hit" is where the Method earns its keep. Without Validation, the team moves issues straight from In Review to Done on PR merge, and the workspace starts lying within a month. With Validation, the Operator owns the closing act: confirm the deploy, paste the evidence link, mark the issue Done. The state is the prompt.
 
 Settings → Teams → [team name] → Workflow. Rename what you can, create what's missing, archive what's extra. Resist `stage:*` labels for now (P-11); on Free, the team doesn't need them yet.
 
@@ -71,7 +71,7 @@ Settings → Integrations → GitHub. Install the integration; Free supports lin
 
 The convention to install is the issue ID in the branch name or PR title. Linear auto-generates branch names from issues — Engineer A copies the suggested branch name (e.g., `eng-a/eng-42-add-rate-limiter`) when starting work. When the PR opens, Linear adds the link to the issue. That's the whole pattern on Free.
 
-What Free does **not** give you, and what the Method deliberately doesn't want (P-6, P-7), is auto-transition to Done on PR merge. On Free, the Operator runs the closing manually: PR merges → Operator moves the issue to Validation → Operator confirms deployment (browser check, deploy log link, runtime confirmation) → Operator pastes evidence in a comment → Operator moves the issue to Done. The discipline travels by hand. Chapter 9 covers the Validation gate in depth; Chapter 10 covers the deeper code-host integration Plus and Business unlock. The install here is the minimum loop that produces an evidence chain (P-8, P-28).
+What the Method deliberately does **not** want — on any tier — is auto-transition to Done on PR merge (P-6, P-7). The Operator runs the closing by hand: PR merges → Operator moves the issue to Validation → Operator confirms deployment (browser check, deploy log link, runtime confirmation) → Operator pastes evidence in a comment → Operator moves the issue to Done. The discipline travels by hand. Chapter 10 covers the Validation gate in depth; Chapter 11 covers the deeper code-host integration. The install here is the minimum loop that produces an evidence chain (P-8, P-28).
 
 **GitLab equivalent.** Enable the GitLab integration, use the issue ID in branch names and MR titles, and run the Validation close manually. The mechanic differs by integration; the doctrine doesn't.
 
@@ -79,7 +79,7 @@ What Free does **not** give you, and what the Method deliberately doesn't want (
 >
 > Where an agent layer makes this work better: at the end of the install week, an agent can scan the workspace against the install checklist — confirming the nine workflow states exist with the right categories, the four views are shared at the team scope, the GitHub integration is wired with at least one linked PR, the first project has a target date and at least one issue, and the first project update is posted. The agent surfaces gaps as a list, not a fix.
 >
-> What the PM keeps: the judgment call on whether a deferred item — a label namespace, a fifth view, a second integration — should be added in week two or left until Plus. The agent enumerates; the Operator decides.
+> What the PM keeps: the judgment call on whether a deferred item — a label namespace, a fifth view, Cycles, a first initiative — should be added in week two or left until the team has a decision that needs it. The agent enumerates; the Operator decides.
 
 #### Friday — first project update
 
@@ -95,21 +95,34 @@ Then the Friday project update (P-19). Linear's update format is enough on Free.
 
 Post it. That update is the artifact leadership consumes (P-27) and the cadence the Method runs on for the lifetime of the project — every Friday, no exceptions, even when the update reads "shipped: nothing; the team spent the week stuck on X."
 
+### Growing into the rest — still on Free
+
+The week-one install is four primitives plus one project and one integration. The next several weeks are about reaching — one capability at a time, each when a real decision needs it (P-16) — for surfaces Free already includes, no upgrade required:
+
+- **Initiatives** when Leadership starts asking how projects ladder up to outcomes (P-2). Two or three durable initiatives, owners, quarter-end targets. The objective layer is Free; reach for it the week the rollup question lands, not before.
+- **Cycles** when the team wants a time-boxed cadence to commit against rather than an open backlog. Whether a 3-person team needs cycles, or runs on the weekly update cadence alone, is a judgment call — and it is free either way.
+- **Customer Requests** when feedback arrives faster than the Operator can hand-convert it and provenance starts getting lost (P-22). A request is captured intake, never automatic scope.
+- **Releases** when the team ships on a pipeline worth naming. Free covers up to fifteen pipelines — more than a small team needs; the release-organization doctrine lives in the code-host chapter (Chapter 11).
+- **Pulse** when the Operator wants update digests pushed rather than pulled.
+- **Native relations** the first time "Blocked" as a state is too coarse — when an issue is blocked *by* a specific other issue and the link itself is the information.
+
+None of these is an upgrade. Each is a Free primitive the team grows into when a view or a decision pulls it in — and each still answers to the overbuild test.
+
 ### What you have at the end of week one
 
 A workspace Engineer B can open on Monday and understand. One team named for the team's remit. Nine workflow states, with Validation installed and used at least once. Four labels, each cited by at least one view or attached to at least one issue. Four shared views covering the Operator's morning, the Operator's own queue, the team's blocked work, and the team's review queue. One project with one update and at least one Done issue carrying full evidence. A GitHub integration with at least one linked PR. A weekly rhythm the team has run end-to-end once.
 
-The rhythm to keep, lightly (Chapter 11 covers reporting in depth): Monday the Operator confirms priorities and clears Triage. Daily the Operator clears Waiting on the Operator and Blocked. Friday the Operator posts the project update.
+The rhythm to keep, lightly (Chapter 12 covers reporting in depth): Monday the Operator confirms priorities and clears Triage. Daily the Operator clears Waiting on the Operator and Blocked. Friday the Operator posts the project update.
 
 ### Ceiling signal
 
-Three concrete signals that the team has outgrown Tier 1. When two of three land in the same month, move to Chapter 7 and the Plus upgrade.
+Tier 1's ceiling is mechanical, not feature-shaped — and that is the whole correction. The team does not leave Free because it needs Initiatives, Cycles, Customer Requests, or Releases; it already has them. It leaves Free when it hits the caps. Three concrete signals; when any one of them is firm, move to Chapter 7 and the Basic upgrade:
 
-The first signal is the **objective layer**. The team has three or four projects active and leadership is asking how they ladder up — which outcome does this project serve, which two projects are the same bet under different names, what gets dropped if budget shifts. The Operator is answering in a slide deck because Linear can't. That's the Initiatives gap (P-2) and it's a Plus feature.
+- **The issue count is approaching 250.** Free's hard cap. The Operator notices archived-versus-active math starting to matter, or Linear warns that new issues are near the limit. Basic lifts this to unlimited.
+- **The team needs a third team.** Free allows two. A second squad with its own remit, or a separate team for a distinct product surface, is the moment the 2-team cap binds. Basic raises it to five.
+- **Administration outgrows flat membership.** The workspace needs admin roles to delegate settings, or uploads are bumping the 10 MB ceiling. Both come with Basic.
 
-The second signal is **structured intake**. Customer feedback — from support, sales calls, the team's own users — is arriving as Slack messages, emails, and Notion pages, and the Operator is hand-converting each one into Linear issues (or worse, losing them). The team needs Customer Requests so feedback enters Triage with provenance (P-22). On Free the team can fake it with a `source:` label and discipline; once volume crosses a threshold the discipline breaks.
-
-The third signal is **trend reporting**. Leadership starts asking questions the Operator can't answer by looking at the four views — cycle time, throughput by component, where the bottlenecks have been over six weeks. Insights is the answer, and Insights on shared views is a Plus feature. When the Operator catches themselves exporting issues to a spreadsheet to compute the same numbers twice in two weeks, the team has hit this signal.
+Unlike the later tier moves, there is no "two of three" threshold here. These are hard limits, not judgment calls — you cross a line or you don't. One firm cap signal is enough.
 
 > **Where this gets hard**
 >
@@ -122,7 +135,7 @@ The third signal is **trend reporting**. Leadership starts asking questions the 
   content: pass
   funnel: pass
   chapter-type-extras: pass
-  word-count: 2195
+  word-count: ~2350
   principle-citations: P-2, P-4, P-5, P-6, P-7, P-8, P-10, P-11, P-12, P-13, P-16, P-17, P-19, P-22, P-24, P-27, P-28
   flagged-principle-gaps: none
 -->

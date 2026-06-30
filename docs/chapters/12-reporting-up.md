@@ -1,7 +1,7 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
 <!-- TODO: replace with final license boilerplate and enforcement language -->
 
-## Chapter 11 — Reporting Up: Project Updates, Initiative Health, and the Monthly Review
+## Chapter 12 — Reporting Up: Project Updates, Initiative Health, and the Monthly Review
 
 It is Thursday at 4:15 p.m. You have not started the leadership status note yet. Your engineering Slack channel needs a "this week so far" pin by end of day. The all-hands deck — the one Leadership wants Friday morning — has a slide titled "Platform Reliability — status?" and the slide is blank. The leadership Notion page wants a bulleted update by Monday and the bullets are supposed to follow last quarter's format, which nobody remembers. You open three tabs, three editors, three different sets of headings, and you write what is functionally the same paragraph three times in three voices. The first version is too operational, the second is too vague, the third sounds like a press release. By Friday at noon you have produced three reports, none of which Leadership reads end-to-end, and none of which you can quote on Monday when someone asks you what changed last week. You did the work. The work did not compound.
 

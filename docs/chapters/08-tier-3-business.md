@@ -3,21 +3,34 @@
 
 ## Chapter 8 — Tier 3: Linear Business and the Edge of Self-Install
 
-It is the end of the Tier 2 quarter. The Operator opens Linear on a Tuesday morning and counts twenty items in Triage that came in overnight — a Sentry alert that fired at 3 a.m., four bug reports from beta users in Customer Requests, a dozen Slack-forwarded asks that an engineer has been pasting into Triage manually since Friday, and three "quick question" emails an executive forwarded with no context. There is a production incident from yesterday that should have had a clock on it and didn't. Engineer A is heads-down on a research repo and has been ignoring Triage for a week because the Operator told them to. Engineer B owns the public surface that just shipped and is waiting for the Operator to tell them which of the four beta-user bugs is real.
+It is the end of the Basic quarter. The Operator opens Linear on a Tuesday morning and counts twenty items in Triage that came in overnight — a Sentry alert that fired at 3 a.m., four bug reports from beta users in Customer Requests, a dozen Slack-forwarded asks that an engineer has been pasting into Triage manually since Friday, and three "quick question" emails an executive forwarded with no context. There is a production incident from yesterday that should have had a clock on it and didn't. Engineer A is heads-down on a research repo and has been ignoring Triage for a week because the Operator told them to. Engineer B owns the public surface that just shipped and is waiting for the Operator to tell them which of the four beta-user bugs is real.
 
 The Operator does the Triage pass. It takes ninety minutes. By the time it is done, the morning is gone, the Friday update for Leadership is unwritten, and a request the Operator already promised a decision on is now two days late.
 
-This is the moment Tier 2 stops being enough.
+This is the moment Basic stops being enough.
 
 ### The shift Business represents
 
-Tier 1 was self-install: a single PM on Free, one week. Tier 2 added the objective, intake, and trend layers — install work the Operator could still do on a quiet Friday. Business is different. Business is the tier where Linear gives the Operator capabilities the Operator does not have time to tune alone. Triage Intelligence has to be trained against the team's real patterns. Asks templates have to be designed so the form does not become a tax. SLAs have to be calibrated against actual incident history, not a generic table copied from a blog post. Insights become workspace-level dashboards the Operator promises to keep current. Agent surfaces — Linear Agent, AI Agents, MCP — appear as primitives, and someone has to decide what the agent through them actually does.
+Tier 1 was self-install on Free — and Free already carried the objective, intake, cadence, and release layers the Method runs on. Tier 2 (Basic) lifted Free's ceilings: more teams, unlimited issues, admin roles. Neither tier added a genuinely new capability surface. Business is different. Business is the first tier since Free that you buy for *capability* rather than headroom, and it is where Linear hands the Operator machinery the Operator does not have time to tune alone. Insights have to be shaped against the questions Leadership actually asks. Triage Intelligence has to be trained against the team's real patterns. Asks templates have to be designed so the form does not become a tax. SLAs have to be calibrated against actual incident history, not a generic table copied from a blog post. Agent surfaces — Linear Agent, AI Agents, MCP, Code Intelligence — appear as primitives, and someone has to decide what the agent through them actually does.
 
 The capabilities are real. The ceiling here is not Linear; it is the Operator's bandwidth. That is where the freemium document stops giving away the full method. The shape is here. The tuning that makes the shape trustworthy is engagement-shaped work.
 
+### Insights — the first analytics layer
+
+Insights is the first genuinely new analytics surface since Free, and naming it here is a load-bearing correction: the Method's earlier tiering placed Insights a tier too low, at "Plus." It is a **Business** capability. Free gives you views — a view is a saved filter, a question about the current state of the workspace. Basic adds no analytics at all. Business adds Insights: that same filter *over time*, or sliced by a property, with a measure attached. Issue count by status over the last 30 days. Cycle time by project. Throughput per engineer. Triage time by source. Pin an Insight to a view and it updates itself.
+
+The Operator's first install is two Insights, both pinned to the Operator's Now view:
+
+1. **Open issue count by status, last 30 days.** The shape of work in flight — whether Triage is climbing, whether Validation is backing up, whether In Review has become a parking lot.
+2. **Cycle time by project, last 60 days.** Whether the team is getting faster or slower at the same shape of work, project by project.
+
+These replace what the Operator did by hand for the Friday summary all the way back on Free. Leadership reads the summary; they do not browse the workspace (P-27). An Insight lands in the Friday note only when it is moving in a direction that needs explaining. Avoid reporting theater: an Insight that never changes the Operator's plan is a candidate for deletion (P-24).
+
+Composed, multi-view **Dashboards** — the pinned board Leadership opens for itself — are an **Enterprise** capability, not a Business one; the Enterprise chapter (Chapter 9) covers them. On Business, the unit of reporting is the individual Insight panel and the Friday summary the Operator writes around it. What the chapter does not cover: matching Leadership's reporting taste — which slices, which groupings, which properties the workspace does not yet capture. Iterating an Insight until it earns weekly attention is engagement-shaped work.
+
 ### Triage Intelligence
 
-Triage Intelligence is Linear's AI-assisted routing layer. When a new item lands in Triage — from Slack, email, GitHub, Sentry, a customer request, a manual entry — Triage Intelligence proposes labels, a project, an assignee, related issues, and possible duplicates. The Operator confirms or overrides; over time the system gets better at the team's particular shape of work.
+Triage Intelligence is Linear's AI-assisted routing layer. When a new item lands in Triage — from Slack, email, GitHub, Sentry, a customer request, a manual entry — Triage Intelligence proposes labels, a project, an assignee, related issues, and possible duplicates. The Operator confirms or overrides; over time the system gets better at the team's particular shape of work. Alongside it, Business adds Triage **Rules** and **Responsibility** — deterministic routing and an on-call rotation for who owns the inbox when — so the queue is not implicitly always the Operator's.
 
 The Method's posture is that Triage Intelligence starts conservative. Suggestions, not auto-application. Labels and duplicate flags can auto-apply early because the cost of being wrong is low and the cost of policing is low (P-25). Project, assignee, priority, and cancellation stay suggestion-only until the Operator has watched the system make those calls correctly for two or three weeks. Customer feedback never auto-converts to scope — the principle is older than the feature (P-22). An item from Customer Requests can be enriched with suggestions, but conversion to an issue or project remains an Operator decision.
 
@@ -33,9 +46,11 @@ What the chapter does not cover: the tuning. Telling Triage Intelligence which o
 
 ### Linear Asks
 
-Linear Asks is structured intake from Slack, email, and web forms. Where Customer Requests handles external feedback for a public-facing product surface, Asks handles internal requests: an engineer in another part of the organization asking the team to look at something, an executive forwarding a question with a deadline attached, a partner team filing a request through a Slack channel the Operator does not monitor in real time. Asks lands in Triage with a structured form already filled out — requester, channel, summary, optional template fields — so the Operator is not staring at "FYI" with no surrounding context.
+Linear Asks is structured intake from Slack and email. Where Customer Requests handles external feedback for a public-facing product surface, Asks handles internal requests: an engineer in another part of the organization asking the team to look at something, an executive forwarding a question with a deadline attached, a partner team filing a request through a Slack channel the Operator does not monitor in real time. Asks lands in Triage with a structured form already filled out — requester, channel, summary, optional template fields — so the Operator is not staring at "FYI" with no surrounding context.
 
 For the 3-person team, the install moment is when the Operator has three Slack channels of unprocessed messages and Engineer A has stopped pasting them into Triage because pasting is now a job. Asks turns the paste into a form. The Slack channel becomes an Ask channel; form fields capture what the Operator would otherwise have to chase down in DMs. The captured ask routes through Triage and gets the same Triage Intelligence treatment as any other item.
+
+Asks **web forms** — public-facing intake forms hosted for requesters outside the workspace — are an **Enterprise** capability, not a Business one (Chapter 9). On Business, Asks runs through Slack and email channels; that covers internal intake, which is what the 3-person team needs first.
 
 When it pays for itself: the moment the Operator can no longer say with confidence what is sitting in the team's Slack DMs.
 
@@ -58,23 +73,13 @@ When it pays for itself: the first production incident that should have had a cl
 
 What the chapter does not cover: distinguishing real-risk SLAs from noise SLAs. Putting an SLA on every priority-high issue produces a workspace where every issue is breaching SLA and no issue is actually urgent. The calibration — which incident categories actually need a 24-hour clock, which "urgent" decisions are really 2-business-day decisions — comes from the team's incident history. A team without six months of clean incident data is calibrating against folklore. Verify what you enforce (P-25); SLAs that fire on the wrong things stop being trusted, and untrusted SLAs are worse than no SLAs.
 
-### Advanced Insights and dashboards
+### Agent surfaces — Linear Agent, AI Agents, MCP, Code Intelligence
 
-Tier 2 introduced Insights pinned to shared views. Business introduces workspace-level dashboards: composed panels of Insights pulled from multiple views, with the same self-updating shape but the structure of a report rather than a single chart. The Friday update the Operator writes by hand in Tier 2 can become a pinned dashboard in Tier 3: open issue counts by status, cycle time by project, SLA health by domain, agent throughput by delegate, all in one place that updates itself between Friday and Friday.
-
-For the 3-person team, the dashboard moment is when Leadership says, in a meeting that was not on the calendar, "Can we get a weekly view we can pull up ourselves?" Leadership consumes summaries, not raw Linear (P-27); a dashboard is a summary that updates itself. It is still a translation layer the Operator owns.
-
-When it pays for itself: the first time the Operator answers a Leadership question by sending a dashboard link instead of building a deck.
-
-What the chapter does not cover: matching Leadership's reporting taste. Leadership wants the dashboard to look a particular way, group a particular way, color a particular way, slice on properties the workspace does not currently capture. Iterating a dashboard until it earns weekly attention from the audience that consumes it is engagement-shaped work. A dashboard nobody opens is reporting theater (P-27 again, from the other direction).
-
-### Agent surfaces — Linear Agent, AI Agents, MCP
-
-Business unlocks three agent surfaces. The Method describes what each one **is**. It does not, in this document, describe how to build the agent that uses them. That distinction is the point of this chapter.
+Business unlocks the agent surfaces. The Method describes what each one **is**. It does not, in this document, describe how to build the agent that uses them. That distinction is the point of this chapter.
 
 **Linear Agent** is the assistant inside Linear itself, addressable with `@Linear` in comments, documents, project descriptions, and updates. It answers workspace questions, summarizes long threads, drafts issues from chat, and runs against the workspace's own data. Skills can be configured to standardize the things the Operator does repeatedly.
 
-**AI Agents** are app users — bots that appear in the workspace as members, can be mentioned, can be set as a delegate on an issue, can comment, can collaborate on documents and projects. They are how an external agent (a coding agent on a repo, a research agent against a corpus, a QA agent against a deploy) shows up in Linear as a participant rather than a script.
+**AI Agents** are app users — bots that appear in the workspace as members, can be mentioned, can be set as a delegate on an issue, can comment, can collaborate on documents and projects. They are how an external agent (a coding agent on a repo, a research agent against a corpus, a QA agent against a deploy) shows up in Linear as a participant rather than a script. **Agent automations** let those agents take Triage and workflow actions; **Code Intelligence** (beta) lets an agent read the connected codebase so its suggestions are grounded in the actual repo rather than the issue text alone.
 
 **MCP** is the protocol surface that lets Linear Agent and external agents talk to other tools — your code host, your documentation system, your monitoring stack — through approved MCP servers configured at the workspace level.
 
@@ -86,19 +91,25 @@ When it pays for itself: never, automatically. The surfaces pay for themselves o
 
 What the chapter does not cover: how to build the agent. Prompt design, skill chains, MCP-server selection, agent orchestration patterns, the AI PM that uses Triage Intelligence's suggestions to compose delegation packets — those are Ravenhelm product, not freemium content. The surfaces exist; the agent through them is engagement-shaped work.
 
+### Team boundaries, guests, and access controls
+
+Business is also where the workspace gains boundaries. **Private teams** let a team's issues stay invisible to the rest of the workspace — the first time a sensitive workstream (security, an acquisition, a comp project) can live in Linear without a separate workspace. **Guests** let an outside collaborator — a contractor, a partner-team reviewer — into specific teams without a full seat across the workspace. **Login-method restrictions**, including enforced Google SSO, let the Operator require a sanctioned sign-in path. And the **Intercom** and **Zendesk** integrations route support conversations into Customer Requests, so the feedback layer the team has run on Free since the beta now connects to the channels support actually lives in.
+
+What stays above Business, in Enterprise (Chapter 9): SAML/SSO with SCIM provisioning, the audit log, IP-range restrictions, multi-level sub-teams, Dashboards, Asks web forms, and the Salesforce/Gong/Airbyte integrations. The line between Business and Enterprise is the line between one well-run organization and a fleet of teams that has to be governed centrally.
+
 ### Ceiling signal — when the Operator's bandwidth runs out
 
 Tier 3's ceiling is not Linear features. The features are there. The ceiling is the Operator. The signals to watch for are bandwidth signals, not capability gaps:
 
 - **Tuning takes more time than the Operator has.** Triage Intelligence is drifting because nobody has written the workspace guidance update it needs. Asks templates have not been touched in two months and intake quality is degrading. SLA rules are firing on things that shouldn't have SLAs because the calibration pass keeps slipping. The workspace oscillates between hands-on weeks when the Operator catches up and neglected weeks when other priorities consume the calendar. Nothing is broken; everything is decaying.
-- **Leadership asks for reporting the Operator can produce once but not sustain weekly.** The first quarterly business review goes well — the Operator spent a Sunday building it. The second one is late. The third one is missing data. The dashboards Leadership wanted to "just open" have stale numbers because the underlying view configuration drifted and the Operator has not had the afternoon to fix it (P-27).
+- **Leadership asks for reporting the Operator can produce once but not sustain weekly.** The first quarterly business review goes well — the Operator spent a Sunday building it. The second one is late. The third one is missing data. The Insight panels Leadership wanted to "just open" have stale numbers because the underlying view configuration drifted and the Operator has not had the afternoon to fix it (P-27). When Leadership wants a board it can pull up unaided, the answer is an Enterprise Dashboard (Chapter 9) — and someone has to own keeping it current.
 - **The team starts hiring around the gap.** A second Operator, a Chief of Staff, an embedded TPM, an agent layer the Operator does not have time to design — the team is solving for the ceiling by adding headcount or capability without first installing the operating model the new role plugs into. The new hire spends their first quarter inventing the same set of views, the same Triage routine, the same delegation protocol the existing Operator was running in their head.
 
-When any one of those signals lands, Ravenhelm starts. The Method's freemium document gives the shape; the engagement gives the fit. A 3-person team can install Tier 1 alone in a week and Tier 2 alone in a quarter. Tier 3 is where alone runs out.
+When any one of those signals lands, Ravenhelm starts. The Method's freemium document gives the shape; the engagement gives the fit. A 3-person team can install Tier 1 alone on Free in a week and grow into Basic in a quarter. Tier 3 is where alone runs out. The tier beyond it — Enterprise (Chapter 9) — is not about more capability for one team; it is about running the method across many teams at once.
 
 > **Where this gets hard**
 >
-> The team that wants Business-tier capabilities and agent surfaces operational on day one — Triage Intelligence routing real intake, Asks templates capturing real channels, SLAs firing on real incidents, dashboards Leadership actually opens, agents participating in real delegation loops — has no calendar for the multi-week tuning that makes any of it trustworthy. The capabilities ship in an afternoon; the trust takes a season.
+> The team that wants Business-tier capabilities operational on day one — Triage Intelligence routing real intake, Asks templates capturing real channels, SLAs firing on real incidents, Insights Leadership actually reads, agents participating in real delegation loops — has no calendar for the multi-week tuning that makes any of it trustworthy. The capabilities ship in an afternoon; the trust takes a season.
 >
 > Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
 
@@ -107,7 +118,7 @@ When any one of those signals lands, Ravenhelm starts. The Method's freemium doc
   content: pass
   funnel: pass
   chapter-type-extras: pass
-  word-count: 2397
-  principle-citations: P-6, P-13, P-14, P-15, P-17, P-20, P-22, P-25, P-27
+  word-count: ~2650
+  principle-citations: P-6, P-13, P-14, P-15, P-17, P-20, P-22, P-24, P-25, P-27
   flagged-principle-gaps: none
 -->

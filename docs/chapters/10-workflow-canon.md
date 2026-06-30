@@ -1,7 +1,7 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
 <!-- TODO: replace with final license boilerplate and enforcement language -->
 
-## Chapter 9 — Workflow Canon and the Validation Gate
+## Chapter 10 — Workflow Canon and the Validation Gate
 
 It is 4:48 on a Friday. The Operator has already posted the weekly summary to Leadership: nine issues Done this sprint, two slipping into next week, one still blocked on a vendor. At 5:11 a customer pings in shared Slack — the export feature that shipped Tuesday returns an empty CSV. At 5:23, monitoring finally catches up: a migration ran on staging but never on production, so a different feature has been silently writing to a column that does not exist. By 5:40 the Operator is re-reading the Friday summary and counting which of those nine "Done" issues actually shipped working code to customers. The answer is six. The other three were merged, closed, and counted. Nobody looked at them after the PR went green.
 
@@ -19,7 +19,7 @@ The Method's workflow is canonized at nine states (P-10). Each has an entry cond
 
 **In Progress.** Someone is actively working. Exactly one assignee. A branch exists if it is code work. Exit is a PR, an artifact, or a decision posted. Smell: more than one issue In Progress per person at a time.
 
-**In Review.** A PR, artifact, or decision is awaiting review. Entry is automated when the code host opens a PR linked to the issue (Chapter 10). Exit is review approval and merge. Smell: an In Review item older than three working days — the reviewer is overloaded or the PR is too large (P-12).
+**In Review.** A PR, artifact, or decision is awaiting review. Entry is automated when the code host opens a PR linked to the issue (Chapter 11). Exit is review approval and merge. Smell: an In Review item older than three working days — the reviewer is overloaded or the PR is too large (P-12).
 
 **Validation.** Merged or delivered work still needs runtime, browser, release, infrastructure, or human-acceptance evidence (P-6). This is where most workspaces leak. Entry is merge or delivery; exit is evidence posted to the issue and accepted by the Operator. The rest of this chapter is mostly about this state.
 
@@ -37,7 +37,7 @@ Most workspaces operate on six states: Triage, Backlog, In Progress, In Review, 
 
 The Method draws a hard line between two things that look the same and are not. **Merged code is implemented. Code that has passed evidence is trusted.** Only trusted code becomes Done (P-6). Validation is the named state where the difference lives.
 
-The cost of skipping Validation compounds in three directions. First, the Operator's Done count becomes unreliable. "Nine issues Done this sprint" means nothing if three of them shipped broken. Worse, the Operator does not know which three. The number is theater (P-28). Second, the customer-facing surface develops a quiet backlog of half-shipped features — code merged, migration forgotten, flag not flipped, deploy never pushed to the customer-visible cluster. The team thinks it shipped. The customer does not see the change. The gap between team-reality and customer-reality grows until someone in a Slack DM names it. Third, Leadership loses faith in the rollup. The monthly initiative health report (Chapter 11) is built from project updates, which are built from issue counts. If issue counts lie, the entire reporting chain collapses into theater (P-28). The Operator becomes the person who keeps having to retract the Friday update.
+The cost of skipping Validation compounds in three directions. First, the Operator's Done count becomes unreliable. "Nine issues Done this sprint" means nothing if three of them shipped broken. Worse, the Operator does not know which three. The number is theater (P-28). Second, the customer-facing surface develops a quiet backlog of half-shipped features — code merged, migration forgotten, flag not flipped, deploy never pushed to the customer-visible cluster. The team thinks it shipped. The customer does not see the change. The gap between team-reality and customer-reality grows until someone in a Slack DM names it. Third, Leadership loses faith in the rollup. The monthly initiative health report (Chapter 12) is built from project updates, which are built from issue counts. If issue counts lie, the entire reporting chain collapses into theater (P-28). The Operator becomes the person who keeps having to retract the Friday update.
 
 Validation is the state that fixes all three at once. It is a holding pen with one rule: do not enter Done without evidence. The evidence is not the Operator's word; it is an artifact in a system the Operator cannot fabricate (P-8). The code host says the PR is merged. The deploy log says the binary is running. The screenshot shows the customer-facing URL renders. The Terraform plan says the resource exists. The customer reply says they tried it. Until one of those exists and matches what was promised, the issue stays in Validation.
 
@@ -71,11 +71,11 @@ The Method's flow for a 3-person team — Operator, Engineer A, Engineer B — i
 
 The Operator and Engineer A scope the issue together in a fifteen-minute conversation. Acceptance criteria go into the issue body. The estimate is reasonable. The issue is deliverable-sized — single outcome, two weeks or less to verify, one owner (P-4). If the acceptance criteria run past five items, the issue splits into a parent with sub-issues (P-12). State moves from Backlog to Ready.
 
-Engineer A picks the issue up Monday morning. The code-host integration (Chapter 10 owns the mechanics) creates a branch named with the issue ID, and the state moves to In Progress. Engineer A is the assignee. The branch name carries the issue ID so the code host can match commits and PRs back to Linear.
+Engineer A picks the issue up Monday morning. The code-host integration (Chapter 11 owns the mechanics) creates a branch named with the issue ID, and the state moves to In Progress. Engineer A is the assignee. The branch name carries the issue ID so the code host can match commits and PRs back to Linear.
 
 Engineer A opens a PR on Wednesday. The Linear–GitHub integration moves the issue to In Review automatically — on the GitLab equivalent, the merge-request integration does the same. Engineer B reviews. On a 3-person team, the reviewer pool is one person; this means review is fast, not optional. If Engineer B is heads-down on a separate issue, the Operator owns the call on whether the PR waits.
 
-The PR merges Thursday. **Here the integration does not move the issue to Done.** It moves it to Validation (Chapter 10 covers the configuration). On Linear Free this transition is manual; on Plus and Business it is automated with rules. Either way, the rule is the same: merge does not equal Done.
+The PR merges Thursday. **Here the integration does not move the issue to Done.** It moves it to Validation (Chapter 11 covers the configuration). On Linear Free this transition is manual; on Basic and Business it is automated with rules. Either way, the rule is the same: merge does not equal Done.
 
 Engineer A posts evidence in a Validation comment. For a backend change, a link to the deploy log plus the relevant startup line. For a UI change, a screenshot of the deployed environment with the URL visible. For an infrastructure change, the Terraform plan output. The evidence type was decided when the issue was scoped, not invented now.
 
