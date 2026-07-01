@@ -8,22 +8,22 @@ A single PM running a 3-person team — one operator/PM, two engineers — repor
 
 ## What's inside
 
-Fourteen chapters, ~34,500 words. Ten of them are usable on Linear Free immediately; the rest cover Basic, Business, Enterprise, and the edge of self-install.
+Fourteen chapters, ~35,500 words. Ten of them are usable on Linear Free immediately; the rest cover Basic, Business, Enterprise, and the edge of self-install.
 
 | # | Chapter | Words |
 |---|---|---|
 | 1 | [What This Is and Who It's For](docs/chapters/01-what-this-is.md) | 1,633 |
 | 2 | [The Seven Operating Layers](docs/chapters/02-seven-layers.md) | 2,098 |
-| 3 | [The Numbered Principles](docs/chapters/03-numbered-principles.md) | 3,722 |
+| 3 | [The Numbered Principles](docs/chapters/03-numbered-principles.md) | 3,884 |
 | 4 | [The PM Operator Role](docs/chapters/04-operator-role.md) | 1,993 |
 | 5 | [The Operating Surface: Labels, Views, Templates](docs/chapters/05-operating-surface.md) | 2,559 |
 | 6 | [Tier 1: Linear Free Install](docs/chapters/06-tier-1-free.md) | 2,814 |
 | 7 | [Tier 2: Linear Basic Upgrade](docs/chapters/07-tier-2-basic.md) | 1,641 |
 | 8 | [Tier 3: Linear Business and the Edge of Self-Install](docs/chapters/08-tier-3-business.md) | 3,803 |
 | 9 | [Tier 4: Linear Enterprise and the Method as Operating System](docs/chapters/09-tier-4-enterprise.md) | 2,624 |
-| 10 | [Workflow Canon and the Validation Gate](docs/chapters/10-workflow-canon.md) | 2,400 |
+| 10 | [Workflow Canon and the Validation Gate](docs/chapters/10-workflow-canon.md) | 2,403 |
 | 11 | [Cycles, Roadmaps & Cadence](docs/chapters/11-cycles-roadmaps-cadence.md) | 2,072 |
-| 12 | [Code Host Integration: GitHub Primary, GitLab Parallel](docs/chapters/12-code-host-integration.md) | 2,404 |
+| 12 | [Code Host Integration: GitHub Primary, GitLab Parallel](docs/chapters/12-code-host-integration.md) | 3,265 |
 | 13 | [Reporting Up](docs/chapters/13-reporting-up.md) | 3,259 |
 | 14 | [The Assessment](docs/chapters/14-the-assessment.md) | 1,572 |
 
@@ -41,7 +41,7 @@ Fourteen chapters, ~34,500 words. Ten of them are usable on Linear Free immediat
 │   ├── chapters/           # The 14-chapter deliverable
 │   ├── _shared/            # Authoring spec
 │   │   ├── CONTEXT.md      # Voice, neutralization rules, callout formats, rubric
-│   │   └── PRINCIPLES.md   # Canonical P-1..P-28 scaffold
+│   │   └── PRINCIPLES.md   # Canonical P-1..P-29 scaffold
 │   └── architecture/
 │       ├── README.md
 │       ├── repo-structure.md  # Structural template + this repo's conformance

@@ -23,7 +23,7 @@ Cite frequently in the first month — the vocabulary calcifies fast, and once E
 >
 > What the PM keeps: deciding whether a dormant principle should be retired, revived, or rewritten.
 
-The 28 principles fall into nine groups (A–I). The counter-examples are diagnostic: when you see the failure in your workspace, you know which principle was quietly violated.
+The 29 principles fall into ten groups (A–J). The counter-examples are diagnostic: when you see the failure in your workspace, you know which principle was quietly violated.
 
 ### Group A — The work graph (the shape)
 
@@ -267,6 +267,16 @@ The 28 principles fall into nine groups (A–I). The counter-examples are diagno
 
 **Counter-example.** A monthly initiative report says On Track; project updates have not been written in three weeks, issues have no evidence links, and the Operator cannot trace a single claim to an artifact.
 
+### Group J — Releases
+
+#### P-29. Releases are named with Semantic Versioning.
+
+**Rule.** Every release carries a `MAJOR.MINOR.PATCH` version — MAJOR for a breaking change, MINOR for a backward-compatible feature, PATCH for a fix. The number is derived from Conventional Commits by `semantic-release` (or `release-please`), not chosen by hand.
+
+**Rationale.** A release surface that grows without a naming law becomes unanswerable: "which version shipped the auth fix?" has no reliable answer when the tags are `v2`, `final`, `hotfix-2`, and `july-build`. SemVer makes the version, the changelog, and the tag a byproduct of commit discipline rather than a manual decision, so the release history stays legible as it grows — and the code host, not a human, keeps it honest (P-25).
+
+**Counter-example.** A team tags releases by hand — `1.0`, then `1.0-real`, then `1.0-real-final`, then `prod-2026-06` — and three months later cannot tell which deploy carried which fix; a customer-reported regression takes a day to bisect because no version maps to a known change set.
+
 ### Closing
 
 Principles are not laws. They are decisions made in advance, written down with numbers, so the Operator does not have to decide them again at 4pm Friday when an issue sits in Validation and Leadership asks why it isn't shipped. The Friday answer is already written. The Operator remembers the number and cites it; the Method makes the number worth remembering.
@@ -282,7 +292,7 @@ Principles are not laws. They are decisions made in advance, written down with n
   content: pass
   funnel: pass
   chapter-type-extras: pass
-  word-count: 3524 (slightly over 3500 ceiling; structural floor from 28 principles each with Rule/Rationale/Counter-example labels)
-  principle-citations: P-1, P-2, P-3, P-4, P-5, P-6, P-7, P-8, P-9, P-10, P-11, P-12, P-13, P-14, P-15, P-16, P-17, P-18, P-19, P-20, P-21, P-22, P-23, P-24, P-25, P-26, P-27, P-28
+  word-count: ~3850 (structural floor from 29 principles each with Rule/Rationale/Counter-example labels)
+  principle-citations: P-1, P-2, P-3, P-4, P-5, P-6, P-7, P-8, P-9, P-10, P-11, P-12, P-13, P-14, P-15, P-16, P-17, P-18, P-19, P-20, P-21, P-22, P-23, P-24, P-25, P-26, P-27, P-28, P-29
   flagged-principle-gaps: none
 -->

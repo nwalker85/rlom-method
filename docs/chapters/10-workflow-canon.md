@@ -75,7 +75,7 @@ Engineer A picks the issue up Monday morning. The code-host integration (Chapter
 
 Engineer A opens a PR on Wednesday. The Linear–GitHub integration moves the issue to In Review automatically — on the GitLab equivalent, the merge-request integration does the same. Engineer B reviews. On a 3-person team, the reviewer pool is one person; this means review is fast, not optional. If Engineer B is heads-down on a separate issue, the Operator owns the call on whether the PR waits.
 
-The PR merges Thursday. **Here the integration does not move the issue to Done.** It moves it to Validation (Chapter 12 covers the configuration). On Linear Free this transition is manual; on Basic and Business it is automated with rules. Either way, the rule is the same: merge does not equal Done.
+The PR merges Thursday. **Here the integration does not move the issue to Done.** It moves it to Validation (Chapter 12 covers the configuration). This transition is automated by the code-host integration (available on Free), or run by hand where it isn't wired. Either way, the rule is the same: merge does not equal Done.
 
 Engineer A posts evidence in a Validation comment. For a backend change, a link to the deploy log plus the relevant startup line. For a UI change, a screenshot of the deployed environment with the URL visible. For an infrastructure change, the Terraform plan output. The evidence type was decided when the issue was scoped, not invented now.
 

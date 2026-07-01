@@ -65,6 +65,16 @@ On GitLab, the equivalent is a CI release job. The `.gitlab-ci.yml` includes a `
 
 Two warnings on releases. First, install release-driven Done one surface at a time. The Operator picks the highest-volume customer-facing repo, wires the pipeline, lets it run for a week or two with the Operator double-checking each release. Only after that flow is green does the second surface get the same treatment. Second, do not exceed roughly six Releases pipelines in the workspace (P-24). Pipelines are operational surface; each one needs a watch and a refresh. More pipelines means more decay (P-25). If the team ships from twelve repos, the Operator picks the six that most need release-gated Done — usually the customer-facing surfaces — and lets the rest stay in manual Done.
 
+### Naming releases: Semantic Versioning
+
+The release event that moves issues to Done fires against a release, and a release needs a name. The Method's convention is not negotiable: releases are named with Semantic Versioning — `MAJOR.MINOR.PATCH` — and nothing else (P-29). A version like `2.4.1` is not a label the Operator picks on release day; it is a fact the commits already decided.
+
+The mapping is the whole rule. A breaking change bumps MAJOR (`2.4.1` → `3.0.0`); a backward-compatible feature bumps MINOR (`2.4.1` → `2.5.0`); a backward-compatible fix bumps PATCH (`2.4.1` → `2.4.2`). An engineer who reads `2.5.0` → `2.5.1` knows a fix shipped and nothing broke; one who reads `2.5.1` → `3.0.0` knows to check the changelog before upgrading. The version number carries information — that is the point of naming this way instead of any other.
+
+Neither the Operator nor the engineer computes the bump by hand. A tool derives it: `semantic-release` (or `release-please`) reads the Conventional Commits since the last tag — `fix:` maps to PATCH, `feat:` to MINOR, a `feat!:` or `BREAKING CHANGE:` footer to MAJOR — then picks the bump, writes the changelog, cuts the tag, and publishes the release. The version, the changelog, and the tag are a byproduct of commit discipline, not a decision anyone makes on release day. That feeds the previous section directly: the `release: published` event needs a release to publish, and now the release names itself from the commits Engineer A and Engineer B already wrote.
+
+This is why SemVer lives in the same chapter as release-driven Done. The Linear Releases pipeline publishes a SemVer tag and moves the issues whose PRs landed between the previous tag and this one from Validation to Done (P-9). Consistent naming is what makes that association legible: the pipeline records that `ENG-42` shipped in `2.5.0`, and the Operator can answer the only release question Leadership ever asks — which version shipped what. Chapter 13's reporting rollup consumes that answer, and release health there is only as readable as the version names beneath it. A workspace that tags releases `final`, `final-2`, and `prod-hotfix-friday` has release automation that runs and a release history nobody can read.
+
 ### The 3-person team installs both
 
 This is what makes the chapter concrete. The Operator's team ships from two code hosts. Engineer A owns `web-frontend` and pushes to GitHub; Engineer B owns `api-service` and pushes to GitLab. The shared `infra` repo, where both engineers commit occasionally, also lives on GitHub. The Method's installation on the team is mixed by design: the Operator does not migrate either repo to standardize, because the cost of migration is higher than the cost of running two integrations.
@@ -72,6 +82,18 @@ This is what makes the chapter concrete. The Operator's team ships from two code
 What the Operator installs is identical on both sides at the Linear layer: the same nine-state workflow, the same Validation gate, the same auto-move on PR merge to Validation (not Done), the same release-driven Done for the production surface. What differs is one configuration panel per host. The Linear GitHub App is installed once for `web-frontend` and `infra`; the Linear GitLab integration plus one MR webhook is installed once for `api-service`. The Operator writes the conventions once and publishes them at the workspace level; each engineer follows the same branch naming, the same PR title prefix, the same commit references. The Leadership Team consumes the same project updates regardless of which host the underlying PRs live on, because by the time the rollup reaches them (Chapter 13) the host is invisible — only the Linear state remains.
 
 This is the proof that the Method is code-host-agnostic. The conventions are at the Linear layer; the plumbing differs; the reader-visible behavior is the same.
+
+### Self-hosted forges — the webhook bridge
+
+Everything above assumes a code host Linear drives natively — GitHub through its App, GitLab through its integration. Some teams do not have one. A team on a self-hosted forge — Forgejo, Gitea, or a Bitbucket instance Linear does not natively integrate with — gets no PR-opened transition, no PR-merged transition, and no linked PR on the issue. The branch-and-title convention still holds, but nothing is listening for it, and the Operator is back to the Sunday-night manual queue with no integration to install.
+
+The Method's answer is a webhook bridge, deliberately small. The forge fires a webhook on PR merge; a tiny receiver parses the payload, looks for a magic word in the PR title or body — `Fixes <ISSUE-ID>` or `Closes <ISSUE-ID>`, case-insensitive — and drives Linear through its GraphQL API. Three calls do the whole job. Resolve the human issue ID (`TEAM-123`) to the issue's UUID, because the API keys on the UUID, not on the identifier a person reads. Move the issue to Validation — not Done, the same line the native integrations hold (P-8: the merge proves implementation; P-9: shipping still needs release evidence). Attach the PR URL back onto the issue as the evidence pointer. The bridge reproduces what the GitHub App does for free, and nothing more.
+
+Migrate onto it carefully. Do not cut the native path over on a hope: keep a GitHub or GitLab mirror of the repository while the team moves, so the native PR→Linear automation keeps firing off the mirror until the bridge has been trusted for a week or two on live merges. Mirror-back is the safety net — if the receiver drops an event, the integration on the mirror still moves the issue, and the Operator loses nothing while the bridge earns confidence. Retire the mirror only once the bridge has been green long enough that the Operator has stopped checking it by hand.
+
+One authentication detail accounts for most bridges that fail on the first try. Linear's GraphQL endpoint authenticates a personal API key sent raw in the header — `Authorization: <api-key>`, with no `Bearer` prefix. A developer reaching for OAuth muscle memory writes `Authorization: Bearer <api-key>`, gets a 401, and loses an afternoon to it. The key goes in raw.
+
+A bridge is a build-once, verify-forever surface (P-25): checked once against a real merge, and after that every merge lands its issue in Validation without the Operator watching. But it is also code the team now owns, so it lives under the overbuild ceiling (P-24) — one receiver, one magic-word rule, one transition, which a 3-person team can keep running. A bridge that grows into bidirectional sync (P-23), per-repo state machines, or a second source of truth has failed the test; at that point the honest move is to migrate the repo to a host Linear drives natively, not to grow the bridge.
 
 ### Install order
 
@@ -101,8 +123,8 @@ Two patterns destroy this chapter's value if installed.
   structural: pass
   content: pass
   funnel: pass
-  chapter-type-extras: pass — GitHub primary + GitLab equivalent included for all five mechanics (1) branch/PR convention, (2) PR-opened → In Review, (3) PR-merged → Validation, (4) release event → Done, (5) mixed-host 3-person team install
-  word-count: ~2000
-  principle-citations: P-6, P-7, P-8, P-9, P-18, P-23, P-24, P-25
+  chapter-type-extras: pass — GitHub primary + GitLab equivalent for all five native mechanics (1) branch/PR convention, (2) PR-opened → In Review, (3) PR-merged → Validation, (4) release event → Done, (5) mixed-host 3-person team install; plus self-hosted-forge webhook bridge (non-native hosts) and SemVer / semantic-release release naming (P-29)
+  word-count: ~2750
+  principle-citations: P-6, P-7, P-8, P-9, P-18, P-23, P-24, P-25, P-29
   flagged-principle-gaps: none
 -->
