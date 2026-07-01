@@ -71,7 +71,7 @@ Settings → Integrations → GitHub. Install the integration; Free supports lin
 
 The convention to install is the issue ID in the branch name or PR title. Linear auto-generates branch names from issues — Engineer A copies the suggested branch name (e.g., `eng-a/eng-42-add-rate-limiter`) when starting work. When the PR opens, Linear adds the link to the issue. That's the whole pattern on Free.
 
-What the Method deliberately does **not** want — on any tier — is auto-transition to Done on PR merge (P-6, P-7). The Operator runs the closing by hand: PR merges → Operator moves the issue to Validation → Operator confirms deployment (browser check, deploy log link, runtime confirmation) → Operator pastes evidence in a comment → Operator moves the issue to Done. The discipline travels by hand. Chapter 10 covers the Validation gate in depth; Chapter 11 covers the deeper code-host integration. The install here is the minimum loop that produces an evidence chain (P-8, P-28).
+What the Method deliberately does **not** want — on any tier — is auto-transition to Done on PR merge (P-6, P-7). The Operator runs the closing by hand: PR merges → Operator moves the issue to Validation → Operator confirms deployment (browser check, deploy log link, runtime confirmation) → Operator pastes evidence in a comment → Operator moves the issue to Done. The discipline travels by hand. Chapter 10 covers the Validation gate in depth; Chapter 12 covers the deeper code-host integration. The install here is the minimum loop that produces an evidence chain (P-8, P-28).
 
 **GitLab equivalent.** Enable the GitLab integration, use the issue ID in branch names and MR titles, and run the Validation close manually. The mechanic differs by integration; the doctrine doesn't.
 
@@ -102,7 +102,7 @@ The week-one install is four primitives plus one project and one integration. Th
 - **Initiatives** when Leadership starts asking how projects ladder up to outcomes (P-2). Two or three durable initiatives, owners, quarter-end targets. The objective layer is Free; reach for it the week the rollup question lands, not before.
 - **Cycles** when the team wants a time-boxed cadence to commit against rather than an open backlog. Whether a 3-person team needs cycles, or runs on the weekly update cadence alone, is a judgment call — and it is free either way.
 - **Customer Requests** when feedback arrives faster than the Operator can hand-convert it and provenance starts getting lost (P-22). A request is captured intake, never automatic scope.
-- **Releases** when the team ships on a pipeline worth naming. Free covers up to fifteen pipelines — more than a small team needs; the release-organization doctrine lives in the code-host chapter (Chapter 11).
+- **Releases** when the team ships on a pipeline worth naming. Free covers up to fifteen pipelines — more than a small team needs; the release-organization doctrine lives in the code-host chapter (Chapter 12).
 - **Pulse** when the Operator wants update digests pushed rather than pulled.
 - **Native relations** the first time "Blocked" as a state is too coarse — when an issue is blocked *by* a specific other issue and the link itself is the information.
 
@@ -112,7 +112,7 @@ None of these is an upgrade. Each is a Free primitive the team grows into when a
 
 A workspace Engineer B can open on Monday and understand. One team named for the team's remit. Nine workflow states, with Validation installed and used at least once. Four labels, each cited by at least one view or attached to at least one issue. Four shared views covering the Operator's morning, the Operator's own queue, the team's blocked work, and the team's review queue. One project with one update and at least one Done issue carrying full evidence. A GitHub integration with at least one linked PR. A weekly rhythm the team has run end-to-end once.
 
-The rhythm to keep, lightly (Chapter 12 covers reporting in depth): Monday the Operator confirms priorities and clears Triage. Daily the Operator clears Waiting on the Operator and Blocked. Friday the Operator posts the project update.
+The rhythm to keep, lightly (Chapter 13 covers reporting in depth): Monday the Operator confirms priorities and clears Triage. Daily the Operator clears Waiting on the Operator and Blocked. Friday the Operator posts the project update.
 
 ### Ceiling signal
 
