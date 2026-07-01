@@ -9,7 +9,7 @@ docs/
 ├── chapters/         # The 14-chapter deliverable
 ├── _shared/          # Authoring spec — load-bearing for any editorial work
 │   ├── CONTEXT.md    # Voice, neutralization, callout formats, rubric, chapter ordering
-│   └── PRINCIPLES.md # Canonical P-1..P-28 — every chapter cites from here
+│   └── PRINCIPLES.md # Canonical P-1..P-29 — every chapter cites from here
 └── architecture/
     └── decisions/    # ADRs for doctrine evolution (new / retired / renumbered P-#)
 ```
@@ -43,7 +43,7 @@ Read in order on first pass. Cross-references between chapters use the canonical
 
 ## Doctrine
 
-The 28 numbered principles (`P-1`..`P-28`) are the spine. Every chapter cites them. The canonical list with one-line rules lives in [`_shared/PRINCIPLES.md`](_shared/PRINCIPLES.md); the full chapter-3 expansion (rule, rationale, counter-example) lives in [`chapters/03-numbered-principles.md`](chapters/03-numbered-principles.md).
+The 29 numbered principles (`P-1`..`P-29`) are the spine. Every chapter cites them. The canonical list with one-line rules lives in [`_shared/PRINCIPLES.md`](_shared/PRINCIPLES.md); the full chapter-3 expansion (rule, rationale, counter-example) lives in [`chapters/03-numbered-principles.md`](chapters/03-numbered-principles.md).
 
 To propose a doctrine change, see [CONTRIBUTING.md](../CONTRIBUTING.md) and the ADR template at [`architecture/decisions/0000-template.md`](architecture/decisions/0000-template.md).
 

@@ -4,7 +4,7 @@ This is the canonical list of numbered principles cited as `P-#` throughout the 
 
 **Do not invent new P-# numbers in chapters other than Chapter 3.** If your chapter needs a principle not on this list, leave a `<!-- PRINCIPLE_GAP: short description -->` flag in your draft.
 
-**Derivation note (for Chapter 3 author).** These 28 principles are derived from `10-doctrine.md` (P-1..P-13, R-1..R-6, O-1..O-12, D-1..D-8) in the source repo, neutralized per `_shared/CONTEXT.md` §5. Where the source rule referenced Ravenhelm-internal artifacts (offices, Norse names, specific repos), the principle has been restated in generic terms that apply to any 3-person team in Linear.
+**Derivation note (for Chapter 3 author).** Principles P-1..P-28 are derived from `10-doctrine.md` (P-1..P-13, R-1..R-6, O-1..O-12, D-1..D-8) in the source repo, neutralized per `_shared/CONTEXT.md` §5. Where the source rule referenced Ravenhelm-internal artifacts (offices, Norse names, specific repos), the principle has been restated in generic terms that apply to any 3-person team in Linear. P-29 (SemVer release naming) was added later by doctrine ADR-0001.
 
 ---
 
@@ -125,6 +125,13 @@ The Operator's job is translation. Leadership reads project updates and initiati
 
 **P-28. The evidence chain holds.**
 Initiative health rolls up from project updates. Project updates roll up from issue evidence. Evidence rolls up from the code host. Break any link and the chain collapses into theater.
+
+---
+
+## Group J — Releases
+
+**P-29. Releases are named with Semantic Versioning.**
+Every release carries a `MAJOR.MINOR.PATCH` version, derived from Conventional Commits by `semantic-release` or `release-please` rather than chosen by hand. Consistent SemVer naming keeps a growing release surface legible — it is the reliable answer to "which version shipped what."
 
 ---
 

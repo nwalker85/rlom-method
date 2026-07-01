@@ -19,6 +19,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Chapter 11 — Cycles, Roadmaps & Cadence (cycles as an optional execution-rhythm overlay; the timeline/roadmap view with the Plan-of-Record vs. What-If discipline; the cadence tie-together). Existing chapters renumbered: Code Host Integration → 12, Reporting Up → 13, The Assessment → 14.
 - Computed health (the RAG operating model) and Pulse sections added to the Reporting chapter — a deterministic Red/Amber/Green ladder recommended as automation that writes Linear's Project Health field, plus Pulse as the digest-consumption layer.
 - Issue relations (blocking/related/duplicate) and recurring-issues guidance, plus a "prefer typed fields over labels" note, added to the Operating Surface chapter.
+- Chapter 12 gains a self-hosted-forge **webhook-bridge** section (magic-word `Fixes <ISSUE-ID>` → Linear GraphQL, for teams on Forgejo/Gitea/Bitbucket, with a mirror-back migration strategy) and a **Semantic Versioning** release-naming section.
+- **P-29 — Releases are named with Semantic Versioning** — a new numbered principle (Group J), with doctrine **ADR-0001**.
+- `docs/architecture/decisions/0001-semver-release-naming.md` — the first doctrine ADR.
 
 ### Changed
 
@@ -26,11 +29,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - P-26 (capacity) now cross-references the new Cycles chapter and clarifies that cycles are optional — the seventy-percent rule applies to whatever planning horizon the team commits against.
 - Modernized the AI-agent surfaces in the Business chapter to Linear's current line — AI Agents / `delegate`, agent guidance + Skills, MCP, Code Intelligence, Coding Sessions (agents that write and ship code), Linear Diffs, Write-with-Agent, Triage Automations — reframed around the escalation from planning help to code-shipping, with the Ravenhelm AI-PM build kept as the upsell.
 - P-14 and P-15 sharpened for coding-session agents: the human assignee owns what the agent ships; the validation command is the acceptance test the Operator runs instead of re-reading generated code.
+- Numbered principles: 28 → 29 (added Group J — Releases); `P-1..P-28` → `P-1..P-29` across the README and docs.
+- Corrected the workflow chapter's claim that PR-merge→Validation automation is a paid feature — the code-host integration and its PR-status automation are available on Free.
 
 ### Pending
 
 - Final license boilerplate (`LICENSE` is currently a TODO marker).
-- First doctrine ADR (template exists at `docs/architecture/decisions/0000-template.md`).
 - Single-file build via `scripts/compile.sh`.
 
 ## [0.1.0] — 2026-05-26
