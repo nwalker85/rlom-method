@@ -141,7 +141,7 @@ The 28 principles fall into nine groups (A–I). The counter-examples are diagno
 
 **Rule.** Specialist agents can be delegated work, but human ownership stays explicit on every issue via the assignee field — even when a `delegate` field is set to a bot.
 
-**Rationale.** The assignee is the throat to choke; setting the assignee to a bot makes the issue ownerless in any meaningful human sense. The split — assignee=human, delegate=bot — keeps agent productivity while preserving accountability.
+**Rationale.** The assignee is the throat to choke; setting the assignee to a bot makes the issue ownerless in any meaningful human sense. The split — assignee=human, delegate=bot — keeps agent productivity while preserving accountability. As agents move from drafting comments to running coding sessions that open pull requests, the delegate can now change the codebase directly — which raises the cost of an ownerless issue, not lowers it. The human assignee owns what the agent ships.
 
 **Counter-example.** A workspace assigns issues to an AI bot user; six weeks later the bot has "owned" thirty issues, two regressed silently, with no human to ask why.
 
@@ -149,7 +149,7 @@ The 28 principles fall into nine groups (A–I). The counter-examples are diagno
 
 **Rule.** Setting a delegate on an issue requires a scope comment naming outcome, scope, validation command(s), expected artifact, and repo or file paths.
 
-**Rationale.** Agents fail on under-specified inputs in ways that look superficially fine. Without a validation command, the Operator can only audit by reading the diff line by line — exactly the work delegation was supposed to save.
+**Rationale.** Agents fail on under-specified inputs in ways that look superficially fine. Without a validation command, the Operator can only audit by reading the diff line by line — exactly the work delegation was supposed to save. This is sharper for coding-session agents that open pull requests: the validation command is the acceptance test the Operator runs instead of re-reading generated code.
 
 **Counter-example.** The Operator delegates "fix the flaky tests" with no validation command; the agent disables three of them, and the Operator does not notice until a regression ships two weeks later.
 

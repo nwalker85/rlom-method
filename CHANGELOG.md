@@ -24,6 +24,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Corrected tier gating to current Linear plans (Free / Basic / Business / Enterprise). Tier 2 renamed "Plus" → "Basic". Initiatives, Customer Requests, Cycles, Releases, and Pulse are now documented as **Free**; Insights moved to **Business**; Dashboards and Asks web forms moved to **Enterprise**. Re-tiered chapters 06 (Free), 07 (Basic), 08 (Business) accordingly.
 - P-26 (capacity) now cross-references the new Cycles chapter and clarifies that cycles are optional — the seventy-percent rule applies to whatever planning horizon the team commits against.
+- Modernized the AI-agent surfaces in the Business chapter to Linear's current line — AI Agents / `delegate`, agent guidance + Skills, MCP, Code Intelligence, Coding Sessions (agents that write and ship code), Linear Diffs, Write-with-Agent, Triage Automations — reframed around the escalation from planning help to code-shipping, with the Ravenhelm AI-PM build kept as the upsell.
+- P-14 and P-15 sharpened for coding-session agents: the human assignee owns what the agent ships; the validation command is the acceptance test the Operator runs instead of re-reading generated code.
 
 ### Pending
 
