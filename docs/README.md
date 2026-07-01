@@ -6,7 +6,7 @@ The full Ravenhelm Linear Operating Method lives here.
 
 ```
 docs/
-├── chapters/         # The 14-chapter deliverable
+├── chapters/         # 14 chapters + the Operations-Team appendix
 ├── _shared/          # Authoring spec — load-bearing for any editorial work
 │   ├── CONTEXT.md    # Voice, neutralization, callout formats, rubric, chapter ordering
 │   └── PRINCIPLES.md # Canonical P-1..P-29 — every chapter cites from here
@@ -33,6 +33,8 @@ Read in order on first pass. Cross-references between chapters use the canonical
 13. [Reporting Up: Project Updates, Initiative Health, Monthly Review](chapters/13-reporting-up.md)
 14. [The Assessment: What This Document Doesn't Cover](chapters/14-the-assessment.md)
 
+**Appendix A.** [The Operations-Team Variant](chapters/appendix-a-operations-team.md) — opt-in; adapts the Method for operations / PMO / Center-of-Excellence teams (the demand-side intake and governance front-half).
+
 ## Reading paths
 
 - **Install-now PM (Linear Free, 3-person team).** 1 → 2 → 4 → 5 → 6 → 10 → 13. Skim 3 once. Defer 7, 8, 9, 11, 12, 14 until needed.
@@ -40,6 +42,7 @@ Read in order on first pass. Cross-references between chapters use the canonical
 - **PM evaluating Business / agent layer.** 3 → 8 → 13 → 14.
 - **PM scaling across teams (Enterprise).** 1 → 4 → 9 → 11 → 13.
 - **Leadership / executive.** 1 → 13 → 14.
+- **Operations / PMO / CoE team.** 1 → 2 → 5 → 8 → 13 → Appendix A. The appendix swaps in the demand-side intake and governance front-half.
 
 ## Doctrine
 

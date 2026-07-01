@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# compile.sh — concatenate the 12 RLOM chapters into a single-file edition.
+# compile.sh — concatenate the 14 RLOM chapters (plus the Operations-Team appendix) into a single-file edition.
 #
 # Usage:
 #   ./scripts/compile.sh > build/rlom.md
@@ -43,12 +43,15 @@ CHAPTERS=(
     "04-operator-role.md"
     "05-operating-surface.md"
     "06-tier-1-free.md"
-    "07-tier-2-plus.md"
+    "07-tier-2-basic.md"
     "08-tier-3-business.md"
-    "09-workflow-canon.md"
-    "10-code-host-integration.md"
-    "11-reporting-up.md"
-    "12-the-assessment.md"
+    "09-tier-4-enterprise.md"
+    "10-workflow-canon.md"
+    "11-cycles-roadmaps-cadence.md"
+    "12-code-host-integration.md"
+    "13-reporting-up.md"
+    "14-the-assessment.md"
+    "appendix-a-operations-team.md"
 )
 
 # Verify all chapter files exist before printing anything
@@ -69,7 +72,7 @@ printf -- '---\n\n'
 printf '## Table of contents\n\n'
 i=1
 for ch in "${CHAPTERS[@]}"; do
-    title=$(grep -m1 '^## Chapter' "${CHAPTERS_DIR}/${ch}" | sed 's/^## //')
+    title=$(grep -m1 -E '^## (Chapter|Appendix)' "${CHAPTERS_DIR}/${ch}" | sed 's/^## //')
     if [ -z "${title}" ]; then
         title="Chapter ${i}"
     fi
@@ -90,7 +93,7 @@ if [ "${WITH_SHARED}" -eq 1 ]; then
     printf '\n---\n\n'
 fi
 
-# Chapters — strip the license header from chapters 2..12 (kept at the top of the compiled doc)
+# Chapters — strip the license header from all chapters after the first (kept at the top of the compiled doc)
 first=1
 for ch in "${CHAPTERS[@]}"; do
     if [ "${first}" -eq 1 ]; then
