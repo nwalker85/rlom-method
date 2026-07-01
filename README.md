@@ -8,7 +8,7 @@ A single PM running a 3-person team — one operator/PM, two engineers — repor
 
 ## What's inside
 
-Fourteen chapters, ~35,500 words. Ten of them are usable on Linear Free immediately; the rest cover Basic, Business, Enterprise, and the edge of self-install.
+Fourteen chapters plus an Operations-Team appendix, ~38,500 words. Ten of the chapters are usable on Linear Free immediately; the rest cover Basic, Business, Enterprise, and the edge of self-install.
 
 | # | Chapter | Words |
 |---|---|---|
@@ -26,6 +26,7 @@ Fourteen chapters, ~35,500 words. Ten of them are usable on Linear Free immediat
 | 12 | [Code Host Integration: GitHub Primary, GitLab Parallel](docs/chapters/12-code-host-integration.md) | 3,265 |
 | 13 | [Reporting Up](docs/chapters/13-reporting-up.md) | 3,259 |
 | 14 | [The Assessment](docs/chapters/14-the-assessment.md) | 1,572 |
+| A | [Appendix A — The Operations-Team Variant](docs/chapters/appendix-a-operations-team.md) | 2,767 |
 
 ## How to read it
 

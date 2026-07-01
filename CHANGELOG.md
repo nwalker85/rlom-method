@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Chapter 12 gains a self-hosted-forge **webhook-bridge** section (magic-word `Fixes <ISSUE-ID>` → Linear GraphQL, for teams on Forgejo/Gitea/Bitbucket, with a mirror-back migration strategy) and a **Semantic Versioning** release-naming section.
 - **P-29 — Releases are named with Semantic Versioning** — a new numbered principle (Group J), with doctrine **ADR-0001**.
 - `docs/architecture/decisions/0001-semver-release-naming.md` — the first doctrine ADR.
+- **Appendix A — The Operations-Team Variant** (opt-in): the demand-side front-half for operations / PMO / Center-of-Excellence teams — an intake layer with a pre-Backlog Intake-Review pipeline, a service catalog (request types → Asks templates), governance cadence + QBR + charter-approval gate + RACI, service SLAs, CoE-grade field discipline (Rule of One + per-issue-type required-field matrix), and the `layer:` / `customer:` label axes.
 
 ### Changed
 
@@ -31,6 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - P-14 and P-15 sharpened for coding-session agents: the human assignee owns what the agent ships; the validation command is the acceptance test the Operator runs instead of re-reading generated code.
 - Numbered principles: 28 → 29 (added Group J — Releases); `P-1..P-28` → `P-1..P-29` across the README and docs.
 - Corrected the workflow chapter's claim that PR-merge→Validation automation is a paid feature — the code-host integration and its PR-status automation are available on Free.
+- Fixed `scripts/compile.sh` — its hardcoded chapter list still referenced pre-rename filenames (`07-tier-2-plus.md`, `09-workflow-canon.md`, and the old code-host/reporting/assessment numbers) and would have failed on a missing file; updated to the current 14 chapters + appendix and taught the TOC generator to match `## Appendix` headings.
 
 ### Pending
 

@@ -13,6 +13,8 @@ The reader is a single PM running a 3-person team — call them the Operator, En
 
 This Method is also useful to a slightly larger reader — a PM on a 5- or 6-person team, or a tech lead doing PM work on the side — but it is calibrated to the 3-person case. Everything scales up. Some things scale down to two people and a contractor; below that the overhead exceeds the value and the reader should keep using a single Backlog view and a wiki page until they don't fit.
 
+One reader shape is different enough to get its own treatment: a team whose board is other people's requests — an operations, PMO, or internal Center-of-Excellence team. That team is *demand-side* (work is requested through it) where the core Method assumes *supply-side* (the team builds its own board). **Appendix A** adapts the Method for that case — the intake, service-catalog, and governance front-half — without restating the shared execution core.
+
 The Method assumes you have access to Linear and the authority to configure it. It does not assume Basic or Business. Ten of the thirteen chapters that follow are usable on Linear Free immediately. The three that aren't — Chapters 7, 8, and 9 — describe the tier ceilings as honest signals, not artificial paywalls, and explain what to do when you hit them.
 
 ### What the Method is
