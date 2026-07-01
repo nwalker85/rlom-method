@@ -2,6 +2,8 @@
 
 A freemium consulting deliverable by Ravenhelm LLC. RLOM is a tiered, human-centric operating model for running a software team on Linear — installable by a single PM in a week, scalable across Linear's plan tiers as the team grows, and designed to make work legible upward to leadership without inventing structure from scratch.
 
+**Version 0.2.0** · 2026-07-01 · see the [changelog](CHANGELOG.md).
+
 ## Who this is for
 
 A single PM running a 3-person team — one operator/PM, two engineers — reporting to a vague "leadership team." Technical enough to install Linear; not senior enough to have designed an operating model from scratch.
