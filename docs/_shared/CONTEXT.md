@@ -69,7 +69,7 @@ Do not introduce additional personas (designers, customer success, security lead
 **Strip from all source material before incorporating:**
 - All Norse names: Mimir, Heimdall, Bifrost, Freyr, Forge, Odin, Norns, Hrafngud, Yggdrasil, Huginn, Munin, Thor, Vidar, Kvasir, Rig, Sleipner, Magni, Hrafngrima, Berserkr, Valknut, Asgard, Midgard, etc.
 - All Ravenhelm-internal jargon: offices, the office model, the 11 offices, C-suite skeleton projects, `CEO-O*`/`CISO-O*`/etc. project codes, Office Model, AAS, RUNESTACK, RAVENMASK, RAVENMASKOS, HUGINN, MIMIR, YGGDRASIL, STANDARDS roots, `domain:*`/`root:*` label namespaces that name internal systems.
-- All real client / employer / past-employer names: SoundHound, Quant, IntelePeer, EPAS, Domain Intelligence, Heimdall (as product), any of them.
+- All real client / employer / past-employer names: SoundHound, Quant, work, EPAS, Domain Intelligence, Heimdall (as product), any of them.
 - Nate. The reader is the Operator; the author is Ravenhelm LLC.
 
 **Neutralization map for initiatives.** The source material's initiative names ("Runestack Platform Reliability," "Heimdall Operator Experience," etc.) must be replaced with generic archetypes that any reader can adopt:
