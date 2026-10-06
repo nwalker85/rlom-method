@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Chapter 4 — The PM Operator Role
 
@@ -71,7 +71,7 @@ The Operator is not a status-reporting machine. They are the load-bearing decisi
 >
 > The role starts to crack when the team grows past five engineers — the Operator can no longer hold the full backlog in their head, and the four (P-13) start getting silently delegated to whoever ships fastest. It also cracks when the Operator gets pulled into a leadership-level decision that requires Chief-of-Staff-shaped work — cross-team trade-offs, budget reallocation, org design — that the Method, by design, has not installed yet.
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 <!-- RUBRIC_CHECK:
   structural: pass

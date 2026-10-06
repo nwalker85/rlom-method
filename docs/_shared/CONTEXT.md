@@ -126,13 +126,13 @@ The principles in `PRINCIPLES.md` are the canon. Do not invent new P-#'s in othe
 >
 > [One or two sentences naming the failure mode at real-team scale or in messy business reality — never "it depends" or "every org is different." Name the specific break.]
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 **Placement.** The Augmentation Surface box appears where it makes structural sense in the chapter body. The "Where this gets hard" box is always the final element of the chapter, after all H3 sections.
 
 **Exception.** Chapter 14 (The Assessment) has neither — the chapter itself is the answer to both. Chapter 14's brief covers this.
 
-**Contact placeholder.** Use the literal string `[contact placeholder]` in the "Where this gets hard" box. Do not invent an email or URL.
+**Contact email.** Use the literal string `nate@ravenhelm.co` in the "Where this gets hard" box. Do not invent an email or URL.
 
 ---
 
@@ -142,7 +142,7 @@ Every chapter file **opens** with this exact block (no prose before it):
 
 ```
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 ```
 
 Then a blank line, then the `## Chapter N — Title` heading, then a blank line, then the opening paragraph.

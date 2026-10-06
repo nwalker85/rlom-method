@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Chapter 5 — The Operating Surface: Labels, Views, Templates
 
@@ -90,7 +90,7 @@ The operating surface gets cluttered the same way a kitchen counter does: each i
 >
 > When label sprawl has gone unmanaged for a year and an audit reveals one hundred fifty labels of which thirty are cited by views, the deletion sweep is political, not technical — every label has someone who created it and a story for why it should stay. The same dynamic hits a view list that has accumulated nineteen private dashboards no one else can see.
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 <!-- RUBRIC_CHECK:
   structural: pass

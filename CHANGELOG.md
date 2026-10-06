@@ -6,9 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-### Pending
+### Added
 
-- Final license boilerplate (`LICENSE` is currently a TODO marker).
+- Adopted the **RLOM Community License 1.0** in `LICENSE`, permitting free informational redistribution and internal organizational implementation while reserving commercial services, derivative publications, and training to Ravenhelm LLC.
+- Public repository infrastructure: authoritative `AGENTS.md`, `SUPPORT.md`, `CITATION.cff`, and structured issue templates (`config.yml`, `method-defect.md`, `enhancement-proposal.md`).
+
+### Changed
+
+- Enhanced `README.md` as an authoritative public front door with complete 14-chapter TOC, 29-principle operating model overview, and clear commercial boundaries.
+- Replaced draft contact placeholders across all 15 manuscript chapters and `docs/_shared/CONTEXT.md` with direct contact path (`nate@ravenhelm.co`).
+- Repaired principle count in Chapter 14 (corrected to twenty-nine numbered principles).
+- Neutralized workstation filesystem paths and repaired broken relative link (`../README.md`).
+- Added single-file compile verification to CI lint workflow.
 
 ## [0.2.0] — 2026-07-01
 

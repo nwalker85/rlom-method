@@ -131,4 +131,5 @@ Learn more at **[ravenhelm.co](https://ravenhelm.co)**.
 
 - **Author:** [Nathan Walker](https://nwalker.cc)
 - **Publisher:** [Ravenhelm LLC](https://ravenhelm.co)
-- **License:** Licensed material. See [LICENSE](LICENSE) for terms. Final public license boilerplate selection is pending before general distribution.
+- **License:** RLOM Community License 1.0. RLOM is free to read and may be implemented internally by individuals and organizations. Redistribution of modified versions, commercial republication, third-party RLOM services, training, certification, and commercial incorporation require prior written permission from Ravenhelm LLC. See [LICENSE](LICENSE) for complete terms.
+- **Commercial Licensing & Implementation:** [nate@ravenhelm.co](mailto:nate@ravenhelm.co)

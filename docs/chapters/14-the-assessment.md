@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Chapter 14 — The Assessment: What This Document Doesn't Cover
 
@@ -13,7 +13,7 @@ That's the gap this chapter exists to close.
 
 **The shape.** Seven operating layers — initiatives, projects, issues, views, intake, delivery evidence, analytics — and the workflow canon of nine states with Validation as the load-bearing gate (P-6). The operating surface — labels, views, templates — that turns the shape into something the workspace actually does. The code host integration that proves implementation in the place it happens (P-8) and lets Linear stop pretending to know what shipped.
 
-**The doctrine.** Twenty-eight numbered principles, each with a rationale and a counter-example. The principles are the part of the Method you can carry into any future tooling change. Linear could be replaced; the principles would survive the replacement.
+**The doctrine.** Twenty-nine numbered principles, each with a rationale and a counter-example. The principles are the part of the Method you can carry into any future tooling change. Linear could be replaced; the principles would survive the replacement.
 
 **The install path for four tiers.** Free, Basic, Business, Enterprise — each with the specific capabilities the tier adds, the install steps the Operator can run alone, and the ceiling signals that tell you you've outgrown your plan. The tiering is honest: most 3-person teams live happily on Free, and the Method is designed to make that possible.
 
@@ -51,7 +51,7 @@ The five steps run in order. The discovery and audit can be completed inside two
 
 ### Engaging
 
-The Ravenhelm Operating Assessment is the engagement. The contact path is `[contact placeholder]`.
+The Ravenhelm Operating Assessment is the engagement. The contact path is `nate@ravenhelm.co`.
 
 <!-- RUBRIC_CHECK:
   structural: pass

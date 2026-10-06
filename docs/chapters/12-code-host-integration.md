@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Chapter 12 — Code Host Integration: GitHub Primary, GitLab Parallel
 
@@ -117,7 +117,7 @@ Two patterns destroy this chapter's value if installed.
 >
 > When the release flow involves multiple repos coordinated through a separate orchestration layer (Argo, Spinnaker, an internal CD platform), or when release gates legitimately span days because of phased rollouts, canary windows, or compliance signoffs, the simple "release event → Done" automation stops fitting. The release event happens at a layer the code host does not own, and the issues need to wait for a signal that lives somewhere else entirely. At that point the Operator is designing custom plumbing — release pipelines that listen to the deployment system, not the code host — and the chapter's defaults stop applying.
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 <!-- RUBRIC_CHECK:
   structural: pass

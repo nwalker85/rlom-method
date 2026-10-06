@@ -1,21 +1,36 @@
-Copyright (c) 2026 Ravenhelm LLC. All rights reserved.
+# RLOM Community License
+Version 1.0
 
-TODO: Replace this file with the final license boilerplate and enforcement
-language. This placeholder matches the marker present at the top of every
-chapter file:
+Copyright © 2026 Ravenhelm LLC.
+All rights reserved except as expressly granted below.
 
-    <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-    <!-- TODO: replace with final license boilerplate and enforcement language -->
+## Permitted Uses
 
-Pending decisions:
-- Choose a license model: proprietary licensed material, source-available
-  with field-of-use restriction, or a permissive license with attribution
-  and commercial-use carve-out.
-- Decide whether to publish as a public freemium artifact (whole document
-  freely readable, engagement gated) or as a partially-restricted asset
-  (preview chapters public, full document under license).
-- Define the enforcement language (attribution requirements, derivative-work
-  policy, no-warranty disclaimer, governing law).
+Permission is hereby granted, without charge, to any person or organization obtaining a copy of the Ravenhelm Linear Operating Method ("RLOM"):
 
-Until this is resolved, treat all material in this repository as licensed,
-unpublished material owned by Ravenhelm LLC. Do not redistribute.
+1. **Informational & Educational Use:** To read, download, store, copy, and redistribute verbatim, unmodified copies of RLOM for non-commercial, personal, or educational purposes.
+2. **Internal Implementation:** To adopt, use, and implement the RLOM Method and its principles within your own organization for internal business operations and engineering workflow management.
+3. **Internal Adaptations:** To create internal documentation, workspace configurations, issue templates, and operational runbooks necessary to execute and adapt RLOM within your own organization.
+
+## Restrictions & Reserved Rights
+
+Except as expressly authorized above, you may not, without prior written permission from Ravenhelm LLC:
+
+1. **Commercial Distribution:** Sell, rent, sublicense, monetize, or commercially distribute RLOM or substantial portions thereof in any medium.
+2. **Derivative Works:** Publish, distribute, or make publicly available modified versions, adaptations, translations, or derivative works based on RLOM.
+3. **Third-Party Services:** Offer, market, or provide commercial consulting, implementation, assessment, audit, training, coaching, or certification services to third parties using or referencing the RLOM name, methodology, or materials.
+4. **Commercial Packaging:** Incorporate RLOM or substantial portions of it into a commercial product, SaaS offering, methodology framework, publication, or fee-based training curriculum.
+5. **Brand & Endorsement:** Use the names, trademarks, or service marks of "Ravenhelm" or "RLOM" in any manner that suggests sponsorship, affiliation, partnership, certification, or endorsement by Ravenhelm LLC.
+
+## Disclaimer of Warranties
+
+RLOM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM, OUT OF, OR IN CONNECTION WITH THE METHOD OR THE USE OR OTHER DEALINGS IN IT.
+
+## Commercial Licensing, Implementation & Inquiries
+
+For commercial implementation partnerships, enterprise assessments, third-party consulting rights, or custom licensing inquiries, contact:
+
+Nathan Walker  
+Ravenhelm LLC  
+Email: nate@ravenhelm.co  
+Web: https://ravenhelm.co

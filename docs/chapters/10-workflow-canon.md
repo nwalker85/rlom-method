@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Chapter 10 — Workflow Canon and the Validation Gate
 
@@ -99,7 +99,7 @@ The canon is nine. Hold it.
 >
 > The Operator's team does not own production. A separate platform team controls the deploy, the cluster, and the release pipeline. Getting a deploy-log link on every customer-visible Validation issue requires the platform team's cooperation, which they have no incentive to provide — their on-call rotation does not care about your Linear hygiene, and the link in their CI system requires permissions you do not have.
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 <!-- RUBRIC_CHECK:
   structural: pass
