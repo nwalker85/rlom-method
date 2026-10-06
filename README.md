@@ -3,7 +3,7 @@
 > A tiered, human-centric operating model for running a software team on Linear — installable by a single PM in a week, scalable across plan tiers as the team grows, and grounded in twenty-nine numbered principles.
 
 Authored by **[Nathan Walker](https://nwalker.cc)** · Published by **[Ravenhelm LLC](https://ravenhelm.co)**  
-Current Release: **v0.2.0** (Release Candidate) · [Changelog](CHANGELOG.md) · [Start Reading →](docs/chapters/01-what-this-is.md)
+Current Release: **v1.0.2** · [Changelog](CHANGELOG.md) · [Start Reading →](docs/chapters/01-what-this-is.md)
 
 ---
 
