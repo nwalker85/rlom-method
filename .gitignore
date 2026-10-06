@@ -2,6 +2,7 @@
 build/
 site/
 *.pdf
+!RLOM-*.pdf
 *.epub
 
 # macOS
