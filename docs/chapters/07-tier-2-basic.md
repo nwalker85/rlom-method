@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Chapter 7 — Tier 2: Linear Basic Upgrade
 
@@ -76,7 +76,7 @@ The honest framing: the move from Free to Basic was about ceilings. The move fro
 >
 > The team that upgrades to Basic expecting it to "unlock the Method" — switch on the reporting, the intelligence, the automation — discovers Basic does none of that, and can feel like it paid $10 a head for nothing. It didn't: it bought the room it actually needed. But if what the team needed was Insights or Triage Intelligence or SLAs, Basic was the wrong purchase and Business was the target all along. Knowing which wall you are actually hitting — a limit or a capability gap — is the difference between a $10 upgrade that buys headroom and a $16 upgrade that buys the machine.
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 <!-- RUBRIC_CHECK:
   structural: pass

@@ -101,7 +101,7 @@ for ch in "${CHAPTERS[@]}"; do
         first=0
     else
         # Skip leading license HTML comments and blank line
-        sed -e '/^<!-- LICENSE:/d' -e '/^<!-- TODO: replace with final license/d' "${CHAPTERS_DIR}/${ch}"
+        sed -e '/^<!-- LICENSE:/d' -e '/^<!-- All rights reserved/d' -e '/^<!-- TODO:/d' "${CHAPTERS_DIR}/${ch}"
     fi
     printf '\n---\n\n'
 done

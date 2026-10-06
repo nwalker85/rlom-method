@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Chapter 13 — Reporting Up: Project Updates, Initiative Health, and the Monthly Review
 
@@ -149,7 +149,7 @@ The goal of reporting is not to perform progress; it is to surface the decisions
 >
 > When Leadership's reporting taste has its own format — quarterly pillar dashboards, BSC-style scorecards, board narratives, OKR check-ins in a slide template the Chief of Staff inherited four years ago — and that format does not map cleanly to Linear's project and initiative primitives, the Operator ends up maintaining two reporting stacks: the Method's (for operational truth) and Leadership's (for the format they want). The translation either consumes a day a month or decays into a copy-paste that loses fidelity at the seams.
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 <!-- RUBRIC_CHECK:
   structural: pass

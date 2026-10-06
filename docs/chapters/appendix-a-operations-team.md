@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Appendix A — The Operations-Team Variant
 
@@ -99,7 +99,7 @@ Where that board *lives* is the only tier-dependent part. A per-project health c
 >
 > The organization that wants a real front door — a published catalog, enforced intake, service SLAs the requesters trust, a charter gate that survives a VP walking up to an engineer's desk — is asking a 3-person team to hold a governance boundary against people who outrank it, using rigor (the Rule of One, the required-field block, the RACI) that is only worth the friction if it is installed and calibrated correctly the first time. Install the field discipline too loose and the reports lie; too tight and the requesters route around the form and you are back to the hallway. The catalog ships in an afternoon; the boundary that makes it stick takes a season and a mandate the team usually does not have alone.
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 <!-- RUBRIC_CHECK:
   structural: pass

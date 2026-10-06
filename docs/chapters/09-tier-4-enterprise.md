@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Chapter 9 — Tier 4: Linear Enterprise and the Method as Operating System
 
@@ -91,7 +91,7 @@ When those land, the Method is no longer something a promoted Operator runs on t
 >
 > The organization that wants the federated model live across forty teams — one set of standards in the hub, justified local overrides in the spokes (P-18), a community of practice that actually moves templates between teams, SSO and SCIM satisfying the auditor, Dashboards Leadership trusts, agent guidance shared everywhere — has no single person with the authority, the bandwidth, and the artifact library to install all of it at once. The features ship the day you sign the Enterprise contract; the operating system takes a season and an owner.
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 <!-- RUBRIC_CHECK:
   structural: pass

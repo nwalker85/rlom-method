@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Chapter 6 — Tier 1: Linear Free Install
 
@@ -128,7 +128,7 @@ Unlike the later tier moves, there is no "two of three" threshold here. These ar
 >
 > The Validation gate assumes the Operator can produce the evidence — a deploy log link, a browser check, a runtime confirmation. When the team needs Validation evidence from infrastructure the Operator doesn't own — a separate ops team owns the deploy pipeline, the deploy logs live in a system the Operator can't read, getting a link on every production issue requires negotiating with another team's PM — the install stalls. The workspace looks correct; the evidence chain (P-28) breaks at the boundary.
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 <!-- RUBRIC_CHECK:
   structural: pass

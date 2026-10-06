@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you cite or reference this operating method, please cite it as below."
+title: "Ravenhelm Linear Operating Method (RLOM)"
+authors:
+  - family-names: "Walker"
+    given-names: "Nathan"
+    website: "https://nwalker.cc"
+  - name: "Ravenhelm LLC"
+    website: "https://ravenhelm.co"
+abstract: "A tiered, human-centric operating model for running a software team on Linear — installable by a single PM in a week, scalable across plan tiers, and grounded in twenty-nine numbered principles."
+version: 0.2.0
+date-released: 2026-07-01
+url: "https://github.com/nwalker85/rlom-method"
+repository-code: "https://github.com/nwalker85/rlom-method"
+keywords:
+  - "linear"
+  - "operating-model"
+  - "software-engineering"
+  - "project-management"
+  - "doctrine"
+  - "workflow"

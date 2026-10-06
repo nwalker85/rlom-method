@@ -21,6 +21,10 @@ MD033: false
 # Bare URLs OK in license / contact placeholders.
 MD034: false
 
+# Multiple headings with same content — allow across different parent sections (e.g. CHANGELOG).
+MD024:
+  siblings_only: true
+
 # H1 in document — chapters use H2 as their root (per CONTEXT.md §4).
 # Files without a top-level H1 are allowed; H2 is the canonical heading.
 MD041: false

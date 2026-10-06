@@ -29,7 +29,7 @@ For chapter PRs:
 - [ ] No Norse names, no Ravenhelm-internal jargon, no real client / employer names
 - [ ] 3-person team appears concretely if the chapter touches the canonical example
 - [ ] All non-obvious claims tied to a `P-#`
-- [ ] "Augmentation Surface" and "Where this gets hard" callouts present (Chapter 12 exempt)
+- [ ] "Augmentation Surface" and "Where this gets hard" callouts present (Chapter 14 exempt)
 - [ ] Length within target (see chapter brief)
 
 ## Review notes

@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Chapter 11 — Cycles, Roadmaps & Cadence
 
@@ -96,7 +96,7 @@ That is the whole relationship. Cadence is rhythm. The roadmap is horizon. Cycle
 >
 > The roadmap Leadership wants and the roadmap the work supports diverge the moment a date becomes a promise to someone outside the team — a customer commitment, a board deadline, a launch already announced. Now the Plan-of-Record is under pressure to show the date Leadership sold, not the date the projects support, and the Operator is asked to drag a bar to make a slide true. Holding the line — committed dates reflect committed work, what-ifs stay labeled — is a credibility fight the Operator rarely has the seniority to win alone.
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 <!-- RUBRIC_CHECK:
   structural: pass

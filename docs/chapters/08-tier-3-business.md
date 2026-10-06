@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Chapter 8 — Tier 3: Linear Business and the Edge of Self-Install
 
@@ -127,7 +127,7 @@ When any one of those signals lands, Ravenhelm starts. The Method's freemium doc
 >
 > The team that wants Business-tier capabilities operational on day one — Triage Intelligence routing real intake, Asks templates capturing real channels, SLAs firing on real incidents, Insights Leadership actually reads, agents participating in real delegation loops — has no calendar for the multi-week tuning that makes any of it trustworthy. The capabilities ship in an afternoon; the trust takes a season.
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 <!-- RUBRIC_CHECK:
   structural: pass

@@ -62,7 +62,7 @@ The complete rules are in `docs/_shared/CONTEXT.md`. Highlights:
 - **Voice.** Compressed, peer-level, expert. No hedging, no filler, no marketing-speak.
 - **Neutralization.** No Norse names, no Ravenhelm-internal jargon, no real client / employer names. The 3-person team is the canonical example.
 - **Citations.** Every non-obvious claim ties to a `P-#`.
-- **Callouts.** Every chapter (except Chapter 12) has exactly one "Augmentation Surface" box and one "Where this gets hard" box at the end, both in the standard format.
+- **Callouts.** Every chapter (except Chapter 14) has exactly one "Augmentation Surface" box and one "Where this gets hard" box at the end, both in the standard format.
 - **License header.** Every chapter file opens with the standard license block.
 
 ## Self-check before opening a PR

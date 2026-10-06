@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Chapter 3 — The Numbered Principles
 
@@ -285,7 +285,7 @@ Principles are not laws. They are decisions made in advance, written down with n
 >
 > The moment Leadership disagrees with a load-bearing principle — most commonly `P-6`, because they want Done to mean merged, not validated — the Method has to be defended in a calendar meeting against a stakeholder who outranks the Operator. The defense is not technical; it is about which incidents the team is willing to ship into next quarter, and most Operators do not have the seniority or the artifact library to make that argument alone.
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 <!-- RUBRIC_CHECK:
   structural: pass

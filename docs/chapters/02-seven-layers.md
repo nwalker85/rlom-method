@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Chapter 2 — The Seven Operating Layers
 
@@ -101,7 +101,7 @@ The seven layers are necessary; you cannot drop one without weakening the work g
 >
 > Layer assignment becomes archeology when a team has historical work scattered across three shapes — some in tickets nobody updated, some in docs nobody linked, some in chat threads nobody can search — and the question "is this an issue, a project, or a wiki page" can't be answered without reading a quarter of context for each item.
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 <!-- RUBRIC_CHECK:
   structural: pass

@@ -1,5 +1,5 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
-<!-- TODO: replace with final license boilerplate and enforcement language -->
+<!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
 ## Chapter 1 — What This Is and Who It's For
 
@@ -59,7 +59,7 @@ This is not a transformation. There is no kickoff workshop, no maturity assessme
 >
 > The Method assumes a single Operator feeding a single engineering team and reporting to a single leadership audience. When the Operator gains a second engineering team, or when Leadership starts asking for metrics the workspace isn't structured to produce yet — cross-team throughput, initiative-level forecast confidence, evidence chains that span three repos and two release pipelines (P-28) — the install becomes an integration problem, not a configuration problem. The shape stays right; the wiring gets specific.
 >
-> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. [contact placeholder]
+> Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
 <!-- RUBRIC_CHECK:
   structural: pass
