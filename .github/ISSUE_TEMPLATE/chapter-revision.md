@@ -8,7 +8,7 @@ assignees: ''
 
 ## Chapter
 
-<!-- Which chapter file: e.g., docs/chapters/09-workflow-canon.md -->
+<!-- Which chapter file: e.g., docs/chapters/10-workflow-canon.md -->
 
 ## What's wrong / what could be better
 
@@ -24,7 +24,7 @@ assignees: ''
 - [ ] The change is editorial (no new claims, no new principle citations).
 - [ ] The change does not affect any `P-#` — if it does, this is a doctrine change and needs an ADR instead (see CONTRIBUTING.md).
 - [ ] The change preserves the chapter's word-count target (see `docs/_shared/CONTEXT.md` §9).
-- [ ] The change preserves the two required callout boxes (Chapter 12 exempt).
+- [ ] The change preserves the two required callout boxes (Chapter 14 exempt).
 
 ## Why this matters
 

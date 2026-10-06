@@ -14,7 +14,7 @@ Per [CONTRIBUTING.md](../../../CONTRIBUTING.md), every change to numbered princi
 ADRs are also encouraged (not required) for:
 
 - Changing the workflow canon (the nine states).
-- Adding or removing a chapter from the canonical 12-chapter ordering.
+- Adding or removing a chapter from the canonical 14-chapter ordering.
 - Restructuring the operating surface (label namespaces, required views, templates).
 - Changing tier-boundary signals.
 
@@ -26,6 +26,6 @@ Use [`0000-template.md`](0000-template.md) as the starting point. ADRs are seque
 
 | # | Title | Status |
 |---|---|---|
-| _none yet_ | | |
+| 0001 | [Adopt Semantic Versioning as a numbered principle (P-29)](0001-semver-release-naming.md) | accepted |
 
 ADRs are listed here as they're merged. Status values: `proposed`, `accepted`, `superseded by NNNN`, `retired`.

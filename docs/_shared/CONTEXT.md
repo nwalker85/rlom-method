@@ -130,7 +130,7 @@ The principles in `PRINCIPLES.md` are the canon. Do not invent new P-#'s in othe
 
 **Placement.** The Augmentation Surface box appears where it makes structural sense in the chapter body. The "Where this gets hard" box is always the final element of the chapter, after all H3 sections.
 
-**Exception.** Chapter 12 (The Assessment) has neither — the chapter itself is the answer to both. Chapter 12's brief covers this.
+**Exception.** Chapter 14 (The Assessment) has neither — the chapter itself is the answer to both. Chapter 14's brief covers this.
 
 **Contact placeholder.** Use the literal string `[contact placeholder]` in the "Where this gets hard" box. Do not invent an email or URL.
 

@@ -27,7 +27,19 @@ jobs:
         run: npm install -g markdownlint-cli@0.41.0
 
       - name: Run markdownlint
-        run: markdownlint 'docs/**/*.md' 'README.md' 'CONTRIBUTING.md' 'CHANGELOG.md' --config .markdownlint.yml
+        run: markdownlint 'docs/**/*.md' 'README.md' 'CONTRIBUTING.md' 'CHANGELOG.md' 'AGENTS.md' 'SUPPORT.md' --config .markdownlint.yml
+
+  compile-check:
+    name: verify single-file compilation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Run compile.sh
+        run: |
+          mkdir -p build
+          ./scripts/compile.sh > build/rlom.md
+          test -s build/rlom.md
 
   rubric-check:
     name: chapter rubric self-checks present

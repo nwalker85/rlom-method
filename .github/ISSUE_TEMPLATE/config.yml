@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions & Implementation Help
+    url: https://github.com/nwalker85/rlom-method/discussions
+    about: Ask implementation questions or discuss adapting RLOM for your team.
+  - name: Ravenhelm Commercial Advisory
+    url: https://ravenhelm.co
+    about: Inquire about the Ravenhelm Operating Assessment and hands-on installation.
+  - name: Security Vulnerability
+    url: https://github.com/nwalker85/rlom-method/security/advisories/new
+    about: Report sensitive or security concerns privately per SECURITY.md.

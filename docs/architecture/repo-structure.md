@@ -5,7 +5,7 @@ This repository conforms to **Tier 2** of the Ravenhelm Repository Structure Tem
 The template assembles de facto community standards (GitHub-recognized special files, Standard Readme, Keep a Changelog, Conventional Commits, SemVer, REUSE, OpenSSF, SPDX) into a coherent default. No ISO standard exists for repository structure.
 
 - **Conformance tier:** Tier 2 (production OSS layout). Tier 3 additions deferred — revisit when commercial distribution begins.
-- **Origin:** Maintained by Ravenhelm as `~/src/001-REPO_STRUCTURE_TEMPLATE.md` on the author's workstation; intended to track [github.com/epas-platform/spec](https://github.com/epas-platform/spec) once published.
+- **Origin:** Maintained by Ravenhelm as part of the Ravenhelm Repository Structure Template.
 - **Authority over this repo:** This document, then the per-section `CONTRIBUTING.md` and `docs/_shared/CONTEXT.md`. The repo-structure template governs *layout*; CONTEXT governs *content*.
 
 ## How this repo conforms
@@ -14,7 +14,7 @@ The table below records the decisions this repo made against the template's six 
 
 | Decision point | Choice | Notes |
 |---|---|---|
-| Monorepo vs polyrepo | Single repo under product | One repo today; siblings (`assessment-toolkit/`, `agent-extensions/`) will live alongside under `~/src/products/rlom/`. |
+| Monorepo vs polyrepo | Single repo under product | One repo today; siblings (`assessment-toolkit/`, `agent-extensions/`) will live alongside under the RLOM product suite. |
 | `deploy/` vs `infra/` | Neither | Docs-only project; no infrastructure to deploy. |
 | `docs/` source vs generated | Source only | `build/` is gitignored; single-file edition compiled via `scripts/compile.sh`. |
 | ADR location | `docs/architecture/decisions/` | Standard layout. ADRs document doctrine evolution, not code architecture. |
@@ -25,14 +25,12 @@ The table below records the decisions this repo made against the template's six 
 
 ## How new repos under this product should conform
 
-Future repos under `~/src/products/rlom/` (assessment toolkit, agent extensions, etc.) should adopt the template at the tier appropriate to their nature:
+Future repos under the RLOM product suite (assessment toolkit, agent extensions, etc.) should adopt the template at the tier appropriate to their nature:
 
 - **Docs / spec repos** — Tier 2, as this one.
 - **Library / SDK repos** — Tier 2, plus the language overlay table at the bottom.
 - **Service / deployable repos** — Tier 2, plus `deploy/` (not `infra/` — pick one and be consistent across the product).
 - **Anything shipping under contractual SLA** — promote to Tier 3.
-
-See `~/src/products/rlom/README.md` for the product-level layout convention.
 
 ---
 
