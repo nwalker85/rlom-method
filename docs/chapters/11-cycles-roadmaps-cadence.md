@@ -1,100 +1,109 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
 <!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
-## Chapter 11 — Cycles, Roadmaps & Cadence
+## Chapter 11 - Cycles, Roadmaps & Cadence
 
-Engineer B came from a shop that ran two-week sprints, and in the second week asks the question the Operator has been avoiding: are we doing sprints or not? That same week Leadership asks for "the roadmap" — not this week's board, the next two quarters, on one page, by Thursday. The Operator has neither answer cleanly. They tried cycles once, early: turned them on, watched Linear produce a velocity chart, and three cycles later had a pile of rolled-over issues, a number nobody trusted, and a creeping sense the team now served the cycle instead of the other way around — so they turned it back off. And the roadmap they sent Leadership last quarter was a screenshot of the project board, already stale by the time it was pasted into the deck; the first question in the meeting was about a project that had shipped a week earlier.
+On 2026-10-01, twelve court card answers sat in the Ravenhelm adjudication queue for sixteen hours without a single downstream slice waking up to consume them. The human operator had already ruled on every one of those twelve architectural gates; the decisions were timestamped, signed, and sitting on the bench. Nothing moved. Sixteen wall-clock hours of engineering capacity evaporated because the workspace had no operating rhythm wired to sweep resolved blockers the turn they arrived, and everyone assumed the board would advance itself. That same week on a canonical three-person team, Engineer B - fresh from a shop that ran two-week Scrum rituals - asks whether the team is doing sprints, while Leadership asks for the next two quarters on one page by Thursday. The Operator has neither answer cleanly.
 
-Two real gaps, and the Method has so far been silent on both. The first is execution rhythm: does the team commit work in fixed batches or flow it continuously? The second is planning horizon: how does the team show the next two quarters without lying? Linear answers both on Free — Cycles and the timeline roadmap are free primitives. The Method's job is to say when to reach for each, and, more often, when not to.
+We built the wrong version of both first. Early on, we turned Linear Cycles on because the toggle was free, watched the tool draw a velocity chart, and within three cycles had a graveyard of rolled-over tickets, a points total that measured nothing except how creatively engineers split tasks on Thursday afternoon, and a team that served the two-week clock instead of the work. Story points and sprint commitments turn engineers into dishonest accountants. We turned Cycles back off. Then, to answer Leadership's horizon question, we pasted a screenshot of the active project board into a slide deck; the artifact was dead before the meeting started, and the first question from the table was about a project that had already shipped seven days earlier. The screenshot was a corpse.
 
-Start from what the Method already runs on. The operating rhythm is cadence: a weekly project update (P-19), a biweekly initiative update, a monthly operating review (P-21, Chapter 13). That cadence is the spine, and it works whether or not the team ever turns cycles on.
+Two real mechanics were missing, and the Method resolves both without ceremonial theater. The first is execution rhythm: how do you flush stalled gates and move work without inventing artificial two-week cliff edges? The second is planning horizon: how do you lay the next two quarters across a calendar without lying about dates or letting deferred work compound in the dark? Linear provides Cycles and the timeline roadmap on the Free tier. The Method's job is to tell you when to reach for each - and when to leave the switch off.
 
-Cycles are an optional execution-rhythm overlay. The roadmap is a planning horizon. Neither replaces the cadence; both sit on top of it.
+Start from the spine the Method already runs on. Your operating rhythm is cadence: a daily blocker and queue sweep, a weekly project update (P-19), a biweekly initiative update, a monthly operating review (P-21, Chapter 13), and a quarterly horizon review. That cadence is the physical clock of the workspace, and it holds whether or not your team ever enables a cycle. Cycles are an optional execution-rhythm overlay. The roadmap is a multi-quarter planning horizon. Neither replaces the cadence; both bolt onto it.
 
 ### Cadence is the spine; cycles are an overlay
 
-A cycle is Linear's name for a sprint: a fixed time box — usually two weeks — into which the team commits a batch of issues, with a start, an end, a carried-forward set, and a velocity number that accumulates across cycles. Linear makes them nearly free to turn on, which is exactly the risk.
+A cycle is Linear's primitive for a timebox: a fixed window - usually two weeks - into which a team slots a batch of issues, with a start date, a cutoff, an automatic rollover rule, and a throughput curve that accumulates across windows. Linear makes cycles effortless to activate, which is the exact trap. Flipping a switch takes three seconds; cleaning up six months of velocity theater takes a quarter.
 
-The Method's default is cadence-driven, not cycle-driven. The weekly project update (P-19) already tells the team and Leadership what shipped, what is in flight, and what is blocked; the milestones on a project (P-3) already mark the meaningful execution boundaries. For many 3-person teams that is the whole rhythm they need, and a cycle on top of it is a second clock measuring the same time. The overbuild test (P-24) is the filter: a cycle has to help the Operator decide faster or surface risk earlier, or it is ceremony with a burndown chart attached.
+The Method defaults to cadence-driven flow, not cycle-driven batching. Your weekly project update (P-19) already states on the record what shipped with receipts, what sits in flight, and what is wedged; the milestones inside each project (P-3) already mark the hard architectural boundaries where a phase either clears its exit gate or stops the line. For most three-person teams, that is the entire heartbeat required. Bolting a two-week sprint clock on top of weekly project updates and milestone gates just hangs a second watch on the wall measuring the same hours. Run every candidate process change through the overbuild test (P-24): unless a cycle forces the Operator to make a trade-off earlier or exposes a stalled dependency faster than Friday's project update, it is bureaucracy with a burndown chart attached. Leave it off.
 
 ### When to turn cycles on
 
-Turn cycles **on** when the team benefits from a fixed batch and a rollover review. The signals are concrete:
+Turn cycles **on** only when the work and the team genuinely benefit from a fixed timebox and a structured rollover audit. The physical signals are concrete:
 
-- The work decomposes cleanly into two-week chunks.
-- The team wants a heartbeat to commit against rather than an open backlog.
-- The end-of-cycle review — what we committed, what carried over, why — would tell the Operator something the weekly update doesn't.
+- The work decomposes cleanly into deliverable-sized issues (P-4) that clear inside a ten-day window.
+- The team runs primarily on planned build work and wants a fixed commitment boundary rather than pulling continuously from an open project queue.
+- The end-of-cycle rollover audit - comparing what was committed on day one against what spilled over on day fourteen - reveals scoping errors that the weekly update misses.
 
-A team building steadily toward a known scope, where "are we moving fast enough" is a live question, is a team a cycle serves.
+A product team marching through a known specification, where "is our throughput holding steady against the target date" is a live operational question, gets real mileage from a cycle timebox.
 
-Leave cycles **off** when the team runs on continuous flow. The signals are the inverse:
+Leave cycles **off** when the team runs on continuous flow or high-interrupt operations. The signals are the exact inverse:
 
-- The work is interrupt-heavy — ops, support, on-call — and arrives unpredictably.
-- Deliverables refuse to batch into two-week boxes; the plan was always going to bend to the next interrupt.
-- The project update and the milestone already supply the rhythm; a cycle just adds a boundary the work keeps crossing and a rollover pile that means nothing.
+- Work arrives asynchronously from live incidents, customer escalations, infrastructure faults, or adjudication cards that must be acted on the turn they arrive.
+- Deliverables follow dependency waves whose natural boundaries take three days for one slice and nineteen days for the next; forcing them into fourteen-day calendar boxes just manufactures fake splits.
+- Project updates and milestone gates already drive execution; adding a cycle boundary creates a fortnightly rollover pile that everyone ignores.
 
-Continuous-flow teams are driven by project updates and milestones, not by a sprint boundary.
+Continuous-flow teams govern execution by sweeping queues daily and gating progress at project milestones, not by pretending the calendar resets every second Monday.
 
-Two hard warnings. First, **do not turn cycles on before the workflow canon is stable** (Chapter 10). A cycle measures the throughput of your Done column; if Done still means merged rather than validated (P-6), the velocity number just measures the lie faster. Stabilize the nine states (P-10) and the Validation gate first; add the cycle only once Done is trustworthy.
+Obey two hard rules before touching the cycle toggle. First, **never turn cycles on before the workflow canon is locked down** (Chapter 10). A cycle chart measures the rate at which issues cross into your `Done` column; if `Done` still means "a PR merged" rather than "verified running in production with an attached receipt" (P-6), your velocity chart only measures how fast the workspace lies to itself. Lock the nine states (P-10) and enforce the `Validation` gate first; measure throughput only after `Done` is admissible evidence.
 
-Second, **a cycle is not a roadmap**. A cycle is a two-week execution box; a roadmap is a multi-quarter horizon. Teams that run the current cycle board as their plan are showing Leadership two weeks of detail and calling it strategy. The horizon lives in initiatives and the timeline, covered below.
+Second, **a cycle is a timebox, never a mini-waterfall and never a roadmap**. A cycle holds two weeks of tactical execution; a roadmap holds two quarters of strategic sequence. Operators who hand Leadership the current cycle board when asked for a plan are showing fourteen days of ticket shrapnel and calling it strategy. Strategy lives in initiatives and the timeline view.
 
 ### Running a cycle: capacity and the seventy-percent rule
 
-Once cycles are on, the discipline lives at the cycle boundary. Before a cycle starts, the team enters capacity — estimates on the candidate issues, and an honest read of how much each person can take given the days they are actually present. Linear sums the load; the Operator commits the cycle.
+When cycles are enabled, discipline lives at the boundary between windows. Before a cycle opens, the team sizes candidate issues and takes an honest reading of available engineering days on the bench. Linear totals the load; the Operator locks the commitment.
 
-This is where the Method resolves a tension. Principle P-26 says sprint-or-cycle planning commits seventy percent of expected capacity, holding thirty percent for unplanned work. Read literally against a Method whose default has no cycles, P-26 looks like it assumes a ceremony the Method doesn't require. It doesn't. **P-26 is a capacity rule, not a cycle rule.**
+This is where Principle P-26 governs the math. P-26 states that cycle or weekly planning commits at most seventy percent of expected capacity, holding thirty percent in reserve for unplanned interrupts, production regressions, and scope friction. Teams that read P-26 as a Scrum-only rule miss the physics. **P-26 is a queue-theory law, not a sprint ceremony.**
 
-The seventy-percent commitment is where the rule lives when cycles are on, and it is the most important number in cycle planning: a team that commits its full estimated capacity slips every cycle and learns nothing, because the explanation is always "something came up" (P-26). When cycles are off, the same thirty-percent reserve still holds — just at the weekly-commitment level instead of the cycle boundary. The Operator does not load Engineer A and Engineer B to the brim for the week either. Cycles give P-26 a place to be enforced; they are not what makes it true.
+A system loaded to one hundred percent utilization has infinite queue wait times the moment a single variance hits. When a team commits one hundred percent of its estimated hours into a two-week cycle, every cycle slips, rollover becomes ambient noise, and the post-mortem excuse is always "something unexpected came up" (P-26). Something unexpected always comes up; that is what the thirty-percent buffer is paying for. When cycles are off, the exact same seventy-percent ceiling governs the Operator's weekly slice allocation. You do not pack Engineer A and Engineer B to the gills on Monday morning and act surprised when a Wednesday production page blows up Friday's milestone. Cycles simply give P-26 a dated boundary line.
 
-Cycle automations carry the mechanics. Linear can auto-add issues to the current cycle, roll unfinished issues forward to the next one, and run a cooldown between cycles. Let the automations do the moving; the Operator's job is the rollover *review*, not the rollover itself. The review asks one question of every carried-forward issue — why didn't this finish?
+Let Linear's native automations handle the mechanical plumbing: auto-assigning active issues into the current cycle, rolling unfinished issues into the next window at cutoff, and enforcing a cooldown period between cycles. The automation moves the rows; the Operator runs the **rollover audit**. Every issue that spills across a cycle boundary gets interrogated with one question: why did this fail to clear?
 
-- It was bigger than estimated — a scoping miss (P-4).
-- The team was interrupted — the thirty percent was real (P-26).
-- It was never actually started — a prioritization problem the Operator owns (P-13).
+- **Scoping fault:** The issue concealed three deliverables inside one title and violated the two-week sizing ceiling (P-4). Split the corpse before it enters the next window.
+- **Interrupt absorption:** Live operational fire consumed the thirty-percent reserve and ate into committed capacity (P-26). Record the interrupt source so Triage sees the drain.
+- **Priority drift:** The issue sat untouched in `Backlog` or `Todo` for ten days because the Operator loaded higher-priority work sideways without pulling the displaced ticket out (P-13).
 
-The pile is data; the review is where it becomes a decision. The cycle board, meanwhile, is still not the plan you show Leadership — that is the roadmap, which is the rest of this chapter.
+Rollover is telemetry. If an issue rolls over twice without being split, descoped, or killed, your cycle is no longer a timebox; it is a conveyor belt for stale inventory.
+
+### Preventing growing-cost deferrals
+
+The nastiest defect in roadmap and cycle management is the **growing-cost deferral**: a foundational task - a namespace authentication scaffold, a schema migration, a shared test harness - gets kicked out of the current window as "not needed until Wave 3" with no scheduled review trigger. While that deferral sits in the backlog, four downstream features get built on ad-hoc snowflake workarounds. By the time the team pulls the deferred issue back onto the bench, the cost to retrofit the four snowflakes has multiplied fivefold.
+
+A deferral whose cost grows while you wait cannot be tossed into an undated backlog bucket. Whenever the Operator defers an architectural or cross-cutting issue out of a cycle or milestone, the issue must be pinned to a **named target milestone or extraction wave** with an explicit review trigger before the downstream consumers open. If a deferral has flat cost - a cosmetic UI polish or an isolated CLI flag - defer it freely until demand proves it matters. If every week of delay pours concrete over a broken foundation, hoist it into the current wave or bind it to the exact calendar gate that blocks the dependent projects.
 
 ### Roadmaps: the timeline over initiatives and projects
 
-The roadmap answers Leadership's other question — the next two quarters on one page. In Linear it is the timeline view: date-bearing projects laid horizontally on a calendar, swimlaned by initiative.
+Leadership's second question - the next two quarters on one page - is answered by Linear's timeline view: date-bearing projects plotted horizontally across a calendar grid, grouped into swimlanes by parent initiative.
 
-Each project carries a start date and a target date (P-3); each initiative is the durable outcome those projects ladder up to (P-2). The roadmap is the objective layer rendered against time — initiatives as the rows, projects as the bars, the quarter as the horizon.
+Every active project carries a start date and a target completion date (P-3); every parent initiative names the durable quarter-plus outcome those projects must prove (P-2). The roadmap is not a separate slide deck someone draws in Figma on Wednesday night. It is the live objective layer rendered against wall-clock time: initiatives as rows, projects as bars, milestones as diamonds inside the bars, and the two-quarter window as the viewport.
 
-Two things the timeline shows that no board can. First, **sequence across initiatives**: when a project under Platform Reliability has to finish before a project under New Product Bring-Up can start, the dependency is a native blocking relation (a Free primitive) and the timeline draws it as a line between bars. The Operator sees the cross-initiative dependency that a per-team board hides. Second, **horizon honesty**: a project bar that runs past the quarter edge is a visible claim the Operator has to defend, where a board just shows "In Progress" with no end in sight.
+The timeline exposes two structural truths that a kanban board hides:
 
-The roadmap feeds the monthly operating review (Chapter 13). The initiative rollup the Operator presents to Leadership is the same set of bars, compressed to health and trend (P-21). The roadmap is not a separate artifact maintained alongside the reporting stack; it is the visual the reporting stack reads from.
+1. **Cross-initiative dependency chains:** When the `OpenBao AppRole Migration` project under Platform Reliability must clear its exit gate before `Customer SSO Onboarding` under Enterprise Readiness can write a line of code, you wire a native blocking relation between the projects (available on Free). The timeline draws the hard dependency line between the bars. If the upstream bar slips two weeks right, the downstream collision is visible on screen immediately.
+2. **Horizon honesty:** On a column board, a project that has been `In Progress` for four months looks identical to one that started yesterday. On the timeline, a project bar stretching past the end of the quarter is a physical claim the Operator must defend or resize.
+
+The timeline feeds Chapter 13's monthly operating review directly. The initiative rollup table Leadership reads at the end of the month is the exact same set of timeline bars compressed into deterministic Red / Amber / Green health and key-result trend (P-21). One graph, two projections, zero manual slide-drawing.
 
 ### Plan-of-Record vs. What-If
 
-The roadmap is only trustworthy if there is exactly one of it. The discipline is to keep a single committed roadmap — the **Plan-of-Record** — separate from every scenario the Operator wants to explore. The Plan-of-Record is what the team executes against and what Leadership reads (P-27); it changes deliberately, with a reason, never casually because someone dragged a bar in a planning meeting.
+A roadmap only holds authority if there is one canonical ledger. Keep a single committed timeline - the **Plan-of-Record** - strictly isolated from every hypothetical scenario you model. The Plan-of-Record is the contract the engineering floor executes against and the ledger Leadership reads (P-27). Nobody drags a project bar on the Plan-of-Record during a live meeting just to see how the dates look.
 
-What-if planning is real and necessary — what if we pull the integration project forward a month, what if a fifth engineer joins next quarter, what if we drop the compliance work to ship revenue sooner. That work belongs in a scenario kept visibly separate: a duplicated draft timeline, a planning document, a clearly-labeled what-if view — never edits to the committed plan. The moment the team can't tell whether a date is a commitment or a hypothesis, the roadmap stops being something Leadership can trust, and the evidence chain (P-28) breaks at the top: an initiative rollup built on dates nobody actually committed to is theater.
+Scenario modeling is mandatory operator work: testing what happens if you pull an integration forward three weeks, add a third engineer in Q3, or freeze a low-margin initiative to clear a security audit. Run those experiments inside an isolated sandbox - a duplicated draft view, a scratch planning doc, or a temporary filter - never by mutating the live target dates on active projects. The instant engineers and executives cannot tell whether a date on the timeline is a hard commitment or a Tuesday afternoon thought experiment, the evidence chain (P-28) snaps at the top. A rollup built on shifting sand is theater.
 
-One Plan-of-Record; as many what-ifs as you like, all of them clearly not it. Promoting a what-if into the Plan-of-Record is the Operator's call, and it is a commitment (P-13), not a drag-and-drop.
+Maintain one Plan-of-Record; spin up as many throwaway What-If models as the decision requires. Promoting a What-If scenario into the Plan-of-Record is an explicit executive ruling owned by the Operator (P-13), recorded with a changelog note explaining what moved and what got displaced.
 
-> **Augmentation Surface — Capacity and Scenario Modeling**
+> **Augmentation Surface - Capacity and Scenario Modeling**
 >
-> Where an agent layer makes this work better: forecasting a cycle's realistic load from each person's actual availability and historical carry-over before the Operator commits it (P-26); generating what-if timelines on request — pull this project forward, add an engineer next quarter, drop that initiative — as throwaway scenarios that never touch the Plan-of-Record; and watching the committed roadmap for drift, flagging the project whose target date has quietly slipped past its initiative's horizon before the monthly review surfaces it.
+> Where an agent layer makes this work better: computing realistic cycle capacity from historical throughput, active interrupt rates, and calendar availability before the Operator locks the window (P-26); generating isolated What-If schedule projections on command - showing the exact critical-chain impact of pulling a project forward or deferring a scaffold - without mutating a single field on the live Plan-of-Record; and sweeping the committed timeline daily to flag any project whose internal milestone completion rate has diverged from its target date before the monthly review arrives.
 >
-> What the PM keeps: the commit itself — which cycle to start, which what-if becomes the plan, and which slipping date is a real risk to escalate versus a bar to redraw (P-13).
+> What the PM keeps: locking the commitment itself - deciding which work enters the window, which What-If scenario gets ratified as the new Plan-of-Record, and which slipping target date represents an engineering reality to escalate versus scope to cut (P-13).
 
-### Rhythm and horizon, not new bureaucracy
+### The four-speed operating cadence
 
-Put the three together and nothing new is added to the operating model. The cadence is the rhythm the Operator already runs:
+Put cadence, cycles, and roadmaps together and every clock in the workspace has a distinct job. Nothing overlaps; nothing relies on memory:
 
-- **Daily** — clear Blocked and the Operator's own queue.
-- **Weekly** — the project update (P-19).
-- **Biweekly** — the initiative update.
-- **Monthly** — the operating review (P-21).
+| Cadence | Horizon | Primary Surface | What Moves |
+|---|---|---|---|
+| **Daily Sweep** | 24 hours | `Blocked`, `Triage`, & `Waiting on Operator` views | Flush answered questions the turn they arrive; clear new blockers; route fresh intake inside SLA. |
+| **Weekly Pulse** | 7 days | Project Updates (P-19) & 70% capacity allocation (P-26) | Record shipped receipts; audit in-flight milestones; expose blockers >7 days; set next week's top 3 priorities. |
+| **Biweekly / Cycle Boundary** | 14 days | Initiative Updates & Cycle Rollover Audit (if enabled) | Compress project health into initiative trends; interrogate every rolled-over issue (`split`, `interrupt`, or `drift`). |
+| **Monthly / Quarterly Review** | 30-90 days | Monthly Operating Review (P-21) & Timeline Roadmap | Reconcile the Plan-of-Record against delivered outcomes; evaluate deferred scaffolds; make portfolio trade-offs with Leadership. |
 
-The roadmap is the horizon that rhythm reports against — the quarter-plus view the monthly review rolls up to. A cycle, if the team adopts one, is a sub-rhythm that sits *under* the weekly update: a two-week execution heartbeat, not a replacement for it. The Operator still writes the Friday update whether or not a cycle is running; the cycle just gives the team a batch boundary inside the week-by-week flow.
-
-That is the whole relationship. Cadence is rhythm. The roadmap is horizon. Cycles are an optional heartbeat under the rhythm. A team that mistakes any one for another — runs the cycle board as its roadmap, treats the roadmap as a weekly status, or bolts a cycle onto continuous-flow work that doesn't want one — has bought bureaucracy. A team that keeps the three in their lanes has rhythm and horizon for free, on the free tier, and answers Engineer B's sprint question and Leadership's roadmap question from the same operating model it was already running.
+The sixteen-hour stall on 2026-10-01 happened because the Daily Sweep treated summary counters as truth instead of sweeping the open decision queue and pushing rulings into execution the moment they landed. Cadence is the mechanism that forces the workspace to notice its own state. The roadmap is the quarter-plus horizon that cadence measures against. Cycles, when turned on, sit underneath the weekly pulse as a two-week batch boundary. Keep each clock in its lane, and you answer Engineer B's sprint question and Leadership's roadmap question from one unbroken ledger.
 
 > **Where this gets hard**
 >
-> The roadmap Leadership wants and the roadmap the work supports diverge the moment a date becomes a promise to someone outside the team — a customer commitment, a board deadline, a launch already announced. Now the Plan-of-Record is under pressure to show the date Leadership sold, not the date the projects support, and the Operator is asked to drag a bar to make a slide true. Holding the line — committed dates reflect committed work, what-ifs stay labeled — is a credibility fight the Operator rarely has the seniority to win alone.
+> The roadmap Leadership wants on the board slide and the roadmap the critical chain actually supports diverge the instant a date is promised externally - a customer contract deadline, a board commitment, or a launch window announced before engineering sized the dependencies. Now the Plan-of-Record is under executive pressure to reflect the date that was sold rather than the work required to build it, and the Operator is told to drag the project bar left to make the slide green. Holding the ledger line - where committed dates require matched capacity or explicit scope cuts, and wishful dates stay labeled as What-Ifs - is an authority collision that few Operators survive without an external standard to point at.
 >
 > Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
@@ -103,7 +112,7 @@ That is the whole relationship. Cadence is rhythm. The roadmap is horizon. Cycle
   content: pass
   funnel: pass
   chapter-type-extras: n/a (not a tier, doctrine, integration, reporting, or closing chapter)
-  word-count: ~1700
+  word-count: ~2250
   principle-citations: P-2, P-3, P-4, P-6, P-10, P-13, P-19, P-21, P-24, P-26, P-27, P-28
   flagged-principle-gaps: none
 -->

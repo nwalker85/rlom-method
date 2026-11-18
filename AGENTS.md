@@ -1,6 +1,6 @@
-# Agent Guide — rlom-method
+# Agent Guide - rlom-method
 
-This file is authoritative for the `rlom-method` repository. Update it when repository authority, CI, release surfaces, or doctrine boundaries change.
+This file is authoritative for the `rlom-method` repository, **Book I of the Ravenhelm Operations Methodology** (*The Sovereign Engineering Trilogy: RLOM · RDOM · RROM*). Update it when repository authority, CI, release surfaces, or doctrine boundaries change.
 
 ## Source of Truth
 
@@ -20,23 +20,26 @@ This file is authoritative for the `rlom-method` repository. Update it when repo
 ## Authority and Editorial Doctrine
 
 - The manuscript is authoritative. Substantive prose is authored material by Nathan Walker.
-- Agents may fix objective publication defects (broken links, malformed markdown, anchor mismatches, inconsistent paths, deterministic metadata errors).
-- Agents may NOT silently rewrite paragraphs, change arguments, alter doctrine/principles, invent evidence, or change chapter structure.
+- Every chapter obeys the unified voice and mechanical rules in `STYLE-GUIDE.md` and `docs/_shared/CONTEXT.md`: zero prose em-dashes (use `;` or ` - `), crime-scene openers on the workbench, showing the corpse of v1, high-low collision (cathedral math + shop-floor nouns), bench imperatives, and exact numbers from the ledger.
 - Any change to the 29 numbered principles (`P-1`..`P-29`) requires an Architecture Decision Record (ADR) in `docs/architecture/decisions/`.
 - Every chapter conforms to the authoring specification in `docs/_shared/CONTEXT.md` and ends with a `RUBRIC_CHECK` comment block.
 
-## Privacy and Data Boundaries
+## Terminology and Data Boundaries
 
 - No secrets, API keys, credentials, or private keys.
-- No private customer names, customer-specific data, internal hostnames, or confidential employer data.
-- Strict neutralization rules: no internal Ravenhelm Norse system names (Mimir, Heimdall, Bifrost, etc.) or private Valknut doctrine in public prose.
+- No private customer names or confidential employer data.
+- **Zero Myth / Codex vocabulary leakage:** Personal codex terms (*Wyrd Rune*, *Saga's Vow*, *Althing*, *Ráð*, *Four Codices*, *Valknut OKR*, *Jarl*, *Thegn*, *Skald*, *Berserkr*) never appear in operations methodology text.
+- Real running Ravenhelm estate systems (`Bifrost`, `Heimdall`, `Vitki`, `Ullr`/`Yager`, `Idunn`, `Doom`/`Doomcourt`, `EAT`, `Snotra`, `Harbor`, `OpenBao`, `Valkyrie`, `Norns`) and operational lineage receipts (TNI 300-person XMPP floor management, J3B counterintelligence verification) are valid architectural receipts when grounded with their functional role and concrete verification history.
 
 ## Validation & Build
 
 ```bash
 # Validate markdown syntax
-npx markdownlint-cli 'docs/**/*.md' 'README.md' 'CONTRIBUTING.md' 'CHANGELOG.md' --config .markdownlint.yml
+npx markdownlint-cli 'docs/**/*.md' 'README.md' 'CONTRIBUTING.md' 'CHANGELOG.md' 'AGENTS.md' 'SUPPORT.md' --config .markdownlint.yml
 
 # Build single-file compiled edition
 ./scripts/compile.sh > build/rlom.md
+
+# Build Light and Dark PDF editions
+python3 scripts/build-pdf.py
 ```

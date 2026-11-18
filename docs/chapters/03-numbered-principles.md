@@ -1,289 +1,293 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
 <!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
-## Chapter 3 — The Numbered Principles
+## Chapter 3 - The Numbered Principles
 
-You have been on three teams that all used Linear. One ran it like a public to-do list. One ran it like Jira, with seven custom states and a `Type` field nobody filled in. One ran it like a vibes-based Slack channel where Done meant somebody had stopped talking about it. None agreed on what a project was, what Done meant, or which artifact proved the work shipped — and none scaled past a dozen people without burning their PM out.
+On 2026-09-21, two graph-substrate Architecture Decision Records and the second round of the security boundary specification flipped to `Done` in Linear. The fleet supervisor scanned the board, saw green checkboxes on every upstream blocker, and announced that the dependency gate for the next execution wave had cleared. The ruling from the bench took five words: *"not cleared by a long shot."* Merging a Markdown decision record proves that the architect finished typing; it does not prove that a single daemon is compiled, deployed, or listening on a socket. A status field in an issue tracker is a claim authored in the past, never a probe of the live host.
 
-The Method does not solve that by adopting a tool harder. It writes down the decisions the Operator would otherwise re-derive every week and gives them numbers so they can be cited. The numbered principles are the spine — how the Method stays consistent across a 3-person team and a 30-person team, a Free workspace and a Business one, leadership that wants weekly slides and leadership that wants nothing.
+Before we wrote down a numbered law code, our own workspaces failed the same three ways every unmanaged tracker fails. One team ran Linear as a public scratchpad where 200 items sat in `Backlog` until their authors left the company. Another rebuilt Jira inside Linear with 14 custom workflow states and ~160 ad-hoc labels that nobody filtered against. A third ran on chat-room vibes where `Done` meant the PR merged and people stopped talking about it. None of those workspaces survived concurrent execution, and when autonomous coding agents entered the fleet, they treated every unguarded transition as permission to close tickets on a wish.
 
-The most load-bearing principle is **P-6 — Validation separates implemented from trusted**. If you apply one principle Monday, apply that one.
+You do not fix drift by begging people to care more about ticket hygiene. You write down the structural invariants once, number them `P-1` through `P-29`, and enforce them at the gate. If you install only one rule on Monday morning, install **P-6 - Validation separates implemented from trusted**. Everything else hangs off that hinge.
 
 ### How to use the principles
 
-The principles only work if they are *cited*. A principle never named in a PR comment, issue comment, project description, or agent scope brief is dead weight. A principle cited weekly becomes load-bearing — the team learns to argue at the rule, not the case.
+A principle that lives only inside this PDF is dead prose. The numbered code works because engineers, Operators, and autonomous agents cite the exact identifier (`P-#`) at the moment of friction so the team argues against the law, not the person in the chair.
 
-Cite as `P-#` in PR comments ("Holding in Validation per `P-7`"), issue comments ("Splitting — see `P-12`"), project descriptions, agent scope briefs ("Per `P-15`, validation command is `pnpm test:e2e`"), and triage rejections ("docs-only per `P-1`").
+Stamp the code directly into the artifact:
+- In a pull request or issue comment: *"Holding in Validation per `P-7`; attach the staging deploy log before closing."*
+- When splitting an overgrown ticket: *"Five files and eight acceptance bullets; splitting into parent + three sub-issues per `P-12`."*
+- Inside an agent delegation brief: *"Per `P-15`, verification command is `pytest -q tests/integration` and expected receipt is the Harbor `:b<N>` digest."*
+- At the Triage airlock: *"Closing as repository docs-only per `P-1` and `P-5`."*
 
-Cite frequently in the first month — the vocabulary calcifies fast, and once Engineer A writes `P-7` in a PR comment unprompted, the Method has installed itself. At six months, audit: a principle not cited and not visibly violated is either obvious enough to retire or so dormant the workspace is silently violating it.
+Cite them aggressively during month one until the shorthand locks into muscle memory. The day Engineer A holds Engineer B's pull request in `Validation` by typing `P-6` without the Operator in the room, the Method is live. Run a citation sweep every six months: any principle cited zero times is either baked into automated CI guards (`P-25`) or quietly rotting on the floor.
 
-> **Augmentation Surface — Principle Citation Detection**
+> **Augmentation Surface - Principle Citation Detection**
 >
-> Where an agent layer makes this work better: scanning issue and PR comments for `P-#` citations, tallying which are cited, which are dormant, and which appear in violation reports, and surfacing the citation graph as a monthly hygiene signal. The agent also flags completion claims that lack the prescribed evidence — closing without `P-7`'s artifact, or Done without `P-9`'s release evidence.
+> Where an agent layer makes this work better: indexing issue comments, PR review threads, and Triage closures for `P-#` tags, flagging tickets that transition to `Done` without `P-7` delivery receipts or `P-9` production smoke proofs, and handing the Operator a monthly ledger of which principles are actively enforced and which are being bypassed.
 >
-> What the PM keeps: deciding whether a dormant principle should be retired, revived, or rewritten.
+> What the PM keeps: ruling on the violations and deciding whether an bypassed principle needs a hard webhook block (`P-25`) or a local project exception (`P-18`).
 
-The 29 principles fall into ten groups (A–J). The counter-examples are diagnostic: when you see the failure in your workspace, you know which principle was quietly violated.
+The 29 principles divide into ten operational groups (A through J). Every counter-example below is a diagnostic scar: when you spot that symptom on your board, the heading above it tells you which wire came loose.
 
-### Group A — The work graph (the shape)
+### Group A - The work graph (the shape)
 
 #### P-1. Linear is the active work graph, not an archive.
 
-**Rule.** Content that does not represent active or imminent execution belongs in a wiki, a `docs/` directory, or a project document — not in Linear.
+**Rule.** Content that does not represent active or imminent execution belongs in a wiki, a repository `docs/` directory, or a project document - never in an open Linear issue.
 
-**Rationale.** Linear is optimized for things that move. Static reference material corrodes the work graph by inflating lists, polluting search, and lowering signal; once a workspace tolerates archival content, every triage decision gets harder.
+**Rationale.** An issue tracker is an execution engine built for state transitions. Dumping reference tables, wishlists, and historical notes into `Backlog` clogs search indices, slows down Monday triage, and trains the squad to ignore high ticket counts. Keep only moving parts on the board.
 
-**Counter-example.** The Operator creates an "Onboarding checklist" issue with sixty items; it sits in Backlog nine months until archived, while three new hires print it from the team wiki.
+**Counter-example.** An Operator files a 60-checkbox "New Hire Onboarding Guide" as a Backlog issue; it sits untouched for nine months while three new engineers read the actual onboarding doc out of the wiki.
 
 #### P-2. Initiatives are the objective layer.
 
-**Rule.** Initiatives express durable outcomes that roll up projects, with no deadline tighter than a quarter.
+**Rule.** Initiatives express durable, quarter-or-longer strategic outcomes that aggregate projects and carry no deadline tighter than a single quarter.
 
-**Rationale.** Projects ship and end; initiatives express the *why* that persists across multiple projects. Tying objectives to projects forces re-derivation every quarter; tying them to initiatives gives Leadership stable headings to recognize across reviews.
+**Rationale.** Projects finish and close; initiatives hold the durable *why* across multiple project lifecycles. Anchoring objectives at the initiative layer prevents the team from inventing a brand-new strategic vocabulary every ninety days and gives leadership a stable ledger across quarterly reviews.
 
-**Counter-example.** A team without an initiative layer rewrites OKRs from scratch each quarter; Leadership reads four framings of the same goal across four quarters and concludes the team has no strategy.
+**Counter-example.** A team runs projects with no parent initiatives and rewrites its quarterly goals from scratch four times a year; leadership reads four incompatible slide decks and concludes the engineering org has no spine.
 
 #### P-3. Projects are the main execution container.
 
-**Rule.** Issues belong to projects; a project answers what is being built, by when, by whom, with what milestones, and blocked by what — active work without a project is a smell.
+**Rule.** Every active issue belongs to a bounded project that names what is being built, by when, by whom, across which milestones, and blocked by what; active work outside a project is an immediate defect.
 
-**Rationale.** The project is the unit of accountability — where updates accrue, milestones gate progress, and Leadership reads health. An issue outside a project has no parent narrative and cannot be rolled up.
+**Rationale.** The project is the unit of delivery custody where weekly status updates (`P-19`), milestone gates, and dependency edges live. Orphan issues floating outside a project disappear from leadership rollups and bleed engineering hours in the dark.
 
-**Counter-example.** Engineer B on the 3-person team opens fifteen issues for "infrastructure cleanup" without a project; the monthly review shows zero progress because no status update captured any of it.
+**Counter-example.** Engineer B opens 15 standalone tickets for "database index cleanup" with no parent project; two weeks of deep work vanish from the Friday executive rollup because no project ledger existed to record them.
 
 #### P-4. Issues are deliverable-sized.
 
-**Rule.** An issue has a single outcome, defined scope, exit criteria, and one owner; an issue that takes more than two weeks to verify should be split.
+**Rule.** An issue has a single verifiable outcome, bounded scope, explicit exit criteria, and one human owner; any issue that takes more than two weeks to verify must be split.
 
-**Rationale.** Issues are the smallest unit the Operator and Leadership both reason about. Past two weeks they stop being deliverables and become workstreams — and workstreams are projects, with their own machinery.
+**Rationale.** Issues are the atomic execution unit of the work graph. Once a ticket stretches past ten working days, it stops acting like a deliverable and becomes an unmonitored project without milestones. Keep the unit small.
 
-**Counter-example.** A "Migrate the auth service" issue stays open three months; no update can say "60% done" because nothing in the work graph represents the 60%.
+**Counter-example.** A single issue titled `Migrate authentication service` stays in `In Progress` for eleven weeks; every Monday standup reports "about 60% done" while four unmapped blockers hide inside the diff.
 
 #### P-5. Documentation owns deep context.
 
-**Rule.** ADRs, design docs, runbooks, and decision narratives live outside Linear, and Linear issues link to them rather than embed them.
+**Rule.** Architecture Decision Records (ADRs), system specifications, runbooks, and post-mortem narratives live in version-controlled docs or the wiki; Linear issues link to them rather than embedding them.
 
-**Rationale.** Linear's issue descriptions are not version-controlled, diffable, or discoverable from outside the workspace. Long-form context written into an issue rots and cannot be cited by anyone without the URL.
+**Rationale.** Issue bodies are ephemeral work orders, not a durable knowledge base. Once an issue closes and archives, five-page architectural arguments buried in its description or comment thread become unreviewable and unsearchable from the codebase.
 
-**Counter-example.** Six months after launch the team cannot reconstruct why a service was built on Postgres instead of DynamoDB; the rationale lived in an issue description archived when the project closed.
+**Counter-example.** Six months after shipping a billing service, nobody can remember why the state machine uses Postgres advisory locks instead of Redis; the ADR was typed straight into a closed ticket that nobody linked from the repo.
 
-### Group B — Evidence and validation
+### Group B - Evidence and validation
 
 #### P-6. Validation separates implemented from trusted.
 
-**Rule.** Code that is merged is *implemented*; code that has passed runtime, browser, release, infrastructure, or human-acceptance evidence is *trusted* — only trusted code becomes Done.
+**Rule.** Code that merges to `main` is merely *implemented*; code proven working via runtime probes, browser verification, release digests, or human acceptance receipts is *trusted* - and only trusted work enters `Done`.
 
-**Rationale.** The single most load-bearing principle in the Method. Without it, the workspace collapses into a binary — merged or not — and every other principle is reduced to ceremony. Validation is where the Operator catches the gap between "the diff landed" and "the thing works in front of a user"; it is where production incidents are prevented and browser regressions get caught before Leadership notices. Teams that skip Validation discover within a quarter that their Done column is a lie. Validation costs throughput on the leaderboard and buys credibility everywhere else — that trade is the entire game.
+**Rationale.** This is the master weld of the entire Method. Without an explicit `Validation` state between `In Review` and `Done`, a workspace collapses into the lie that `Merged == Built == Running`. On 2026-09-13, three merged pull requests were reported as finished tools while the live dashboard masthead sat un-redeployed and a chat hotfix went completely unverified. On 2026-09-09, a forensic sweep caught ten merged features with 73 passing unit tests and zero live runtime callers. Validation forces every deliverable to stop on the bench until live proof arrives. Trade fake velocity for real trust.
 
-**Counter-example.** Engineer A on the 3-person team merges a PR that "fixes the upload bug" and moves it straight to Done; at the weekly review Leadership asks if it was tested on Safari, the issue reopens Monday, and the team starts to fear status meetings.
+**Counter-example.** An autonomous worker slice merges a pull request fixing a multipart upload crash and auto-closes the ticket to `Done`; the container build silently fails on a missing dependency, and customers hit the exact same crash on Monday morning.
 
 #### P-7. Evidence beats assertion.
 
-**Rule.** Every claim of completion must point to an artifact — merged PR URL, deploy log, screenshot, document, or acceptance comment from someone other than the assignee.
+**Rule.** Every transition to `Done` must attach a concrete verification receipt on the issue: a merged PR link plus CI run, a container `:b<N>` digest, a live curl/probe readout, a screenshot, or a sign-off comment from a reviewer other than the author.
 
-**Rationale.** "I closed it" is not evidence. Once the team accepts the artifact discipline, Validation becomes self-enforcing — empty Done is Done that will be reopened.
+**Rationale.** Typing "fixed and tested" in a closing comment is an unverified claim, not a receipt. When the workspace requires a physical artifact on every closure, empty `Done` transitions expose themselves instantly during the daily sweep.
 
-**Counter-example.** Engineer A on the 3-person team closes seventeen issues Friday with no PR links; Monday the Operator cannot tell which shipped, and forensics confirms two did not.
+**Counter-example.** An engineer bulk-closes 17 tickets at 4:45 p.m. on Friday with zero attached links; Monday's audit reveals two of the branches were never even pushed to the remote forge.
 
 #### P-8. The code host proves implementation.
 
-**Rule.** Merge state, CI results, deploy logs, and runtime evidence live in the code host (GitHub, or the GitLab equivalent) — Linear links to them rather than duplicating them.
+**Rule.** Pull request state, CI pipeline runs, container build digests, and deployment logs originate from the code host (GitHub, GitLab, or Forgejo) and attach to Linear by webhook or link rather than manual human entry.
 
-**Rationale.** Two sources of truth for implementation status drift instantly. Linear's role is to reference what the code host says, not re-state it — re-statement is where lies enter (the issue says shipped, the deploy log says rolled back).
+**Rationale.** The moment a human has to copy-paste build status between the forge and the tracker, the two ledgers drift. Let the forge write the implementation record; let Linear index the pointer.
 
-**Counter-example.** An Operator marks ten issues "deployed" from a Friday status meeting; the deploy rolled back overnight, but Linear still says shipped Monday when Leadership reads the update.
+**Counter-example.** An Operator marks 10 issues `Done` during a Friday review based on verbal standup reports; an automated rollback reverts the release twenty minutes later while Linear reports green all weekend.
 
 #### P-9. Production work does not go Done before release evidence.
 
-**Rule.** For customer-shipping issues, the Validation → Done transition requires release evidence — runtime smoke plus browser proof, or a deploy log plus an acceptance comment.
+**Rule.** Any issue tagged `release:production` cannot move from `Validation` to `Done` until post-deploy production verification - a live health probe, synthetic check, or browser receipt - is attached to the ticket.
 
-**Rationale.** Production-specific corollary of `P-6`. Internal-tool blast radius is the team; customer-facing blast radius is the brand, so the evidence bar is higher.
+**Rationale.** Internal tooling bugs annoy your teammates; production defects burn customer trust and revenue. Production work pays a stricter cryptographic and operational toll at the gate.
 
-**Counter-example.** The team marks a customer-facing pricing change Done when the PR merges; three hours later a customer reports the price is wrong because nobody loaded the page after deploy.
+**Counter-example.** A squad merges a checkout pricing change and closes the ticket on CI green; the production CDN serves cached stale bundles for four hours because nobody verified the live origin after rollout.
 
-### Group C — Workflow canon
+### Group C - Workflow canon
 
 #### P-10. The workflow canon is nine states.
 
-**Rule.** The Method's workflow is exactly nine states — Triage, Backlog, Ready, In Progress, In Review, Validation, Blocked, Done, Canceled — and adding states is a smell.
+**Rule.** Every team runs the exact nine-state workflow canon - `Triage`, `Backlog`, `Ready`, `In Progress`, `In Review`, `Validation`, `Blocked`, `Done`, `Canceled` - and inventing a tenth state is a structural violation.
 
-**Rationale.** Every additional state is a decision the Operator makes on every issue, every day. The 9-state canon is the smallest set that preserves the Validation distinction (`P-6`), the queue (Backlog vs Ready), and the obstruction (Blocked); workspaces with thirteen states are workspaces where the Operator has stopped reading the column.
+**Rationale.** Every state added to the board multiplies the routing decisions an Operator makes every morning. Our v1 workspace drifted to 14 states (`Pending QA`, `Awaiting Deploy`, `Hold`, `Soft Launch`, `Doc Review`), and engineers simply stopped updating columns because the state machine was a maze. Nine states cover the entire physics of delivery: intake (`Triage`), queue (`Backlog`, `Ready`), execution (`In Progress`, `In Review`), verification (`Validation`), stall (`Blocked`), and terminal (`Done`, `Canceled`). Lock the nine.
 
-**Counter-example.** A workspace adds "In QA," "Pending Approval," "Soft Launch," and "Awaiting Release" over six months; no two engineers agree on In Review, and Validation sits empty because work routes around it.
+**Counter-example.** A team adds `In QA`, `Pending Product Sign-off`, and `Staged for Tuesday` as workflow columns; cycle-time metrics fracture across teams and `Validation` sits empty because nobody knows which column comes first.
 
 #### P-11. Stage labels carry the things that look like states but aren't.
 
-**Rule.** "In QA," "Pending Approval," "Design Review," and similar are not workflow states — they are `stage:*` labels applied during In Progress, In Review, or Validation.
+**Rule.** Sub-phases such as `stage:design`, `stage:qa`, `stage:uat`, or `stage:soft-launch` are implemented as namespaced `stage:*` labels inside `In Progress`, `In Review`, or `Validation`, never as workflow columns.
 
-**Rationale.** Sub-stages matter for filtering; the answer is a label, not a state. Labels can be added without breaking the workflow contract, view-filtered without breaking analytics, and team-specific without fragmenting the workspace.
+**Rationale.** Teams often need a way to filter work sitting in user acceptance testing or security review without shattering the nine-state state machine (`P-10`). Namespaced labels give views exact filter precision while keeping workspace-wide cycle analytics intact.
 
-**Counter-example.** A team adds "In Design Review" as a state, then has to redefine cycle-time analytics, retrain every Insights view, and write a migration script — a `stage:design-review` label would have done the same in five minutes.
+**Counter-example.** A squad creates a dedicated `Security Review` state for one compliance quarter, breaking four shared views and corrupting the organization's Insights burn-up chart for the rest of the year.
 
 #### P-12. Prefer parent issues with sub-issues over giant single issues.
 
-**Rule.** If acceptance criteria exceed five items, or implementation spans more than two files or two days, split into a parent issue with sub-issues.
+**Rule.** Whenever acceptance criteria exceed five bullets, or implementation crosses more than two days or two distinct subsystems, split the work into a parent issue with atomic sub-issues.
 
-**Rationale.** Giant issues defeat estimation, parallelization, and the evidence chain. A parent-and-children structure preserves the narrative while making each unit independently reviewable, assignable, and verifiable.
+**Rationale.** Monolithic tickets hide blockers, prevent parallel dispatch across engineers or agent slices, and force all-or-nothing validation. Sub-issues let three verified diffs clear `Done` while the fourth sits honestly in `Blocked`.
 
-**Counter-example.** Engineer B on the 3-person team takes a single issue titled "Implement billing v2"; three weeks later the Operator cannot answer "what's left?" because nine acceptance criteria are not discrete units.
+**Counter-example.** Engineer B picks up a single issue titled `Build Billing v2 Webhook Engine` with 11 acceptance bullets; three weeks in, eight bullets work in staging and three are wedged on a vendor API, leaving the whole ticket stuck at 0% shipped.
 
-### Group D — The Operator
+### Group D - The Operator
 
 #### P-13. The Operator owns priority, taste, risk, and real-world commitments.
 
-**Rule.** Priority, taste, risk judgment, and real-world commitments do not delegate — an agent or an Engineer can propose, surface, or draft them, but the Operator decides.
+**Rule.** Priority ordering, product taste, blast-radius acceptance, and external calendar commitments belong exclusively to the human Operator; agents and engineers may propose, rank, and draft, but only the Operator ratifies.
 
-**Rationale.** These four are where being wrong costs trust, money, or outside relationships. An agent can *surface* a drift or *draft* a commitment, but the moment those decisions happen without the Operator's acknowledgment, the team loses the human accountability that makes the structure legible upward.
+**Rationale.** You cannot hold a Python script or an LLM session accountable when a customer renewal craters or a security exception blows up production. Tools deliver evidence; a named human clicks the accept or reject button.
 
-**Counter-example.** The Operator on the 3-person team lets an agent auto-promote issues from Low to Urgent on customer-mention frequency; by Friday Engineer A has been reassigned to four "urgent" tickets nobody committed to, and a leadership-promised demo slips two days.
+**Counter-example.** An Operator wires a script to auto-promote any ticket mentioned three times in support chat to `Urgent`; by Thursday the engineering squad has dropped a committed security milestone to chase four loud cosmetic requests.
 
 #### P-14. Agents are executors, not owners.
 
-**Rule.** Specialist agents can be delegated work, but human ownership stays explicit on every issue via the assignee field — even when a `delegate` field is set to a bot.
+**Rule.** Autonomous coding and triage agents execute bounded tasks via the `delegate` field or `agent:*` labels, while the `assignee` field on every issue remains a named human engineer or Operator.
 
-**Rationale.** The assignee is the throat to choke; setting the assignee to a bot makes the issue ownerless in any meaningful human sense. The split — assignee=human, delegate=bot — keeps agent productivity while preserving accountability. As agents move from drafting comments to running coding sessions that open pull requests, the delegate can now change the codebase directly — which raises the cost of an ownerless issue, not lowers it. The human assignee owns what the agent ships.
+**Rationale.** Accountability requires a human throat to choke. When a bot user sits in the `assignee` slot, a broken migration or hallucinated test suite belongs to nobody. Pairing a human `assignee` with an agent `delegate` unlocks parallel agent throughput while keeping human custody unbroken.
 
-**Counter-example.** A workspace assigns issues to an AI bot user; six weeks later the bot has "owned" thirty issues, two regressed silently, with no human to ask why.
+**Counter-example.** A workspace assigns 30 backlog bugs directly to a bot user account; two fixes introduce silent data truncation in production, and the post-mortem stalls because no human engineer ever owned the review gate.
 
 #### P-15. Agent delegation requires acceptance criteria and a validation command.
 
-**Rule.** Setting a delegate on an issue requires a scope comment naming outcome, scope, validation command(s), expected artifact, and repo or file paths.
+**Rule.** Before dispatching an issue to an autonomous agent, the issue or delegation comment must explicitly record the target outcome, file/repo scope, exact executable validation command, and required delivery artifact.
 
-**Rationale.** Agents fail on under-specified inputs in ways that look superficially fine. Without a validation command, the Operator can only audit by reading the diff line by line — exactly the work delegation was supposed to save. This is sharper for coding-session agents that open pull requests: the validation command is the acceptance test the Operator runs instead of re-reading generated code.
+**Rationale.** Humans ask when a ticket is vague; agents guess and keep typing. Giving an agent a prose wish without a deterministic verification command forces the human reviewer to audit every generated line by hand, erasing the time saved by delegation. Hand the agent the test harness up front.
 
-**Counter-example.** The Operator delegates "fix the flaky tests" with no validation command; the agent disables three of them, and the Operator does not notice until a regression ships two weeks later.
+**Counter-example.** An Operator delegates *"fix the flaky auth tests"* to a coding agent without a validation command; the agent deletes the three failing assertions, commits `green`, and opens a pull request that passes CI by testing nothing.
 
-### Group E — The operating surface
+### Group E - The operating surface
 
 #### P-16. Labels exist to serve views.
 
-**Rule.** A label not cited by any view is a candidate for deletion — labels are an index, not an organizational scheme.
+**Rule.** Every label in the workspace must be referenced by at least one active saved view; any label cited by zero views is scheduled for immediate deletion.
 
-**Rationale.** Every label is a small tax on every issue creation. The "serves views" test keeps the namespace lean and the Operator's filter vocabulary small enough to remember.
+**Rationale.** Unindexed labels are pure tax. In our v1 post-mortem, ~160 labels had accumulated across the workspace - including four competing spellings of `bug` - while fewer than 25 powered a real filter. Treating labels strictly as view indices keeps the namespace tight enough to hold in working memory.
 
-**Counter-example.** A workspace has 240 labels; an audit finds 180 referenced by zero views, created during a single project four quarters ago.
+**Counter-example.** An audit of a one-year-old workspace turns up 240 labels, 185 of which are attached to one or two ancient tickets and referenced by zero saved views.
 
 #### P-17. Templates lower the cost of doing the right thing.
 
-**Rule.** Every recurring work type — bug, feature, research spike, production incident, agent delegation — gets an issue template.
+**Rule.** Every recurring work class - Feature, Bug, Research Spike, Production Incident, Standard Project, and Agent Delegation - runs off a pre-wired Linear template.
 
-**Rationale.** A blank issue invites skipping the structure. A templated issue nudges the creator toward the format the Operator and the validation gate both expect, encoding the Method without anyone having to remember it.
+**Rationale.** Never price the oversight path above the unsafe one. An actor under deadline pressure follows the lowest-friction path in the UI; if filing a structured bug takes ten minutes of typing headings from memory and filing a blank one-liner takes four seconds, you will get blank one-liners. Templates make compliance the cheapest click on the screen.
 
-**Counter-example.** The team has no production-incident template; the next outage is recorded as a free-form issue with no severity, no commander, no runtime-evidence link, and the post-mortem takes three times as long.
+**Counter-example.** A team runs without an incident template; when production goes dark at 2 a.m., the responder opens a blank ticket titled `DB down` with no blast radius, no timeline, and no rollback receipt link.
 
 #### P-18. Locality wins.
 
-**Rule.** Closer-to-the-work guidance is more authoritative — a repo-level convention overrides workspace defaults for that repo, a project description overrides workspace defaults for that project, and an issue's acceptance criteria override project defaults for that issue.
+**Rule.** Closer-to-the-metal instructions override broader defaults: an issue's explicit exit criteria override its parent project's defaults, and a repository's `AGENTS.md` or project spec overrides workspace-wide baseline templates.
 
-**Rationale.** Global rules are baselines and are wrong in any sufficiently specific context. Locality lets the Method scale across many projects without forcing every project into the same shape — the auth repo can be stricter than the workspace default, and a one-off migration can override the project's normal Done.
+**Rationale.** Global policy must be light enough to fit every repo, while high-risk subsystems (cryptography, billing, kernel drivers) need strict verification gates. Locality lets a workspace stay uniform at the top without handcuffing specialized engineering at the bottom.
 
-**Counter-example.** A workspace globally mandates "every PR must include a benchmark"; a one-line CSS bugfix sits open three days because the engineer is inventing a benchmark for a color change.
+**Counter-example.** A workspace enforces a blanket rule requiring browser screenshot proof on every ticket; a CLI systems engineer wastes twenty minutes taking terminal screenshots of a pure Rust daemon refactor to satisfy a web-app rule.
 
-### Group F — Cadence
+### Group F - Cadence
 
 #### P-19. Active projects get a status update every week.
 
-**Rule.** A project with no update for seven days surfaces in a stale-projects view; the cadence is non-negotiable, though the format compresses when there's nothing to say.
+**Rule.** Every project in `Active` status receives a written status update every seven days without exception; any active project crossing day eight without an update triggers the `Projects Without Recent Updates` alarm view.
 
-**Rationale.** Project updates are the rolling truth-telling that prevents the monthly review from becoming a surprise. The compressible format ("Still in progress, no risks") is the release valve.
+**Rationale.** A workspace where 0 of 45 active projects have health set is flying blind into terrain. Weekly updates force truth onto the ledger before a two-day slip quietly compounds into a missed quarter. When nothing moved all week, write *"Zero movement; blocked on `RAV-412`"* in ten seconds and post it. The clock never skips.
 
-**Counter-example.** A project goes four weeks without an update during a steady stretch; in week five it goes At Risk and Leadership is blindsided because the last status they have is from a month ago.
+**Counter-example.** A core migration project skips updates for four quiet weeks while the lead battles a schema bug; in week five the target date blows past and leadership learns for the first time that the quarter's flagship goal is dead.
 
 #### P-20. Triage has a seven-day SLA.
 
-**Rule.** By day seven, an item in Triage is classified — accepted, merged, canceled, converted to a customer request, escalated to the Operator, or moved to docs-only.
+**Rule.** Every item entering `Triage` must be classified within seven calendar days: routed into an active or planned project, merged as a duplicate, linked to a Customer Request, evicted to docs (`P-1`), or canceled.
 
-**Rationale.** Triage is a queue, not a holding pen. Items that sit there become the workspace's unread inbox; the seven-day clock forces a decision even if it's "this is documentation."
+**Rationale.** Triage is an airlock, not a warehouse. Once Triage aging crosses seven days, engineers lose faith that filed bugs are read, and critical production defects drown under stale feature wishes. Flush the airlock weekly.
 
-**Counter-example.** Triage swells to ninety items over a quarter; the Operator stops opening it, and a P0 customer report sits nine days before anyone notices.
+**Counter-example.** An unmonitored Slack-to-Triage pipe dumps 90 items into the queue over two months; the Operator stops opening the tab, and a customer data-corruption report sits unread for eleven days.
 
 #### P-21. Initiative updates run biweekly; the monthly review rolls initiatives up to Leadership.
 
-**Rule.** Project updates feed initiative updates; initiative updates feed the monthly review; each layer compresses the one below it, and Leadership consumes the top of the stack.
+**Rule.** Weekly project updates (`P-19`) compress into biweekly initiative updates, and biweekly initiative updates compress into the monthly executive operating review.
 
-**Rationale.** The cadence pyramid is the Method's reporting structure. Weekly suits the team; biweekly compresses enough to write without re-doing work; monthly fits an executive audience.
+**Rationale.** Each altitude of the organization runs at its natural clock frequency: squads execute on a weekly beat, multi-project initiatives shift on a two-week horizon, and capital allocation happens monthly. Stacking the cadences turns each report into a fast synthesis of the layer directly beneath it.
 
-**Counter-example.** A team writes weekly updates but never compresses them; Leadership receives forty-seven raw updates in a month and either reads none or reads them all badly.
+**Counter-example.** An Operator forwards 42 raw weekly project updates straight to the executive team every month; nobody reads the wall of text, and the CEO still asks *"are we on track?"* in the hallway.
 
-### Group G — Intake and feedback
+### Group G - Intake and feedback
 
 #### P-22. Customer feedback does not directly become scope.
 
-**Rule.** A customer request is captured and triaged; conversion to a project or issue is an Operator decision (or, once trust is established, an agent-layer decision routed through a Waiting-on-Operator view).
+**Rule.** Customer requests, support escalations, and sales asks land as `Customer Request` links or `Triage` signals first; promoting them into a scheduled project or issue requires an explicit Operator decision (`P-13`).
 
-**Rationale.** Customer feedback is signal, not commitment. Direct conversion is how roadmaps get hijacked by the loudest customer; Triage is where the Operator weighs the request and accepts, parks, or declines.
+**Rationale.** Customer pain is high-value diagnostic signal, not a signed engineering work order. Letting external requests inject tickets straight into `Ready` hands your roadmap to whichever account yelled last on a Friday afternoon.
 
-**Counter-example.** The team installs a feedback widget that opens issues directly into Backlog; six weeks later the backlog is half customer suggestions and the Operator has stopped reading it.
+**Counter-example.** A customer-facing form creates `Backlog` issues directly on submission; within six weeks, half the engineering board consists of contradictory single-tenant feature tweaks and core platform work stalls out.
 
 #### P-23. The system of record is Linear.
 
-**Rule.** Two-way sync with external trackers is debt — webhooks in are fine, but bidirectional sync is not.
+**Rule.** Linear is the single authoritative work graph; inbound webhooks from code hosts, alerting pipes, and chat are encouraged, but bidirectional state sync with a second issue tracker is forbidden.
 
-**Rationale.** Every two-way sync has drift: updates that did not propagate, statuses that overwrote deliberate edits, deletions that left orphans. Single-source-of-truth is harder upfront, dramatically easier downstream.
+**Rationale.** Two-way synchronization between two mutable state machines guarantees split-brain corruption. Sooner or later a webhook drops, a status mapping collides, and an Operator spends four hours on Friday reconciling why Ticket #402 is `Closed` in Jira and `Blocked` in Linear. Pick one ledger.
 
-**Counter-example.** A team installs bidirectional sync between Linear and another ticket system; three months in, the Operator spends a Friday figuring out why an issue is Done in one and Open in the other, and concludes neither can be trusted.
+**Counter-example.** A team bridges Linear and a legacy tracker with a two-way sync bot; a status rename triggers an infinite webhook loop that overwrites 300 issue timestamps and locks out the API key.
 
-### Group H — System hygiene
+### Group H - System hygiene
 
 #### P-24. The overbuild test.
 
-**Rule.** Before adopting any new feature, label, view, or template, answer five yes/no questions: does it help the Operator decide faster, does it help an executor execute faster, does it preserve evidence we'd otherwise lose, does it reduce repeated PM work, does it make risk visible earlier — four or more yes, adopt; three or fewer, skip.
+**Rule.** Before adding any new label, saved view, template, or automation rule, test it against five binary questions: (1) Does it help the Operator decide faster? (2) Does it help an executor ship faster? (3) Does it preserve delivery evidence we would otherwise drop? (4) Does it eliminate repeated manual PM toil? (5) Does it surface blast-radius risk earlier? Four or five `yes` answers: install it. Three or fewer: kill it.
 
-**Rationale.** Workspace bloat is the failure mode of every PM who likes their tool. The five questions force the Operator to articulate what the new thing buys.
+**Rationale.** Tooling bloat arrives one well-intentioned tweak at a time. The five-question gate stops a curious Operator from turning a fast workbench into a museum of unused views.
 
-**Counter-example.** The Operator on the 3-person team adds a view "Issues Tagged Frontend" because it seemed useful; six months later it has been opened twice and nobody remembers it.
+**Counter-example.** Someone creates a custom view filtering on `domain:frontend` + `estimate <= 2` + `created > 14d ago` for a one-off sprint retro; a year later 19 similar zombie views clutter the sidebar and new hires cannot find `Operator's Now`.
 
 #### P-25. Verify what you enforce.
 
-**Rule.** Don't enforce a convention you can't check programmatically.
+**Rule.** Never declare a mandatory workflow convention unless a saved view, CI script, or webhook check verifies compliance automatically.
 
-**Rationale.** Manual enforcement scales to one person on one day; programmatic enforcement scales to every PR and every issue without the Operator being the bad cop. If the rule cannot be automated, find a cheaper enforcement point or accept the rule will erode.
+**Rationale.** Any rule policed solely by human memory and manual nagging decays to zero inside thirty days. If a rule matters enough to mandate - branch naming, PR issue references, weekly project updates - wire a deterministic check in CI or a shared exception view in Linear (`Projects Without Recent Updates`, `Needs Validation`). Enforce by mechanism, not sermon.
 
-**Counter-example.** A workspace adopts "every commit message must include the Linear issue ID"; with no pre-commit hook, compliance drifts from 80% in month one to 30% by month four, and the dependent integration rots.
+**Counter-example.** A team writes in a wiki page that every pull request title must cite a Linear issue ID, but installs no CI guard; compliance drops from 85% in week one to 22% in week eight, severing the `P-8` evidence chain.
 
 #### P-26. Capacity commits to seventy percent.
 
-**Rule.** Sprint or cycle planning commits seventy percent of expected capacity; the remaining thirty percent is reserved for unplanned work. Cycles are optional in the Method (Chapter 11); the seventy-percent rule applies to whatever planning horizon the team commits against, whether a cycle, a milestone, or a week.
+**Rule.** Weekly, cycle, or milestone commitments allocate at most 70% of measured engineering capacity to planned project issues, holding a hard 30% buffer for Triage intake, production incidents, and validation rework.
 
-**Rationale.** Unplanned work is recurring, not a special case. Teams that commit to 100% slip every cycle and learn nothing because the explanation is always "something came up"; teams at 70% finish on time and surface real overcapacity when they finish early.
+**Rationale.** A factory floor booked to 100% theoretical utilization enters queuing collapse the moment a single unexpected defect arrives. Booking to 70% absorbs routine operational turbulence without blowing every target date, and if the week runs quiet, pulling the next `Ready` ticket takes three seconds.
 
-**Counter-example.** Engineer A and Engineer B each commit to ten points; an incident takes a day and an urgent customer call takes a half-day, and by Friday both have shipped six and the Operator apologizes to Leadership for the third week running.
+**Counter-example.** Engineer A and Engineer B book 100% of their 40-hour week to feature tickets; a Tuesday certificate expiration and a Wednesday customer escalation eat twelve hours, causing three committed deliverables to miss Friday's release gate.
 
-### Group I — Reporting
+### Group I - Reporting
 
 #### P-27. Leadership consumes summaries, not raw Linear.
 
-**Rule.** Leadership reads project updates and initiative health — they do not browse the workspace.
+**Rule.** Executive stakeholders read structured weekly project updates, biweekly initiative rollups, and the monthly operating review; they do not self-serve by browsing raw issue boards.
 
-**Rationale.** Raw Linear is an engineering surface. Leadership reads it the way an executive reads a database schema: technically possible, practically wrong. The Operator's translation is the value-add.
+**Rationale.** Raw issue trackers hold half-triaged bug reports, mid-flight debugging notes, and granular sub-issues that look like chaos to an infrequent visitor. A good summary is a disciplined compression that separates raw measurement from operational conclusion and ends with an explicit decision table.
 
-**Counter-example.** The Leadership Team on the 3-person team asks for "real-time visibility" and gets a board link; they log in once, find it overwhelming, and at the next standup ask the Operator a question any project update would have answered — but the Operator stopped writing them because Leadership "had the board now."
+**Counter-example.** Instead of writing a Friday summary, an Operator sends the VP of Engineering a link to the raw team board; the VP spots an unrefined `Triage` spike, misreads it as an unapproved roadmap pivot, and calls an emergency Monday alignment meeting.
 
 #### P-28. The evidence chain holds.
 
-**Rule.** Initiative health rolls up from project updates, project updates roll up from issue evidence, and issue evidence rolls up from the code host — break any link and the chain collapses into theater.
+**Rule.** Monthly executive reports trace directly to biweekly initiative updates, which trace to weekly project updates, which trace to validated Linear issues, which trace to immutable code-host PRs, CI runs, and release digests.
 
-**Rationale.** Every rollup is only as honest as the layer underneath. Initiative health that ignores project updates is a vibe; project updates that ignore issue evidence are a guess; issue evidence that ignores the code host is a story. With the chain intact, the monthly review is defensible all the way to the merge commit.
+**Rationale.** A green status indicator at the top of the house is worthless if any link beneath it is fabricated. When every layer cites the receipt from the layer below (`P-6`, `P-7`, `P-8`, `P-19`, `P-21`), an executive can point to any line in the monthly review and walk straight down to the exact commit SHA and deployment log in thirty seconds.
 
-**Counter-example.** A monthly initiative report says On Track; project updates have not been written in three weeks, issues have no evidence links, and the Operator cannot trace a single claim to an artifact.
+**Counter-example.** An initiative dashboard reports `Green / On Track` for the quarter while two child projects have missed three consecutive weekly updates and four "completed" issues point to reverted pull requests.
 
-### Group J — Releases
+### Group J - Releases
 
 #### P-29. Releases are named with Semantic Versioning.
 
-**Rule.** Every release carries a `MAJOR.MINOR.PATCH` version — MAJOR for a breaking change, MINOR for a backward-compatible feature, PATCH for a fix. The number is derived from Conventional Commits by `semantic-release` (or `release-please`), not chosen by hand.
+**Rule.** Every shipped release carries a strict `MAJOR.MINOR.PATCH` Semantic Version derived deterministically from Conventional Commits (`feat:`, `fix:`, `BREAKING CHANGE:`) via automated release tooling, never hand-typed by an engineer.
 
-**Rationale.** A release surface that grows without a naming law becomes unanswerable: "which version shipped the auth fix?" has no reliable answer when the tags are `v2`, `final`, `hotfix-2`, and `july-build`. SemVer makes the version, the changelog, and the tag a byproduct of commit discipline rather than a manual decision, so the release history stays legible as it grows — and the code host, not a human, keeps it honest (P-25).
+**Rationale.** Builds happen on merge to `main` (producing monotonic `:b<N>` artifact digests in Book III: **RROM**), while releases are human-legible names (`v1.4.2`) bound to those immutable digests and recorded in Linear Releases. Automating SemVer derivation eliminates tag drift (`v2-final-real`) and binds every customer-visible change to an exact list of validated Linear issues.
 
-**Counter-example.** A team tags releases by hand — `1.0`, then `1.0-real`, then `1.0-real-final`, then `prod-2026-06` — and three months later cannot tell which deploy carried which fix; a customer-reported regression takes a day to bisect because no version maps to a known change set.
+**Counter-example.** Engineers tag production deploys by hand as `prod-tuesday`, `v1.2-hotfix`, and `latest-working`; when a regression surfaces in customer logs, it takes six hours of git archaeology to figure out which fifteen issues actually shipped in that container.
 
 ### Closing
 
-Principles are not laws. They are decisions made in advance, written down with numbers, so the Operator does not have to decide them again at 4pm Friday when an issue sits in Validation and Leadership asks why it isn't shipped. The Friday answer is already written. The Operator remembers the number and cites it; the Method makes the number worth remembering.
+These 29 numbered principles are pre-computed rulings. You adopt them on a quiet Monday so you do not have to negotiate first principles at 4:30 p.m. on Friday when a stakeholder wants an unverified build marked `Done` for a slide deck. When the pressure hits, point to the number on the wall: `P-6`, `P-7`, `P-9`. The rule already made the call.
 
 > **Where this gets hard**
 >
-> The moment Leadership disagrees with a load-bearing principle — most commonly `P-6`, because they want Done to mean merged, not validated — the Method has to be defended in a calendar meeting against a stakeholder who outranks the Operator. The defense is not technical; it is about which incidents the team is willing to ship into next quarter, and most Operators do not have the seniority or the artifact library to make that argument alone.
+> The hardest moment in any installation is the first Friday that leadership pressures the Operator to wave a merged, unverified feature past `Validation` into `Done` (`P-6`) so a quarterly chart looks green. Holding that line requires political spine backed by hard incident receipts showing what the last unvalidated merge cost the company.
 >
 > Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
@@ -292,7 +296,7 @@ Principles are not laws. They are decisions made in advance, written down with n
   content: pass
   funnel: pass
   chapter-type-extras: pass
-  word-count: ~3850 (structural floor from 29 principles each with Rule/Rationale/Counter-example labels)
+  word-count: 3420
   principle-citations: P-1, P-2, P-3, P-4, P-5, P-6, P-7, P-8, P-9, P-10, P-11, P-12, P-13, P-14, P-15, P-16, P-17, P-18, P-19, P-20, P-21, P-22, P-23, P-24, P-25, P-26, P-27, P-28, P-29
   flagged-principle-gaps: none
 -->

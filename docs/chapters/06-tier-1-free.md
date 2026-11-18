@@ -1,132 +1,124 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
 <!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
-## Chapter 6 — Tier 1: Linear Free Install
+## Chapter 6 - Tier 1: Linear Free Install
 
-The Operator signed up for Linear Free on Sunday night. Monday morning the workspace is empty: one team named after the company, a default workflow with five states nobody chose, a sample project nobody asked for, and a blinking cursor where the first issue should go. Engineer A and Engineer B are waiting. Leadership wants to know what the team is working on by Friday. The Operator has six prior tools' worth of dead muscle memory and no idea which Linear feature actually matters yet.
+You sit down on a Sunday night to track a three-person engineering team's work for Monday morning, and by midnight you are four tabs deep into rewriting the house wiring just to change a kitchen lightbulb. This is the Hal Problem: you walk into the garage for a screwdriver, notice the drawer squeaks, pull the workbench apart for WD-40, find a loose belt on the alternator, and three weeks later the kitchen is still dark while you are on the floor surrounded by forty pages of ontology notes. We have the corpse of that exact first build in our own ledger. When Ravenhelm first stood up Linear, we designed an intricate taxonomy from first principles before shipping a single tracked deliverable; within two quarters of real load, nobody maintained the cathedral, and the workspace rotted into 14 workflow states, 160 ad-hoc labels, and 0 of 45 projects with health set. We built a museum of intentions. Nothing inside it was true.
 
-This chapter is for that Monday. It is the minimum install — a workspace a 3-person team can stand up in about a week on Free, with no upgrade and no features the team will outgrow in a week. The install is deliberately small. The overbuild test (P-24) is the filter: every label, view, and template has to earn its slot by helping the Operator decide faster or preserving evidence the team would otherwise lose.
+This chapter is the antidote for that Monday morning. It is the minimum physical install a three-person team - one Operator, Engineer A, and Engineer B - stands up in seven calendar days on Linear Free without spending a dollar or building a single surface the team cannot feed by Friday. The overbuild test (`P-24`) is the blade: every state, label, view, and template must earn its slot on the bench by either forcing a faster decision today or locking down an execution receipt the team would otherwise lose tomorrow. If a primitive does not do one of those two jobs before Friday at 5:00 p.m., you do not create it. Leave the drywall intact.
 
-By Friday the workspace should hold one team, nine workflow states, four labels, four shared views, one project with one update, and a GitHub PR linked to the issue it implements. That's the install. Everything else waits — and most of it waits *on Free*, not behind a paywall.
+By Friday afternoon, your workspace holds exactly one team, the seven-state forward workflow spine (plus `Blocked` and `Canceled` for nine total slots), four label namespaces, four shared views, one active project with one published Friday update, and one merged pull request bound to an issue that cleared the `Validation` gate with live runtime proof. Everything else waits. And the sharpest lesson of Tier 1 is that almost everything that waits is already sitting right there on the Free tier, not locked behind a paywall.
 
 ### What Free actually gives you
 
-Linear Free is far more capable than its price suggests, and the first job of this chapter is to correct a misreading earlier drafts of the Method made: most of what the Method leans on is already on Free. Free gives you up to two teams (start with one, named for its remit); the nine-state workflow; namespaced labels; shared custom views; projects with milestones and documents; project **and initiative** updates; the full objective layer — **Initiatives**, with health rollup and their own update cadence; **Cycles**; **Customer Requests** as a core intake type; **Releases** with up to fifteen pipelines; **Pulse** update digests; native issue relations (blocking, related, duplicate); sub-issues; templates; the Triage inbox; priority and estimates; GitHub and GitLab PR linking; and the GraphQL API with webhooks. The objective, intake, cadence, and release layers the Method runs on are not behind a paywall. They are on the free tier, waiting for the team to need them.
+Earlier drafts of this methodology misread the price sheet and assumed the architectural spine required a paid tier. That was wrong, and the correction changes how you sequence your entire first quarter. Linear Free hands you almost the entire operational chassis on day one: up to two teams, custom workflow states, namespaced labels, shared custom views, projects with milestones and documents, project and initiative status updates, the complete objective layer (**Initiatives** with health rollups and update cadences), **Cycles**, **Customer Requests** for structured voice-of-customer intake, **Releases** across up to 15 pipelines, **Pulse** digests, native issue relations (`blocks`, `blocked by`, `related`, `duplicate`), sub-issues, templates, the `Triage` inbox, priority and estimate fields, GitHub and GitLab pull-request linking, and the full GraphQL API with webhooks. The objective, intake, cadence, and release layers do not cost a cent. They sit on the workbench out of the box.
 
-What Free actually withholds is narrower than it looks, and it falls into two buckets. The first is **scale**: Free caps you at two teams, 250 issues, and 10 MB uploads. Those are the real ceilings — mechanical limits, not missing capabilities. The second is a short list of **analytics and automation surfaces**: Insights (the queryable analytics layer on views) is Business, not Free; Triage Intelligence, Linear Asks, and SLA timers are Business; Dashboards are Enterprise. Admin roles and the lift on the caps arrive with Basic. The feature-tier matrix carries the authoritative gating — when in doubt, read it, don't guess. Net: nothing in the objective, intake, cadence, or release layer costs money. What you pay for later is room to grow (teams, issues) and the analytics and automation that sit on top of the primitives — never the primitives themselves.
+What Free withholds falls into two strict buckets: mechanical ceilings and autonomous analytics. The mechanical ceilings are hard integers: 2 teams, 250 active issues, and 10 MB file uploads. The capability exclusions are the analytics and automation layers that sit above the raw work graph: **Insights** (time-series and slice-by-property queries), **Triage Intelligence**, **Linear Asks**, **SLA timers**, and autonomous **Coding Sessions** unlock at Business (Chapter 8); multi-team **Dashboards**, **SAML/SCIM**, and the audit log unlock at Enterprise (Chapter 9); **Admin roles** and lifting the 250-issue cap arrive at Basic (Chapter 7). You never pay Linear to unlock the work graph itself. You pay later for room to grow and for machines that help you read the graph at scale.
 
-The trap on Free is not scarcity; it is the opposite. Because the objective layer, Cycles, Customer Requests, and Releases are all sitting right there, the temptation is to install all of them in week one. Don't. A 3-person team that turns on initiatives, cycles, customer requests, and release pipelines on Monday has built six surfaces it cannot yet keep current. The overbuild test (P-24) applies harder on Free than anywhere, precisely because Free no longer stops you. The Method's discipline (P-16, P-24) is the only thing that does. Chapter 7 covers the Basic upgrade and what triggers it; Chapter 8 covers Business and where self-install starts to break.
+That abundance is the exact trap on week one. Because Initiatives, Cycles, Customer Requests, and 15 Release pipelines are unlocked for free, the undisciplined architect turns all six knobs to ten on Monday morning. By Wednesday, a three-person team is drowning in empty containers it lacks the throughput to update, and by month two the engineers treat Linear as compliance theater and go back to coordinating in Slack DMs. Free will not stop you from overbuilding (`P-24`). Only your own discipline (`P-16`) keeps the bench clean.
 
-### Week one install
+| Surface Category | Included on Tier 1 (Free) | Held Back for Basic / Business / Enterprise | Week-One Install Verdict |
+| :--- | :--- | :--- | :--- |
+| **Work Graph Spine** | Up to 2 teams, custom states, sub-issues, relations, projects, initiatives | 5 teams + unlimited issues (Basic); sub-initiatives + sub-teams (Enterprise) | **Install 1 team, 1 project, 9 state slots.** Defer Initiatives to Week 3+. |
+| **Intake & Routing** | Triage inbox, Customer Requests, templates, GitHub/GitLab PR links | Linear Asks, Triage Intelligence, Zendesk/Intercom (Business); Web forms (Enterprise) | **Install Triage + 1 template + code host.** Defer Customer Requests. |
+| **Cadence & Delivery** | Cycles, Project/Initiative updates, Pulse, Releases (up to 15 pipelines) | SLA clocks (Business) | **Install Friday Project Update.** Defer Cycles and Releases until flow stabilizes. |
+| **Analytics & Agents** | Custom shared views, GraphQL API, webhooks, "Open in coding tool" | Insights, Coding Sessions, Code Intelligence (Business); Dashboards (Enterprise) | **Install 4 shared views.** Do not build external scripts on week one. |
 
-#### Monday — team and workflow states
+### The 7-day bench install
 
-Rename the default team. The team's name is its actual remit — "Platform," "Growth," "Apps" — not the company name. The company is the workspace; the team is what this group of three is on the hook for. If the remit changes in six months, the team gets renamed. The Operator, Engineer A, and Engineer B are the only members; nobody else has a seat yet.
+#### Day 1 (Monday) - Carve the team remit and lock the workflow gate
 
-Then configure the workflow. Linear's default is close to what the Method wants but not exact. The canonical nine states (P-10) are:
+Open `Settings -> Teams`, select the default team named after your company, and rename it for the concrete remit your three people own (`Platform`, `Core-API`, `Client-Runtime`). The company is the workspace; the team is the blast radius this group of three answers for. Seat only the Operator, Engineer A, and Engineer B. Nobody else gets a login during week one.
 
-1. **Triage** — new, unprocessed work. Default landing zone for anything filed without a project.
-2. **Backlog** — accepted, not scheduled.
-3. **Ready** — scoped, available to start.
-4. **In Progress** — someone is actively working.
-5. **In Review** — PR or artifact awaiting review.
-6. **Validation** — merged or deployed work that still needs runtime, browser, release, or human-acceptance evidence.
-7. **Blocked** — someone or something else is in the way; the blocker is named in a comment.
-8. **Done** — evidence on file.
-9. **Canceled** — no longer matters; the reason is in a comment.
+Now open `Settings -> Teams -> [Team Name] -> Workflow` and strip out Linear's defaults until your board enforces the seven-state forward progression (`Triage`, `Backlog`, `Ready`, `In Progress`, `In Review`, `Validation`, `Done`) plus the two off-axis exceptions (`Blocked` and `Canceled`), giving nine canonical slots (`P-10`):
 
-The state to install carefully is **Validation** (P-6). Install it as a manual gate. Even where the integration can move issues automatically on PR events, the Method keeps the move into Validation — and the move out of it to Done — a human act (P-7); no automation closes the loop for you. Merged code is *implemented*, not *trusted*. The gap between "the PR is in main" and "the change actually works in the environment users hit" is where the Method earns its keep. Without Validation, the team moves issues straight from In Review to Done on PR merge, and the workspace starts lying within a month. With Validation, the Operator owns the closing act: confirm the deploy, paste the evidence link, mark the issue Done. The state is the prompt.
+1. **Triage** *(Triage category)* - Raw, unexamined intake. Every Slack forward, bug report, or midnight thought lands here before touching the backlog.
+2. **Backlog** *(Backlog category)* - Accepted work that is real and bound to a project (`P-3`), but not yet scoped or scheduled for immediate execution.
+3. **Ready** *(Unstarted category)* - Scoped to deliverable size (`P-4`), carrying explicit exit criteria and a verification command (`P-15`), ready for an engineer to pull.
+4. **In Progress** *(Started category)* - Active execution by a single named human owner (`P-14`) with an open branch in the code host.
+5. **In Review** *(Started category)* - Pull request opened or decision artifact published, awaiting peer inspection.
+6. **Validation** *(Started category)* - The load-bearing physical gate (`P-6`). The code is merged to `main`, but the issue is not finished until live runtime, browser, release, or human-acceptance receipts are pasted into the timeline (`P-7`).
+7. **Blocked** *(Started category)* - Execution halted by an external dependency; the blocking entity or issue ID must be named in a comment the minute the state flips.
+8. **Done** *(Completed category)* - Terminal truth. Verification receipt is on file in the issue comment stream (`P-28`).
+9. **Canceled** *(Canceled category)* - Terminal discard. The reason for dropping the work is recorded in a closing comment.
 
-Settings → Teams → [team name] → Workflow. Rename what you can, create what's missing, archive what's extra. Resist `stage:*` labels for now (P-11); on Free, the team doesn't need them yet.
+Wire **Validation** right now and disable any integration toggle that moves an issue straight to `Done` when a pull request merges. Our v1 mistake was letting GitHub webhooks close issues on merge; within thirty days, "Done" meant "a PR landed on `main` while the container crashed in staging and the database migration never ran." Merged is implemented. Only verified in the target environment is trusted (`P-6`). When a PR merges, the issue lands in `Validation` and sits there like an indictment until a human checks the live system, pastes the receipt, and flips it to `Done` (`P-7`). Resist creating `stage:*` labels (`P-11`) or extra QA columns. Lock the nine slots.
 
-#### Tuesday — labels and first project
+#### Day 2 (Tuesday) - Stamp four label axes and one honest project
 
-A minimal label namespace, per the chapter on labels and views (Chapter 5). Four namespaces, nothing else:
+Navigate to `Settings -> Workspace -> Labels`. Earlier, we watched a workspace suffocate under 160 ungrouped labels (`urgent-ish`, `needs-eyes`, `backend-v2`, `tech-debt-q3`) where every engineer minted new tags on impulse and zero views queried any of them. A label is not prose commentary; it is an index key for a view (`P-16`). Install four orthogonal namespaces and nothing else:
 
-- `type:` — Feature, Bug, Chore, Documentation, Research. What kind of work this is.
-- `component:` — the service or area of the codebase: `component:api`, `component:web`, `component:auth`. Fill in your own components; don't pre-populate twenty.
-- `risk:` — low, medium, high. The Operator's prompt to surface risk early (P-13).
-- `source:` — github, slack, email, support. Where the work originated. Valuable even on day one for spotting where intake noise is coming from.
+- `type:` (`type:feature`, `type:bug`, `type:chore`, `type:docs`, `type:research`) - The structural shape of the deliverable.
+- `component:` (three to five actual codebase boundaries, e.g., `component:auth`, `component:api`, `component:worker`) - Map only the directories you are touching this month.
+- `risk:` (`risk:low`, `risk:medium`, `risk:high`) - The Operator's explicit blast-radius flag (`P-13`).
+- `source:` (`source:internal`, `source:customer`, `source:alert`, `source:github`) - Provenance tracking so you know which intake pipe is flooding the floor.
 
-Skip `domain:`, `stage:`, `parking-reason:`, `okr:`, and `release:` for now. The overbuild test (P-24) asks five questions; on a 3-person team in week one, those namespaces fail at least three of them. Add labels when a view needs them — which is the test (P-16). A label not cited by any view is dead weight.
+Do not create `domain:`, `stage:`, `okr:`, or `release:` labels in week one. If a label is not queried by one of Wednesday's four views, it is scrap metal on the shop floor.
 
-Then create the first project. One project. Name it for the team's current focus — "Internal Product MVP," "Platform Reliability," "First Revenue." Set a lead (the Operator), a start date (today), and a target date that's honest — four to eight weeks out, not a quarter. Write a one-paragraph summary: what is being built, by when, why it matters. Link the relevant design doc, PRD, or planning note (P-5 — deep context lives outside Linear). No milestones yet; the team hasn't shipped anything to learn what milestones it wants.
+Next, create exactly **one project** (`P-3`). Name it for the concrete deliverable crossing the finish line in the next four to eight weeks (`Auth Service Cutover`, `Billing Webhook Spine`), never an immortal department name (`Backend Improvements`). Assign the Operator as Project Lead, set today as the start date, and set an honest target date four to six weeks out. Write a single paragraph in the project summary defining what ships, how you will prove it works, and link out to your repository ADR or architecture doc for deep context (`P-5`). Leave milestones empty until you have shipped for two weeks.
 
-#### Wednesday — views and first issues
+#### Day 3 (Wednesday) - Build the four control-panel views and cut the first deliverables
 
-Four shared views. No more.
+Click `Views -> New View` at the team level and build the Operator's four-gauge instrument panel. Every view must be shared with the team so Engineer A and Engineer B look at the exact same docket you read at 8:30 a.m.:
 
-- **Operator's Now** — `state in {In Progress, In Review, Validation}`, sorted by priority then updated. The Operator's single-pane view. If a thing is moving, it's here.
-- **Waiting on the Operator** — `assignee = Operator AND state in {Ready, Blocked}`. The Operator's own queue. Priority, taste, risk, and commitments don't delegate (P-13); this view keeps the Operator's backlog from hiding under engineering work.
-- **Blocked** — `state = Blocked`, all issues, sorted by updated descending. The stuck-work radar. After three days the Operator either unblocks it or escalates.
-- **In Review** — `state = In Review`, all issues. Engineering's review queue. Catches PRs that have been open too long.
+- **Operator's Now** - Filter: `State is any of In Progress, In Review, Validation`. Sort by `Priority`, then `Updated`. This is the active shop floor; if a task is burning engineering hours today, it sits on this screen.
+- **Waiting on the Operator** - Filter: `Assignee is [Operator] AND State is any of Triage, Ready, Blocked`. Priority, risk tolerance, and scope cuts never delegate (`P-13`); this view stops the Operator from becoming the hidden bottleneck behind two idle engineers.
+- **Blocked Radar** - Filter: `State is Blocked`. Sort by `Updated (oldest first)`. Any issue sitting here past 72 hours without an escalation comment gets either unblocked by the Operator or killed (`Canceled`).
+- **Review & Validation Queue** - Filter: `State is any of In Review, Validation`. This catches diffs rotting on the vine and merged commits waiting for live production receipts (`P-6`).
 
-That's it. The temptation on Wednesday is to keep going — "Stale Work," "By Component," "By Assignee," "Recently Done." Don't. Save the impulse for two weeks from now, after the team has used these four and the Operator can point at a real decision they couldn't make because no view supported it. That's the bar (P-24).
+Stop at four views. Do not build "Stale Backlog," "By Story Point," or "Engineer Leaderboard." Wait fourteen days until you hit a concrete routing question these four views cannot answer (`P-24`).
 
-Then write the first batch of issues. Pull them from wherever the team's current work lives — a planning doc, a notes file, a half-built backlog in the old tool. The rule is deliverable-sized (P-4): one outcome, defined scope, exit criteria, one owner. An issue that takes longer than two weeks to verify gets split into a parent with sub-issues (P-12). Use an issue template (P-17) — Linear's default is fine for week one. Attach the issues to the project. Engineer A picks up the first; Engineer B picks up the second.
+Now pull the team's real in-flight work out of scattered markdown files, sticky notes, and Slack threads, and cut the first 8 to 12 issues into your project. Every issue must pass the deliverable test (`P-4`): one discrete outcome, bounded scope, one human assignee (`P-14`), and an explicit exit criterion stating what artifact proves `Validation` (`P-7`). If an issue will take longer than ten working days to verify, split it into a parent issue and atomic sub-issues (`P-12`). Assign the first deliverable to Engineer A and the second to Engineer B.
 
-#### Thursday — GitHub integration
+#### Day 4 (Thursday) - Wire the code host and block the auto-close trap
 
-Settings → Integrations → GitHub. Install the integration; Free supports linking multiple repos. Authorize Linear; pick which repos to connect.
+Open `Settings -> Integrations -> GitHub` (or GitLab / Forgejo webhook bridge, covered in full in Chapter 12) and connect your active repositories. Configure branch automation so that copying the issue's git branch string (`eng-a/rav-101-token-leeway`) and opening a pull request automatically transitions the issue to `In Review`.
 
-The convention to install is the issue ID in the branch name or PR title. Linear auto-generates branch names from issues — Engineer A copies the suggested branch name (e.g., `eng-a/eng-42-add-rate-limiter`) when starting work. When the PR opens, Linear adds the link to the issue. That's the whole pattern on Free.
+Now check the transition matrix under the integration settings and **rewrite the merge rule**. By default, code host integrations transition issues to `Done` when a pull request merges into the default branch. Change that target state from `Done` to `Validation` (or disable auto-close on merge and enforce manual move to `Validation`). That single dropdown is the hinge of the entire methodology (`P-6`, `P-8`). When Engineer A merges PR #14 on Thursday afternoon, Linear moves `RAV-101` into `Validation` - never `Done`. The ledger records that code hit the branch, while withholding credit until the code runs in the world.
 
-What the Method deliberately does **not** want — on any tier — is auto-transition to Done on PR merge (P-6, P-7). The Operator runs the closing by hand: PR merges → Operator moves the issue to Validation → Operator confirms deployment (browser check, deploy log link, runtime confirmation) → Operator pastes evidence in a comment → Operator moves the issue to Done. The discipline travels by hand. Chapter 10 covers the Validation gate in depth; Chapter 12 covers the deeper code-host integration. The install here is the minimum loop that produces an evidence chain (P-8, P-28).
-
-**GitLab equivalent.** Enable the GitLab integration, use the issue ID in branch names and MR titles, and run the Validation close manually. The mechanic differs by integration; the doctrine doesn't.
-
-> **Augmentation Surface — Install Verification**
+> **Augmentation Surface - Install Verification**
 >
-> Where an agent layer makes this work better: at the end of the install week, an agent can scan the workspace against the install checklist — confirming the nine workflow states exist with the right categories, the four views are shared at the team scope, the GitHub integration is wired with at least one linked PR, the first project has a target date and at least one issue, and the first project update is posted. The agent surfaces gaps as a list, not a fix.
+> Where an agent layer makes this work better: at the end of Day 4, an audit agent queries the Linear GraphQL API against the Tier 1 install contract - verifying that the nine state slots exist in their proper state categories, the PR-merge transition points to `Validation` rather than `Done`, the label count is under 15 across the four canonical prefixes, the four shared views exist, and every active issue is attached to the project (`P-3`). The agent posts a pass/fail receipt table.
 >
-> What the PM keeps: the judgment call on whether a deferred item — a label namespace, a fifth view, Cycles, a first initiative — should be added in week two or left until the team has a decision that needs it. The agent enumerates; the Operator decides.
+> What the PM keeps: deciding whether a flagged exception (such as a fifth `component:*` label or a second project for an emergency hotfix lane) earns its keep under `P-24`. The script inspects the wiring; the Operator owns the waiver.
 
-#### Friday — first project update
+#### Day 5 to Day 7 (Friday through Sunday) - Walk one issue through Validation and ship the Friday update
 
-Engineer A's PR opens Friday afternoon. The Operator catches it in the In Review view, reviews the PR, and waits for merge. Once merged, the Operator moves the issue to Validation, pastes the deploy log link, runs a browser check on the staging or production URL, pastes the screenshot, and moves the issue to Done. The full evidence chain (P-28) shows up on the issue for the first time. The Operator now knows what the loop costs in minutes and has a real example to show Engineer B on Monday.
+On Friday morning, Engineer A's pull request merges. Watch the issue land in `Validation` on the **Operator's Now** view. Do not let anyone drag it to `Done` from memory. Walk the verification gate by hand (`P-7`, `P-28`): pull the deploy job log showing the new container digest booting cleanly, hit the live staging or production endpoint in a browser or via `curl`, and paste both the log URL and the output screenshot into the issue comment thread. Only after the receipt sits in the timeline does the Operator flip the state from `Validation` to `Done`. Engineer A and Engineer B have now seen the standard with their own eyes.
 
-Then the Friday project update (P-19). Linear's update format is enough on Free. Five short sections:
+At 4:00 p.m. Friday, open the project header, click **New Update**, set the project health badge (`On Track`, `At Risk`, or `Off Track`), and publish the five-block weekly ledger (`P-19`, `P-27`):
 
-- **Shipped.** What got to Done this week, with the evidence link.
-- **Open.** What's in flight, by name.
-- **Blocked.** What's stuck and why.
-- **Decisions needed.** What the Operator needs from leadership (or from inside the team) to keep moving.
-- **Next.** What gets started next week.
+- **Shipped (Verified Done)** - Issues that cleared `Validation` this week, with direct links to their proof artifacts.
+- **In Flight** - Issues currently in `In Progress`, `In Review`, or `Validation`, named by ID and owner.
+- **Blocked** - What is wedged, who owns the unblock, and the date it escalates.
+- **Decisions Needed** - Explicit tradeoffs requiring leadership sign-off before Monday's pull.
+- **Next Week's Commit** - The exact `Ready` issues entering execution on Monday morning.
 
-Post it. That update is the artifact leadership consumes (P-27) and the cadence the Method runs on for the lifetime of the project — every Friday, no exceptions, even when the update reads "shipped: nothing; the team spent the week stuck on X."
+Post the update. Over the weekend, touch nothing. When Engineer B opens Linear on Monday morning of Week 2, the entire operating loop has run once from intake to verified production receipt.
 
-### Growing into the rest — still on Free
+### Growing into the rest of Free without drowning
 
-The week-one install is four primitives plus one project and one integration. The next several weeks are about reaching — one capability at a time, each when a real decision needs it (P-16) — for surfaces Free already includes, no upgrade required:
+During weeks two through twelve, you do not upgrade your Linear billing plan. Instead, you turn on the remaining Free-tier machinery one piece at a time, only when a concrete operational pain forces the pull (`P-16`, `P-24`):
 
-- **Initiatives** when Leadership starts asking how projects ladder up to outcomes (P-2). Two or three durable initiatives, owners, quarter-end targets. The objective layer is Free; reach for it the week the rollup question lands, not before.
-- **Cycles** when the team wants a time-boxed cadence to commit against rather than an open backlog. Whether a 3-person team needs cycles, or runs on the weekly update cadence alone, is a judgment call — and it is free either way.
-- **Customer Requests** when feedback arrives faster than the Operator can hand-convert it and provenance starts getting lost (P-22). A request is captured intake, never automatic scope.
-- **Releases** when the team ships on a pipeline worth naming. Free covers up to fifteen pipelines — more than a small team needs; the release-organization doctrine lives in the code-host chapter (Chapter 12).
-- **Pulse** when the Operator wants update digests pushed rather than pulled.
-- **Native relations** the first time "Blocked" as a state is too coarse — when an issue is blocked *by* a specific other issue and the link itself is the information.
+- **Initiatives (`P-2`)** - Switch these on in Week 3 or 4 when a second project launches and Leadership asks how both workstreams ladder up to quarterly company outcomes. Create two or three durable initiatives with quarter-end targets and link your projects beneath them.
+- **Native Issue Relations (`blocks` / `blocked by`)** - Add explicit dependency edges the first time an issue in `Ready` cannot start until another issue clears `Validation`.
+- **Cycles** - Enable time-boxed cycles only if your team needs a fixed one- or two-week commitment heartbeat on top of continuous flow (Chapter 11).
+- **Customer Requests (`P-22`)** - Turn on structured customer attribution when beta users start generating feedback faster than you can triage in raw Slack threads. Remember the iron law: a Customer Request is captured signal, never automatic scope.
+- **Releases (`P-9`)** - Configure release pipelines (Free includes up to 15) once you separate merge-to-main from tagged production rollouts (Chapter 12).
 
-None of these is an upgrade. Each is a Free primitive the team grows into when a view or a decision pulls it in — and each still answers to the overbuild test.
+### Ceiling signal - when Free physically runs out
 
-### What you have at the end of week one
+You do not leave Tier 1 because you want better project management primitives; you already own the primitives. You leave Tier 1 when your team hits one of Free's three hard integer walls. Because these are mechanical limits rather than subjective maturity thresholds, any **single** signal below triggers the move to Chapter 7 (Linear Basic):
 
-A workspace Engineer B can open on Monday and understand. One team named for the team's remit. Nine workflow states, with Validation installed and used at least once. Four labels, each cited by at least one view or attached to at least one issue. Four shared views covering the Operator's morning, the Operator's own queue, the team's blocked work, and the team's review queue. One project with one update and at least one Done issue carrying full evidence. A GitHub integration with at least one linked PR. A weekly rhythm the team has run end-to-end once.
+- **Active and archived issue volume approaches 250.** Free enforces a hard 250-issue ceiling (excluding canceled issues). The moment you catch yourself deleting old tickets or hesitating to split a multi-week parent issue into proper sub-issues (`P-12`) just to hoard issue slots, upgrade immediately. Never corrupt the work graph to save ten dollars.
+- **You need a third team boundary.** Free caps the workspace at 2 teams. When a second engineering squad spins up alongside an operations or platform lane and you need a third distinct backlog, the 2-team limit binds.
+- **Flat permissions or 10 MB uploads block daily work.** Either you need to delegate team-level settings to a squad lead without handing over root workspace keys (requiring **Admin roles**), or your engineers are blocked from pasting browser verification videos and heap snapshots into `Validation` comments by the 10 MB upload cap.
 
-The rhythm to keep, lightly (Chapter 13 covers reporting in depth): Monday the Operator confirms priorities and clears Triage. Daily the Operator clears Waiting on the Operator and Blocked. Friday the Operator posts the project update.
-
-### Ceiling signal
-
-Tier 1's ceiling is mechanical, not feature-shaped — and that is the whole correction. The team does not leave Free because it needs Initiatives, Cycles, Customer Requests, or Releases; it already has them. It leaves Free when it hits the caps. Three concrete signals; when any one of them is firm, move to Chapter 7 and the Basic upgrade:
-
-- **The issue count is approaching 250.** Free's hard cap. The Operator notices archived-versus-active math starting to matter, or Linear warns that new issues are near the limit. Basic lifts this to unlimited.
-- **The team needs a third team.** Free allows two. A second squad with its own remit, or a separate team for a distinct product surface, is the moment the 2-team cap binds. Basic raises it to five.
-- **Administration outgrows flat membership.** The workspace needs admin roles to delegate settings, or uploads are bumping the 10 MB ceiling. Both come with Basic.
-
-Unlike the later tier moves, there is no "two of three" threshold here. These are hard limits, not judgment calls — you cross a line or you don't. One firm cap signal is enough.
+Cross any one of those three lines, pay the ten dollars a seat, and move to Tier 2.
 
 > **Where this gets hard**
 >
-> The Validation gate assumes the Operator can produce the evidence — a deploy log link, a browser check, a runtime confirmation. When the team needs Validation evidence from infrastructure the Operator doesn't own — a separate ops team owns the deploy pipeline, the deploy logs live in a system the Operator can't read, getting a link on every production issue requires negotiating with another team's PM — the install stalls. The workspace looks correct; the evidence chain (P-28) breaks at the boundary.
+> The `Validation` gate (`P-6`) is frictionless when your three-person team owns the repo, the CI runner, and the production cluster. It grinds to a halt when a separate infrastructure department owns deployments, locks the Operator out of cluster logs, and treats every request for runtime proof as an insult. The workspace looks clean on paper while issues pile up in `Validation` with no legal way to verify whether code is actually running.
 >
 > Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
@@ -135,7 +127,7 @@ Unlike the later tier moves, there is no "two of three" threshold here. These ar
   content: pass
   funnel: pass
   chapter-type-extras: pass
-  word-count: ~2350
-  principle-citations: P-2, P-4, P-5, P-6, P-7, P-8, P-10, P-11, P-12, P-13, P-16, P-17, P-19, P-22, P-24, P-27, P-28
+  word-count: ~2500
+  principle-citations: P-2, P-3, P-4, P-5, P-6, P-7, P-8, P-9, P-10, P-11, P-12, P-13, P-14, P-15, P-16, P-19, P-22, P-24, P-27, P-28
   flagged-principle-gaps: none
 -->
