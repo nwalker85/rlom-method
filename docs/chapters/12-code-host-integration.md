@@ -1,121 +1,143 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
 <!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
-## Chapter 12 — Code Host Integration: GitHub Primary, GitLab Parallel
+## Chapter 12 - Code Host Integration: GitHub Primary, GitLab & Forgejo Parallel
 
-The Operator installed the Validation state two weeks ago (Chapter 10). It worked. Issues stopped flipping to Done the second a PR went green. Friday summaries match Friday reality again. But there is a new problem, and it shows up Sunday night. The Operator is in Linear with a coffee and a list of thirty-one issues that need state changes — fifteen PRs opened this week that still say In Progress, eleven merged PRs sitting in In Review because nobody dragged them to Validation, four shipped releases whose issues are still in Validation, one ancient In Progress that turned out to be a PR Engineer A merged a month ago. The Operator is updating Linear by hand from the code host's "Pull Requests" tab. This is the exact failure mode P-25 names: a convention you cannot verify programmatically decays into folklore.
+Three wreckage piles sit on the Ravenhelm workbench from the week we wired git forges to the issue ledger without respecting their failure modes. First: on 2026-09-11, a post-session sweep across five active repositories uncovered **81 dangling commit tips and 15 unpushed branches** surviving only in local `git reflog` (`freyr` alone held over twenty worktrees; `gjallarhorn` held seventeen). Real grammar compilers and state machines had been written on the floor, never bound to a tracked pull request or a Linear issue ID, and left to rot in detached checkouts. Second: to stop untracked PRs, we installed a pre-tool hook (`prs-require-linear-issue`) that inspected `curl` PR-creation payloads for a `RAV-<id>` reference. The v1 regex parser only read inline `-d '{"title":...}'` flags; the first time an engineer passed a multiline PR body via `--data @/tmp/pr.json`, the guard failed closed on a valid `RAV-` reference because it never opened the file on disk. Third: once PRs carried `RAV-<id>` in their titles, GitHub's native Linear integration did exactly what its factory defaults promised - the instant PR 1 of a four-part migration merged (a schema doc prep), Linear auto-closed the entire parent issue as `Done`. Parts 2, 3, and 4 vanished from the active work graph while nothing ran in production.
 
-This chapter wires Linear to the code host so the convention enforces itself. The code host and Linear are the same system from the Operator's point of view: the code host is the source of truth for implementation (P-8); Linear is the source of truth for status (P-23). When they are wired correctly, every PR event in the code host produces the right state change in Linear, and the Operator's Sunday-night queue collapses from thirty-one items to the handful of issues that actually require judgment.
+Unbound branches disappear into `reflog`. Brittle regex guards block valid work and train engineers to route around the hook. Default auto-close rules turn a multi-PR deliverable or an unverified merge into a premature victory lap. Left to human memory, the Operator ends up spending Sunday night with a cup of coffee and thirty-one stale tickets across two browser tabs: fifteen open PRs whose issues still read `In Progress`, eleven merged diffs stuck in `In Review`, four shipped releases still parked in `Validation`, and one zombie ticket whose code landed a month ago. Updating the tracker by hand from the forge's Pull Requests tab is the exact decay Principle P-25 warns against: any convention you cannot enforce and verify mechanically rots into folklore by week four.
 
-GitHub is the primary example. GitLab gets equal treatment inline — every mechanic here works in either code host with different plumbing and the same Linear-side conventions. The Method is code-host-agnostic on purpose: the 3-person team is rarely mono-host, and the Operator should not have to relearn the model when an engineer ships from a different repo.
+This chapter wires Linear to your code host so the state machine runs on physical events without lying about completion. From the Operator's seat, the forge and the tracker are two halves of one ledger: the code host is the sole authority for implementation state (P-8); Linear is the sole authority for workflow status and portfolio rollup (P-23). Wire the seam properly, and every branch push, pull request, merge, and signed release drives the exact state transition the Method requires - stopping at `Validation` on merge and advancing to `Done` only when production or release receipts exist.
 
-### Branch and PR conventions
+We show GitHub as the primary rail alongside GitLab and self-hosted Forgejo in parallel. Every mechanic here runs on all three forges with identical Linear-side rules and one settings panel or webhook receiver of difference. A three-person team rarely lives on a single pure host forever; your operating model should not fracture when a service moves from GitHub to a private Forgejo hub.
 
-The first mechanic is the convention that lets the code host and Linear find each other at all. Every branch carries the Linear issue ID. Every PR title prefixes the issue ID in brackets. Every commit body, when it matters, references the issue. The integrations look for these strings; without them, no automation fires.
+### Branch and PR conventions (and avoiding the multi-PR auto-close trap)
 
-The pattern is `<issue-id>-<short-slug>` for branches and `[<issue-id>] <description>` for PR titles. Engineer A, working on `web-frontend` (a GitHub repo), opens a branch called `ENG-42-rate-limiter` and a pull request titled `[ENG-42] Rate-limit the public search endpoint`. Engineer B, working on `api-service` (a GitLab repo), opens a branch called `ENG-58-token-rotation` and a merge request titled `[ENG-58] Rotate service account tokens nightly`. Same convention, different code host. Linear's integration on each side picks up the issue ID from the branch and the title; the linked PR or MR appears on the issue automatically.
+Before any webhook can fire, the forge and Linear have to agree on a primary key. Every git branch carries the Linear issue identifier. Every pull request or merge request prefixes that identifier in the title. Every commit body references the issue ID. Without those tokens in the payload, the integration is blind.
 
-| Convention | GitHub example | GitLab equivalent |
+The canonical pattern is `<issue-id>-<short-slug>` (or `<type>/<issue-id>-<short-slug>`) for branch names and `[<issue-id>] <description>` for PR titles. On a Ravenhelm repo, a slice working on `RAV-1541` checks out a dedicated worktree on branch `feat/rav-1541-dashboard` and opens `[RAV-1541] Add TurnPhase state machine projection`. On a canonical three-person product team, Engineer A on `web-frontend` (GitHub) pushes branch `ENG-42-rate-limiter` and opens `[ENG-42] Rate-limit the public search endpoint`; Engineer B on `api-service` (GitLab) pushes `ENG-58-token-rotation` and opens `[ENG-58] Rotate service account tokens nightly`. Both forges parse the token and bind the PR object directly onto the Linear issue card.
+
+| Convention | GitHub example | GitLab / Forgejo equivalent |
 |---|---|---|
-| Branch name with issue ID | `ENG-42-rate-limiter` | `ENG-58-token-rotation` |
+| Branch name with issue ID | `ENG-42-rate-limiter` | `ENG-58-token-rotation` / `feat/rav-1541-dashboard` |
 | PR / MR title prefix | `[ENG-42] Rate-limit search` | `[ENG-58] Rotate tokens nightly` |
-| Commit body reference | `Refs ENG-42` in commit message | `Refs ENG-58` in commit message |
-| Linking trigger | Linear GitHub App parses branch + PR title | Linear GitLab integration parses branch + MR title; or webhook posts to Linear API |
+| Commit body reference (non-closing) | `Refs ENG-42` in commit message | `Refs ENG-58` in commit message |
+| Linking trigger | Linear GitHub App parses branch + PR title | Linear GitLab integration or Forgejo webhook bridge parses branch + title |
 
-The Operator publishes this convention as a one-page repo-level guideline (P-18 — closer-to-the-work guidance wins) and adds a PR-template stub that prompts engineers to fill in the issue ID. The verification check is cheap: a workspace-wide Linear view filtered to In Progress issues with no linked PR after two days. That is the only enforcement that survives (P-25).
+Now disarm the **Auto-Close Trap** before it bites your multi-PR issues. Linear's native GitHub App treats any PR carrying the parent issue ID in its branch or title (or magic words like `Fixes ENG-42` / `Closes ENG-42` in the PR body) as a terminal link: when that PR merges, Linear transitions the linked issue straight to the team's configured merge state. If an issue requires three sequential PRs - say, a database migration PR, a backend worker PR, and a frontend cutover PR - merging PR #1 will prematurely transition the parent issue out of `In Progress` while two-thirds of the work remains unwritten.
+
+Two rules prevent premature closure:
+
+1. **One deliverable, one PR where possible; sub-issues when multi-PR is mandatory.** If a feature spans multiple repositories or staged deployments, create child sub-issues (`ENG-42a`, `ENG-42b`, `ENG-42c` or separate linked issues) so each PR binds 1:1 to its own verifiable unit of work (P-4).
+2. **Use `Refs <ISSUE-ID>` instead of closing keywords on preparatory PRs.** When a preparatory PR (such as an ADR or test fixture) touches a parent issue without completing its implementation, reference `Refs ENG-42` in the body rather than `Fixes ENG-42`, and configure the team's merge transition to land in `Validation` - never `Done`.
+
+If you enforce PR issue references with a client-side or CI guard (`prs-require-linear-issue`), test the guard against how engineers and agents actually invoke the CLI: parse both inline JSON arguments (`-d` / `--data`) and file-redirected payloads (`--data @file`, `gh pr create --body-file`), or check the PR payload server-side in a forge Action where the title string is already normalized. A guard that chokes on `--data @file` does not improve hygiene; it teaches workers to bypass the guard.
+
+Publish the naming rules in the repository root's `AGENTS.md` or `CONTRIBUTING.md` (P-18 - guidance lives next to the code) and drop a two-line PR template into `.github/pull_request_template.md` (or `.forgejo/pull_request_template.md`). Then wire the verification view that keeps the rule alive (P-25): a workspace-wide Linear filter showing any issue in `In Progress` for more than forty-eight hours with zero linked branches or PRs. That view catches dangling local work before it turns into eighty-one orphaned `reflog` tips.
 
 ### PR opened triggers In Review
 
-The second mechanic is the simplest automation. When a PR or MR opens against the main branch, the linked Linear issue moves from In Progress to In Review. The Operator does not move it. The engineer does not move it. The integration moves it, every time, the moment the PR opens.
+The first state transition is pure mechanical plumbing. The moment a non-draft PR or MR opens against `main`, the linked Linear issue moves from `In Progress` to `In Review`. Neither the engineer nor the Operator touches the board.
 
-On GitHub, this is a built-in capability of the Linear GitHub integration. The Operator opens team settings, finds the GitHub section, selects "PR opened" → "In Review" for the team. Done. Engineer A's `ENG-42` PR opens on `web-frontend` and the issue transitions before the Operator's coffee cools.
+On GitHub, open Linear's team workflow settings under the GitHub integration and map **On PR open -> In Review** (leaving **On draft PR open -> In Progress** so work-in-progress diffs do not flood the review queue prematurely). When Engineer A opens `[ENG-42]` on `web-frontend`, Linear moves `ENG-42` into `In Review` inside two seconds.
 
-On GitLab, the path is slightly different. Linear's GitLab integration covers MR linking and basic status sync; for finer control, the Operator installs a project-level GitLab webhook on the MR-events channel that posts to Linear's API with the desired transition. Engineer B's `ENG-58` MR opens on `api-service` and the same transition fires — In Progress to In Review — via the webhook. The reader-visible behavior is identical; the configuration differs by one settings panel.
+On GitLab, enable the native Linear GitLab integration for MR status sync, or point a project-level Merge Request webhook at Linear's API to fire the state mutation on `action: open`. When Engineer B opens `[ENG-58]` on `api-service`, the identical transition fires. Turn this on day one; it eliminates half of the Operator's manual board-gardening immediately.
 
-The Operator should not skip this step waiting for the "perfect" automation. PR-opened → In Review is the cheapest, highest-signal transition in the entire model. It pays for itself in the first day.
+### PR merged triggers Validation - never Done
 
-### PR merged triggers Validation — not Done
+This is the hinge where most workspaces break their own ledger. Both GitHub and Linear nudge you to wire **PR merged -> Done**. Refuse that default. On 2026-09-13, three merged pull requests in our estate were celebrated as finished tools while the `the-work` masthead had never been redeployed to production and a Matrix hotfix sat completely unverified. **Merged is not built; built is not deployed; deployed is not verified running (P-6).**
 
-The third mechanic is where most code-host integrations get this wrong. The default behavior on most platforms — and the tempting setting on Linear's side — is to move issues to Done on PR merge. The Method explicitly refuses this. Merged code is implemented; only evidence makes it trusted (P-6). The auto-move on merge goes to Validation. Done remains a human decision until release-driven automation is installed (next section).
+Configure the code-host integration so that **PR merged transitions the issue to `Validation`**, never `Done`.
 
-On GitHub, the Linear GitHub integration exposes per-team "PR merged" automation. The Operator selects Validation, not Done. Engineer A merges `ENG-42`; the issue moves to Validation; the merged PR URL lands on the issue automatically, which satisfies the evidence-pointer requirement (P-7) for implementation but not for delivery.
+On GitHub, open the team's GitHub workflow automation panel in Linear and set **On PR merge -> Validation**. When Engineer A squash-merges `ENG-42` into `main`, Linear moves the ticket from `In Review` to `Validation` and attaches the merged commit receipt to the issue timeline. That satisfies the implementation pointer (P-7, P-8), and simultaneously places the ticket in the Operator's `Validation` queue waiting for runtime smoke proof or release verification (P-9).
 
-On GitLab, the same outcome comes from a webhook listening for `merge_request` events with `action: merge`, posting an issue-state update to the Linear API. Engineer B merges `ENG-58`; the webhook fires; the issue moves to Validation. Same Linear-side behavior, different plumbing.
+On GitLab and Forgejo, wire the merge event (`action: merge` on a merge request, or `pull_request` closed with `merged: true`) to mutate the Linear issue state to the team's `Validation` state UUID.
 
-The temptation to "just enable PR-merged → Done" is the single most common installation mistake. Every issue that ships to customers requires release evidence before Done (P-9). Every issue that runs in production requires runtime or browser evidence. If the integration closes those issues automatically, the Validation state collapses into theater and the Method's load-bearing principle (P-6) is silently disabled. The Operator must hold this line.
+Hold this line against every complaint that clicking `Done` after verification takes an extra ten seconds. The instant `PR merged -> Done` is enabled on a production repository, `Validation` is bypassed, unshipped merges masquerade as customer value, and your status reports become fiction.
 
-> **Augmentation Surface — Integration Drift Detection**
+> **Augmentation Surface - Integration Drift & Dangling Work Detection**
 >
-> Where an agent layer makes this work better: scanning the workspace daily for state changes that *should* have happened but didn't — PRs marked merged in the code host with their Linear issue still in In Review, releases shipped to production with their issues still in Validation, repos that have stopped producing linked PRs at all (a sign the convention has decayed or the integration broke). The agent checks webhook delivery logs on the code host, surfaces failed deliveries, and posts a daily integrity summary so the Operator finds out about drift before the Friday update.
+> Where an agent layer makes this work better: sweeping the estate daily to cross-check git state against Linear state - flagging worktrees with uncommitted diffs or unpushed branches that lack a bound Linear issue, catching merged PRs whose Linear issues remained stuck in `In Review` due to a dropped webhook, and identifying multi-PR parent issues that were prematurely pushed into `Validation` while sibling branches are still open. The agent inspects webhook delivery logs on the forge, retries failed payloads, and posts a morning reconciliation receipt so drift never survives until Friday.
 >
-> What the PM keeps: deciding whether a stuck transition is a tooling problem (re-deliver the webhook, fix the branch name) or a missing-evidence problem (the issue genuinely lacks proof and is staying in Validation for the right reason).
+> What the PM keeps: ruling on every discrepancy - whether a stuck issue in `Validation` is waiting on a delayed deployment pipeline or lacks real runtime proof and must be kicked back to `In Progress`.
 
 ### Release events trigger Done
 
-The fourth mechanic closes the loop for production work. When a release ships, every issue in that release's scope moves from Validation to Done. The release event is the evidence (P-9); the integration posts the artifact link as a Done comment automatically.
+For customer-facing and production services, the loop closes when a verified release ships and proves reachability. Once your `Validation` gate is habit, you can automate the `Validation -> Done` transition by binding it to the actual release artifact and post-deploy smoke gate (P-9).
 
-On GitHub, the Operator wires a release workflow in GitHub Actions. The workflow runs on the `release: published` event, calls Linear's Releases API (or uses the published `linear-release-action`), passes the list of merged PRs since the previous tag, and tells Linear to associate those PRs' linked issues with the release. The Linear Releases pipeline is configured to move associated issues to Done on release publication. Engineer A's `ENG-42` is included in the next `web-frontend` release; the action fires; `ENG-42` transitions to Done with a link to the release page as the evidence artifact.
+On GitHub, wire a GitHub Actions workflow triggered on `release: published` (or on successful completion of the production deploy workflow). The job queries the commit range between the previous release tag and the new tag, extracts every merged PR and its bound Linear issue ID, attaches the release tag and artifact URL to each issue as permanent receipt evidence, and moves those issues from `Validation` to `Done` via Linear's Releases API. When `ENG-42` ships inside `web-frontend` release `v2.5.0`, the release pipeline stamps the receipt and closes the ticket.
 
-On GitLab, the equivalent is a CI release job. The `.gitlab-ci.yml` includes a `release` stage that runs on tag pipelines, calls the GitLab Releases API to publish the release notes, and posts to the Linear Releases pipeline via the same Linear API as the GitHub side (Linear does not care which CI system fired the call). Engineer B's `ENG-58` ships in the next `api-service` tag; the CI job fires; `ENG-58` transitions to Done.
+On GitLab or Forgejo Actions, the equivalent is a release pipeline stage running on signed tag creation or GitOps deployment confirmation. The runner publishes the release notes, confirms the artifact digest landed in the registry, and calls Linear's GraphQL API to transition the included issues out of `Validation` and into `Done`.
 
-| Pipeline | Watched event (GitHub) | Watched event (GitLab) |
+| Pipeline | Watched event (GitHub) | Watched event (GitLab / Forgejo) |
 |---|---|---|
-| Production release | `release: published` workflow in GitHub Actions | `release` job in GitLab CI on tag pipeline |
-| Staging release (optional) | Workflow on push to `staging` branch or manual dispatch | CI job on `staging` environment deployment |
+| Production release | `release: published` workflow in GitHub Actions | `release` job in GitLab CI / `.forgejo/workflows/release.yml` |
+| Staging verification (optional) | Workflow on push/deploy to `staging` environment | CI job on `staging` deployment or Argo CD sync receipt |
 
-Two warnings on releases. First, install release-driven Done one surface at a time. The Operator picks the highest-volume customer-facing repo, wires the pipeline, lets it run for a week or two with the Operator double-checking each release. Only after that flow is green does the second surface get the same treatment. Second, do not exceed roughly six Releases pipelines in the workspace (P-24). Pipelines are operational surface; each one needs a watch and a refresh. More pipelines means more decay (P-25). If the team ships from twelve repos, the Operator picks the six that most need release-gated Done — usually the customer-facing surfaces — and lets the rest stay in manual Done.
+Obey two constraints when automating `Validation -> Done`. First, bring release automation online **one repository surface at a time**. Start with your highest-volume production service, run it for two weeks while manually auditing every auto-closed ticket against live production, and only wire the second repository once the first is rock-solid. Second, cap workspace release pipelines at roughly six active surfaces for a small team (P-24). Every automated pipeline is machinery that can fail silently (for instance, when a workflow lacks a trigger path or a token expires). Six surfaces can be audited; twenty surfaces rot in the dark (P-25).
 
 ### Naming releases: Semantic Versioning
 
-The release event that moves issues to Done fires against a release, and a release needs a name. The Method's convention is not negotiable: releases are named with Semantic Versioning — `MAJOR.MINOR.PATCH` — and nothing else (P-29). A version like `2.4.1` is not a label the Operator picks on release day; it is a fact the commits already decided.
+A release pipeline that stamps completion receipts onto Linear issues requires a deterministic name for every release. Under Principle P-29, every release in the workspace uses strict **Semantic Versioning (`MAJOR.MINOR.PATCH`)** - never ad-hoc strings like `prod-friday-fix`, `v2-final`, or bare dates.
 
-The mapping is the whole rule. A breaking change bumps MAJOR (`2.4.1` → `3.0.0`); a backward-compatible feature bumps MINOR (`2.4.1` → `2.5.0`); a backward-compatible fix bumps PATCH (`2.4.1` → `2.4.2`). An engineer who reads `2.5.0` → `2.5.1` knows a fix shipped and nothing broke; one who reads `2.5.1` → `3.0.0` knows to check the changelog before upgrading. The version number carries information — that is the point of naming this way instead of any other.
+A version string is a compact contract between engineering and operations:
 
-Neither the Operator nor the engineer computes the bump by hand. A tool derives it: `semantic-release` (or `release-please`) reads the Conventional Commits since the last tag — `fix:` maps to PATCH, `feat:` to MINOR, a `feat!:` or `BREAKING CHANGE:` footer to MAJOR — then picks the bump, writes the changelog, cuts the tag, and publishes the release. The version, the changelog, and the tag are a byproduct of commit discipline, not a decision anyone makes on release day. That feeds the previous section directly: the `release: published` event needs a release to publish, and now the release names itself from the commits Engineer A and Engineer B already wrote.
+- **MAJOR (`2.4.1 -> 3.0.0`):** Breaking API, schema, or configuration change requiring coordinated migration or cutover.
+- **MINOR (`2.4.1 -> 2.5.0`):** Backward-compatible feature addition.
+- **PATCH (`2.4.1 -> 2.4.2`):** Backward-compatible bug fix or security patch.
 
-This is why SemVer lives in the same chapter as release-driven Done. The Linear Releases pipeline publishes a SemVer tag and moves the issues whose PRs landed between the previous tag and this one from Validation to Done (P-9). Consistent naming is what makes that association legible: the pipeline records that `ENG-42` shipped in `2.5.0`, and the Operator can answer the only release question Leadership ever asks — which version shipped what. Chapter 13's reporting rollup consumes that answer, and release health there is only as readable as the version names beneath it. A workspace that tags releases `final`, `final-2`, and `prod-hotfix-friday` has release automation that runs and a release history nobody can read.
+Never compute version bumps by hand in a Slack thread on release afternoon. Derive them mechanically from Conventional Commits (`fix:` -> PATCH, `feat:` -> MINOR, `feat!:` or `BREAKING CHANGE:` -> MAJOR) using `release-please`, `semantic-release`, or your repository's automated release-PR script. When commits are disciplined, the changelog, the SemVer tag, and the Linear release receipt generate themselves. When Leadership asks in Chapter 13's monthly review which release resolved a customer escalation, the issue card points straight to `v2.5.0` and its immutable commit range.
 
-### The 3-person team installs both
+### The 3-person team across mixed code hosts
 
-This is what makes the chapter concrete. The Operator's team ships from two code hosts. Engineer A owns `web-frontend` and pushes to GitHub; Engineer B owns `api-service` and pushes to GitLab. The shared `infra` repo, where both engineers commit occasionally, also lives on GitHub. The Method's installation on the team is mixed by design: the Operator does not migrate either repo to standardize, because the cost of migration is higher than the cost of running two integrations.
+Here is how this looks on the floor without forcing a religious migration across code hosts. Suppose Engineer A works in `web-frontend` on GitHub, Engineer B works in `api-service` on GitLab, and core platform tools live in a self-hosted Forgejo instance. You do not burn two weeks migrating repositories just to satisfy a tracker.
 
-What the Operator installs is identical on both sides at the Linear layer: the same nine-state workflow, the same Validation gate, the same auto-move on PR merge to Validation (not Done), the same release-driven Done for the production surface. What differs is one configuration panel per host. The Linear GitHub App is installed once for `web-frontend` and `infra`; the Linear GitLab integration plus one MR webhook is installed once for `api-service`. The Operator writes the conventions once and publishes them at the workspace level; each engineer follows the same branch naming, the same PR title prefix, the same commit references. The Leadership Team consumes the same project updates regardless of which host the underlying PRs live on, because by the time the rollup reaches them (Chapter 13) the host is invisible — only the Linear state remains.
+Instead, you hold the Linear contract constant and swap the thin adapter at the edge:
 
-This is the proof that the Method is code-host-agnostic. The conventions are at the Linear layer; the plumbing differs; the reader-visible behavior is the same.
+1. **Identical workflow canon:** All three repositories feed the exact same nine Linear states and hit the exact same `Validation` gate.
+2. **Identical naming grammar:** Every engineer and coding agent uses `<issue-id>-<slug>` branches and `[<issue-id>]` PR prefixes regardless of which git remote `origin` points to.
+3. **Host-specific edge wiring:** GitHub uses the native Linear GitHub App (`PR merge -> Validation`); GitLab uses the GitLab integration + MR webhook; Forgejo uses the lightweight webhook bridge below.
 
-### Self-hosted forges — the webhook bridge
+By the time work rolls up into Friday's project update and the monthly executive review (Chapter 13), the underlying git host is completely invisible. Leadership sees one coherent ledger.
 
-Everything above assumes a code host Linear drives natively — GitHub through its App, GitLab through its integration. Some teams do not have one. A team on a self-hosted forge — Forgejo, Gitea, or a Bitbucket instance Linear does not natively integrate with — gets no PR-opened transition, no PR-merged transition, and no linked PR on the issue. The branch-and-title convention still holds, but nothing is listening for it, and the Operator is back to the Sunday-night manual queue with no integration to install.
+### Self-hosted forges - the Forgejo / Gitea webhook bridge
 
-The Method's answer is a webhook bridge, deliberately small. The forge fires a webhook on PR merge; a tiny receiver parses the payload, looks for a magic word in the PR title or body — `Fixes <ISSUE-ID>` or `Closes <ISSUE-ID>`, case-insensitive — and drives Linear through its GraphQL API. Three calls do the whole job. Resolve the human issue ID (`TEAM-123`) to the issue's UUID, because the API keys on the UUID, not on the identifier a person reads. Move the issue to Validation — not Done, the same line the native integrations hold (P-8: the merge proves implementation; P-9: shipping still needs release evidence). Attach the PR URL back onto the issue as the evidence pointer. The bridge reproduces what the GitHub App does for free, and nothing more.
+When you run a sovereign, self-hosted forge such as Forgejo or Gitea, Linear has no native first-party App to click-install. If you leave the forge unbridged, every branch and `[RAV-123]` PR title sits disconnected from the work graph, and you are right back to manual ticket dragging.
 
-Migrate onto it carefully. Do not cut the native path over on a hope: keep a GitHub or GitLab mirror of the repository while the team moves, so the native PR→Linear automation keeps firing off the mirror until the bridge has been trusted for a week or two on live merges. Mirror-back is the safety net — if the receiver drops an event, the integration on the mirror still moves the issue, and the Operator loses nothing while the bridge earns confidence. Retire the mirror only once the bridge has been green long enough that the Operator has stopped checking it by hand.
+Build a tiny, stateless webhook receiver to bridge the gap. When a pull request opens or merges on Forgejo, Forgejo POSTs a JSON webhook payload to your receiver. Your bridge executes three deterministic steps against Linear's GraphQL API (`https://api.linear.app/graphql`):
 
-One authentication detail accounts for most bridges that fail on the first try. Linear's GraphQL endpoint authenticates a personal API key sent raw in the header — `Authorization: <api-key>`, with no `Bearer` prefix. A developer reaching for OAuth muscle memory writes `Authorization: Bearer <api-key>`, gets a 401, and loses an afternoon to it. The key goes in raw.
+1. **Extract and resolve the issue key:** Parse the `[<TEAM>-<NUMBER>]` token from the PR title or branch name, and query `issue(id: "RAV-123")` to resolve the human key into Linear's internal UUID and current workflow state.
+2. **Enforce the non-closing state ceiling:** On PR open, transition the issue to `In Review`. On PR merge (`merged: true`), transition the issue to `Validation` - **never `Done`** - and guard against regressing an issue that has already been verified.
+3. **Attach the permanent receipt:** Call `attachmentCreate` (or post a structured comment) linking the Forgejo PR URL, merge commit SHA, and author back onto the Linear issue card (P-7, P-8).
 
-A bridge is a build-once, verify-forever surface (P-25): checked once against a real merge, and after that every merge lands its issue in Validation without the Operator watching. But it is also code the team now owns, so it lives under the overbuild ceiling (P-24) — one receiver, one magic-word rule, one transition, which a 3-person team can keep running. A bridge that grows into bidirectional sync (P-23), per-repo state machines, or a second source of truth has failed the test; at that point the honest move is to migrate the repo to a host Linear drives natively, not to grow the bridge.
+Two shop-floor lessons will save you an afternoon when wiring this bridge:
+
+- **No `Bearer` prefix on Linear personal API keys:** If your bridge authenticates to Linear's GraphQL endpoint using a personal API key rather than an OAuth app token, pass the header raw: `Authorization: <lin_api_...>`. Developers running on OAuth muscle memory write `Authorization: Bearer <lin_api_...>`, receive HTTP `401 Unauthorized`, and spend three hours debugging valid credentials.
+- **Stage the cutover behind a mirror or canary repo:** When migrating private repositories from GitHub to Forgejo, keep the webhook bridge running against a test repository first and verify both open and merge transitions on live PRs before retiring the old host's integration.
+
+Keep the bridge under the overbuild ceiling (P-24): a hundred lines of stateless code that maps PR events to `In Review` and `Validation` and attaches the receipt URL. Never let a webhook bridge grow its own database or attempt bidirectional issue synchronization.
 
 ### Install order
 
-Phase the install. Do not turn on every automation in one afternoon.
+Roll out code-host automation in five deliberate phases so you never automate a broken workflow:
 
-1. **Install the integration.** GitHub App on the GitHub organization, GitLab integration on the GitLab group. Connect each engineer's personal account on each side.
-2. **Enable PR linking and the In Review transition per team.** Configure PR-opened → In Review on the Linear side for each team that owns code work. On GitLab, install the MR-events webhook now.
-3. **Confirm one issue end-to-end.** Pick an in-flight issue. Watch the PR open; confirm In Review fires. Watch the PR merge; confirm Validation fires. Done still moves by hand. Hold here for one to two weeks. The Operator is verifying the convention enforces itself before adding more automation.
-4. **Install Releases pipelines for the production surface.** After the manual-Validation flow has been green for a week or two, wire the GitHub Actions release workflow (or GitLab CI release job) for the highest-volume customer-facing repo. Configure the Linear Releases pipeline to auto-move associated issues from Validation to Done on release publication. Done becomes automatic for that surface only.
-5. **Replicate to additional surfaces.** Once the first surface has a green release flow for one to two weeks, replicate to the next production surface. Cap at roughly six pipelines workspace-wide (P-24).
+1. **Lock the nine workflow states first (Chapter 10).** Confirm `In Review` and `Validation` exist on every team before connecting a single repository.
+2. **Publish the branch and PR naming convention.** Commit the `<issue-id>-<slug>` and `[<issue-id>]` rules into `AGENTS.md` and `.github/pull_request_template.md` (or `.forgejo/pull_request_template.md`), and create the Linear view that flags `In Progress` issues older than 48 hours with no linked PR.
+3. **Wire `PR opened -> In Review` and `PR merged -> Validation`.** Enable the GitHub App, GitLab integration, or Forgejo webhook bridge. Set merge transitions strictly to `Validation`. Run one issue end-to-end from branch creation to merge and confirm it parks in `Validation` with the PR link attached. Hold at manual `Validation -> Done` for two full weeks.
+4. **Wire SemVer and release-driven `Done` on one production repo.** After manual `Validation` is muscle memory, connect your primary production repository's release workflow (`release: published` or post-deploy verification) to transition shipped issues from `Validation` to `Done` with the SemVer tag receipt attached (P-9, P-29).
+5. **Expand up to the six-pipeline ceiling.** Replicate release-driven `Done` only to the production surfaces that earn the maintenance cost (P-24, P-25).
 
 ### What not to do
 
-Two patterns destroy this chapter's value if installed.
+Two anti-patterns will wreck your forge integration every time:
 
-**Do not sync GitHub Issues (or GitLab Issues) into Linear bidirectionally.** Linear is the system of record (P-23); the code host's issue tracker is a duplicate. One-way webhooks from the code host into Linear are fine — Sentry alert into Triage, dependabot finding into Triage, a public GitHub Issue routed into Triage for the Operator's review. Two-way sync is debt. Drift between Linear and the code host's issue tracker becomes impossible to debug, the Operator ends up updating both, and the verification check (P-25) collapses because there is no single source of truth to verify against.
+**Never sync GitHub Issues, GitLab Issues, or Forgejo Issues bidirectionally with Linear.** Linear is the single active work graph (P-1, P-23). Two-way issue synchronization creates split-brain state machines, infinite webhook loops, and dual triage queues where nobody knows which comment is authoritative. If external users file issues on a public GitHub repo, route them one-way into Linear's `Triage` queue as intake candidates, disable the native issue tab on private repositories altogether, and run all state transitions strictly inside Linear.
 
-**Do not install more than roughly six Releases pipelines.** Each pipeline is a watched event, a CI job, a webhook, and a Done-transition rule. Each one needs to be audited quarterly. Six is the rough capacity ceiling for a 3-person team (P-24); above that, pipelines start failing silently and the Operator stops trusting the Done count. If twelve repos need release-gated Done, the Operator's next decision is not "more pipelines" — it is "fewer surfaces" or "a separate orchestration layer."
+**Never let a PR title match auto-close an issue to `Done` without runtime evidence.** Whether through GitHub's default `Fixes #` magic words or Linear's native merge settings, allowing a `git merge` event to certify production delivery destroys Principle P-6. A merge proves code landed on a branch. Only a live check proves it works.
 
 > **Where this gets hard**
 >
-> When the release flow involves multiple repos coordinated through a separate orchestration layer (Argo, Spinnaker, an internal CD platform), or when release gates legitimately span days because of phased rollouts, canary windows, or compliance signoffs, the simple "release event → Done" automation stops fitting. The release event happens at a layer the code host does not own, and the issues need to wait for a signal that lives somewhere else entirely. At that point the Operator is designing custom plumbing — release pipelines that listen to the deployment system, not the code host — and the chapter's defaults stop applying.
+> When your release topology decouples git merges from production reachability - such as multi-repo monorepo trains, immutable OCI `:b<N>` builds promoted through Harbor into a GitOps repository (`norns-gitops`) managed by Argo CD, or dual-surface tools that must ship simultaneously to a Kubernetes cluster and a Homebrew tap - a naive GitHub `release: published` webhook fires before the workload ever schedules on a node. Wiring the `Validation -> Done` gate to actual cluster sync and live health probes rather than git tag creation requires release-custody plumbing across the registry and orchestrator.
 >
 > Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
@@ -123,8 +145,8 @@ Two patterns destroy this chapter's value if installed.
   structural: pass
   content: pass
   funnel: pass
-  chapter-type-extras: pass — GitHub primary + GitLab equivalent for all five native mechanics (1) branch/PR convention, (2) PR-opened → In Review, (3) PR-merged → Validation, (4) release event → Done, (5) mixed-host 3-person team install; plus self-hosted-forge webhook bridge (non-native hosts) and SemVer / semantic-release release naming (P-29)
-  word-count: ~2750
-  principle-citations: P-6, P-7, P-8, P-9, P-18, P-23, P-24, P-25, P-29
+  chapter-type-extras: pass - GitHub primary + GitLab/Forgejo equivalent for all five native mechanics (1) branch/PR convention, (2) PR-opened -> In Review, (3) PR-merged -> Validation, (4) release event -> Done, (5) mixed-host 3-person team install; plus self-hosted-forge webhook bridge (non-native hosts) and SemVer / semantic-release release naming (P-29)
+  word-count: ~2850
+  principle-citations: P-1, P-4, P-6, P-7, P-8, P-9, P-18, P-23, P-24, P-25, P-29
   flagged-principle-gaps: none
 -->

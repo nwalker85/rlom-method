@@ -1,103 +1,90 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
 <!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
-## Chapter 10 — Workflow Canon and the Validation Gate
+## Chapter 10 - Workflow Canon and the Validation Gate
 
-It is 4:48 on a Friday. The Operator has already posted the weekly summary to Leadership: nine issues Done this sprint, two slipping into next week, one still blocked on a vendor. At 5:11 a customer pings in shared Slack — the export feature that shipped Tuesday returns an empty CSV. At 5:23, monitoring finally catches up: a migration ran on staging but never on production, so a different feature has been silently writing to a column that does not exist. By 5:40 the Operator is re-reading the Friday summary and counting which of those nine "Done" issues actually shipped working code to customers. The answer is six. The other three were merged, closed, and counted. Nobody looked at them after the PR went green.
+Pull two autopsy reports from the Ravenhelm ledger and lay them side by side on the bench. First, **2026-09-13**: an agent supervisor reported three merged pull requests across the estate as finished, ready-to-use capabilities and flipped their tracking items to complete. When we inspected the live running systems five minutes later, `the-work` masthead changes were sitting inert on `main` waiting for a production redeploy that nobody owned, a Matrix transport hotfix had merged without a single live verification check against the homeserver, and the third tool had never been installed on the workstation PATH. Second, **2026-09-09**: a forensic sweep across our active repositories uncovered **ten merged features backed by 73 passing unit tests and zero callers in production**. That pile included a 46 KB wire-protocol implementation (`wire.py`) with thorough unit test coverage that nothing in the daemon ever imported, a `vodozemac-bridge` cryptography adapter compiled and tested in total isolation, and an `ensure_receiver()` lifecycle hook that passed every mock test while `doom new --launch` bypassed it completely in live execution. Every single one had a green pull request. Every single one had passing CI. None of them ran.
 
-The Method's workflow exists to make that Friday impossible. It has exactly nine states. The one between merge and Done — Validation — is the load-bearing piece. The rest of this chapter argues that point and installs it.
+This is the central lie of modern software tracking: the belief that `Merged == Done` and `Green Tests == Working Software`. In a naive v1 Linear setup - the exact setup 95% of engineering teams run out of the box - a developer or coding agent opens a pull request, unit tests pass against mocked interfaces, the PR merges to `main`, and the GitHub integration automatically transitions the Linear issue from `In Review` to `Done`. Within six weeks, your `Done` column is a wax museum of dead code, un-applied SQL migrations, stale container digests, and features locked behind unwired entrypoints. Your weekly status report counts nine shipped deliverables when three of them are ghosts.
 
-### The nine states
+The Ravenhelm Workflow Canon exists to make that lie physically impossible to record. It establishes a strict distinction between three physical states of matter: **Merged is not Built, and Built is not Running.** To enforce that law in the work graph, the Method locks the workflow spine and inserts a non-negotiable physical airlock between `In Review` and `Done`: the **Validation** state (`P-6`).
 
-The Method's workflow is canonized at nine states (P-10). Each has an entry condition, an exit condition, and a smell that signals misuse.
+### Why `Merged != Built != Running`
 
-**Triage.** Unprocessed intake. Anything entering the workspace from a Slack ask, a Sentry alert, a customer request, an engineer's thought, or the Operator's own brain lands here first. Exit is classification: accepted, merged with another issue, sent to docs, escalated, or canceled. Smell: items aging past seven days untouched.
+When an engineer or an autonomous `agent:coding-agent` slice merges a pull request to `main`, exactly one thing has been proven: a git commit SHA moved forward and whatever unit tests were wired in CI exited zero (`P-8`). Between that git merge and a human or production system actually using the work stands a minefield of physical failure modes that unit tests never touch:
 
-**Backlog.** Accepted but not scheduled. The work is real, it has an owner-eventual, but no one is starting it this week. Exit is scoping. Smell: a Backlog item with no project (P-3) — orphans accumulate here.
+1. **The Dead-Caller Gap (2026-09-09)**: The new module (`wire.py`, 46 KB, 73 passing tests across the ten ghost features) compiles and passes unit tests that import it directly, while the production entrypoint (`main.py` or `cli.rs`) never calls it. Reachability in a test harness is not reachability in the binary.
+2. **The Build-to-Deploy Gap (2026-09-13)**: The commit is on `main`, and perhaps CI even pushed a container image `:b<N>` to Harbor, but the GitOps manifest (`norns-gitops`), the server container (`odin` / `hrafngud`), or the local Homebrew tap (`nate/tools`) is still pinned to last week's digest. `the-work` masthead is merged in git and invisible in the browser.
+3. **The Migration & Config Gap**: The new container binary rolls out to the cluster, boots up, and immediately throws HTTP 500 on the write path because the SQL schema migration (`apply-migrations.sh`), the OpenBao secret mount, or the Kubernetes RBAC `PrometheusRules` permission (`RAV-2086`) was never applied in the target environment.
 
-**Ready.** Scoped and available for an assignee or an agent. Acceptance criteria are written. The estimate is reasonable. The issue is deliverable-sized (P-4). Exit is someone picking it up. Smell: a Ready item nobody picks up for two weeks — usually the scope is wrong.
+If your Linear workflow transitions straight from `In Review` to `Done` at the moment of git merge, every failure in those three buckets becomes invisible to the work graph. The ticket is closed, archived, and celebrated in the Friday update while production is either unchanged or broken (`P-28`).
 
-**In Progress.** Someone is actively working. Exactly one assignee. A branch exists if it is code work. Exit is a PR, an artifact, or a decision posted. Smell: more than one issue In Progress per person at a time.
+**Validation (`P-6`)** separates *implemented* (the diff landed on `main`) from *trusted* (the capability is built, deployed, reachable through its real entrypoint, and proven by an external artifact receipt). Only trusted work enters `Done` (`P-7`).
 
-**In Review.** A PR, artifact, or decision is awaiting review. Entry is automated when the code host opens a PR linked to the issue (Chapter 12). Exit is review approval and merge. Smell: an In Review item older than three working days — the reviewer is overloaded or the PR is too large (P-12).
+### The canonical workflow spine (`P-10`)
 
-**Validation.** Merged or delivered work still needs runtime, browser, release, infrastructure, or human-acceptance evidence (P-6). This is where most workspaces leak. Entry is merge or delivery; exit is evidence posted to the issue and accepted by the Operator. The rest of this chapter is mostly about this state.
+Earlier in Ravenhelm's history, before we enforced a constitutional cap, our workspace mutated into 14 distinct workflow states across teams (`Triage`, `Icebox`, `Backlog`, `Scoping`, `Ready`, `In Progress`, `Blocked`, `PR Open`, `Code Review`, `Design Review`, `QA Testing`, `Pending Deploy`, `Staging Verified`, `Done`, `Canceled`). That 14-state corpse taught us a brutal mechanical lesson: **every extra state column you add is another dark corner where stalled work hides from the morning sweep.**
 
-**Blocked.** Stuck on something external; the blocker is named, in the issue, in a comment, with a date. "Blocked" without a named blocker is a parking lot, not a state. Exit is the blocker resolving or the issue being canceled. Smell: a Blocked item with no blocker named — almost always means the assignee has lost interest and needs the Operator's intervention.
+The Method locks the workflow canon at **seven forward progression states** (`Triage -> Backlog -> Ready -> In Progress -> In Review -> Validation -> Done`) plus **two off-axis exception/terminal states** (`Blocked` and `Canceled`), giving nine total state slots in Linear (`P-10`). Every state is a hard physical gate with an explicit entry proof, an explicit exit proof, and an unmistakable rot smell when abused.
 
-**Done.** Complete with evidence (P-7). The artifact link is in the issue. The evidence matches the acceptance criteria. Someone other than the assignee has confirmed, when human acceptance applies. Entry is the Operator (or, on higher tiers, an agent surface) accepting the Validation evidence. There is no exit; Done is terminal.
+| # | State Name | Linear Category | Physical Gate Definition | Entry Proof | Exit Proof | Rot Smell (Diagnostic Violation) |
+| :- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **1** | **Triage** | `Triage` | Unprocessed raw intake airlock | Filed via Ask, Customer Request, Alert, or manual capture | Classified into a Project (`Backlog`/`Ready`), routed to docs (`P-1`), or `Canceled` | Any card aging **>7 calendar days** (`P-20` violation) |
+| **2** | **Backlog** | `Backlog` | Accepted intent awaiting scheduling | Accepted by Operator and bound to a Project (`P-3`) | Scoped to deliverable size (`P-4`) with exit criteria (`P-15`) | Orphan issues with **no Project attached** (`P-3`), or aging >90 days |
+| **3** | **Ready** | `Unstarted` | Fully specified, ready to pull | Deliverable-sized (`<=2 weeks`), single human assignee (`P-14`), verification command written (`P-15`) | Engineer or `delegate` agent creates branch (`RAV-<id>`) and starts work | Sitting untouched in `Ready` **>14 days** (scope is still vague or priority is fake) |
+| **4** | **In Progress** | `Started` | Active execution on an isolated worktree | Branch created / active work started by named owner | Pull request opened in code host or decision document published | **>2 issues `In Progress` per human engineer**, or zero git commits for 4 days |
+| **5** | **In Review** | `Started` | Diff or artifact under peer inspection | PR opened in Forgejo / GitHub / GitLab referencing `RAV-<id>` | Code review approved, CI green, and **PR merged to target branch** | PR open **>3 working days** without merge or decomposition (`P-12`) |
+| **6** | **Validation** | `Started` | **The Custody Airlock (`P-6`)**: Merged to `main`, awaiting live runtime/release proof | All required PRs merged in code host (`P-8`) | Verifiable external receipt (`P-7`, `P-9`) pasted in issue comments and accepted by Operator / reviewer | Issue sitting in `Validation` **>48 hours** after merge (unowned deploy or broken staging) |
+| **7** | **Done** | `Completed` | **Terminal Truth**: Running and verified in target environment | Live verification receipt on file (`P-7`, `P-28`); human sign-off | **None** (Terminal state; regressions open a new linked bug or reopen to `In Progress`) | Issue in `Done` with **zero comment links/artifacts** after PR merge (auto-close trap fired) |
+| **-** | **Blocked** | `Started` | Off-axis halt waiting on named external dependency | Comment posted naming the exact blocking issue ID (`blocked by`), vendor, or Operator decision | Blocker resolved -> returns to prior active state, or killed -> `Canceled` | Flipping to `Blocked` with **no comment naming the blocker** (used as a lazy parking lot) |
+| **-** | **Canceled** | `Canceled` | Off-axis terminal discard | Closing comment stating the explicit reason (`superseded by RAV-X`, `out of scope`, `wontfix`) | **None** (Terminal state) | Silent bulk cancellation without rationale comments |
 
-**Canceled.** No longer relevant; the reason is named. "We decided not to," "the customer withdrew," "superseded by issue X." Cancellation without a reason is a state lie. Like Done, Canceled is terminal.
+#### Walking the seven forward gates in detail
 
-That is the canon. Nine states, in flow order. The reader's existing workflow may have eleven or thirteen — most do. The Method's first install act is to collapse it to nine.
+1. **Triage (`Triage`)**: Nothing bypasses the airlock (`P-20`). Whether an item originates from a 3:00 a.m. PagerDuty/Alertmanager webhook, a customer via Zendesk, an executive Slack Ask, or an engineer's mid-coding discovery, it lands in `Triage` first. Inside seven days, the Operator (or the engineer on Triage Responsibility) makes a binary routing call: if it is static reference material, move it to Outline or repo `docs/` and cancel the ticket (`P-1`, `P-5`); if it is duplicate or out of scope, cancel with a comment; if it is real work, attach it to a Project (`P-3`) and move it to `Backlog` or `Ready`.
+2. **Backlog (`Backlog`)**: `Backlog` means *"we have decided to build this within the project's horizon, and we have not yet written the atomic execution packet."* Every `Backlog` item must belong to a Project (`P-3`). An un-projected `Backlog` item is an orphan that will never appear in a Friday update (`P-19`).
+3. **Ready (`Unstarted`)**: The launchpad. An issue cannot cross from `Backlog` to `Ready` until it passes `P-4` (deliverable-sized, verifiable in ten working days or less; split via `P-12` if larger), `P-14` (one named human `assignee`), and `P-15` (explicit acceptance criteria, target repo, test command, and required `Validation` evidence type written into the body). If an autonomous agent (`agent:coding-agent`) is set as `delegate`, `Ready` is the exact trigger that dispatches the worker slice.
+4. **In Progress (`Started`)**: Execution is live. A dedicated git worktree (`~/var/worktrees/<repo>/rav-<id>-...`) and branch exist. If an engineer has five issues in `In Progress` simultaneously, four of them are lies; cap human WIP at one or two active deliverables so cycle time stays honest.
+5. **In Review (`Started`)**: Entered automatically via webhook the instant a pull request referencing `RAV-<id>` opens on the code host (Chapter 12). While in `In Review`, automated CI runs tests, static analysis, and advisory AI review (such as Snotra on Forgejo), and a peer human engineer inspects the diff. When an issue requires **multiple pull requests** (for example, 3 PRs across backend and gitops), the issue remains in `In Progress` or `In Review` until the *final* implementation PR merges - or better, each PR is bound to its own atomic sub-issue (`P-12`).
+6. **Validation (`Started`)**: The moment the pull request merges to `main`, the code host integration transitions the issue to `Validation` - **never `Done`**. Here the issue waits until the change is built into an immutable artifact, deployed to its target rail (cluster, server, Homebrew tap, or customer release), exercised through its real production entrypoint (proving it is not one of the ten zero-caller ghosts of 2026-09-09), and documented with a concrete receipt pasted into the issue comments (`P-6`, `P-7`, `P-9`).
+7. **Done (`Completed`)**: A human reviewer or Operator (never the author or the coding agent self-certifying without external artifacts) inspects the `Validation` receipt against the acceptance criteria written in `Ready`, confirms parity, and moves the issue to `Done` (`P-7`, `P-28`).
 
-### Why Validation is load-bearing
+### The five canonical Validation receipts (`P-7`, `P-9`)
 
-Most workspaces operate on six states: Triage, Backlog, In Progress, In Review, Done, Canceled. PR merges, issue closes, sprint report counts it, the Operator moves on. This is the workflow that produced the 4:48 Friday at the top of this chapter.
+"Verify it in `Validation`" cannot be left as a vague exhortation; otherwise an engineer writes *"Checked locally, looks good"* in a comment and clicks `Done`. A `Validation` exit requires pasting at least one of five non-fabricable artifact receipts (`P-7`, `P-8`), chosen when the issue was scoped in `Ready`:
 
-The Method draws a hard line between two things that look the same and are not. **Merged code is implemented. Code that has passed evidence is trusted.** Only trusted code becomes Done (P-6). Validation is the named state where the difference lives.
+| Evidence Type | What It Physically Proves | Required Artifact Receipt in Issue Comment | When Mandatory |
+| :--- | :--- | :--- | :--- |
+| **1. Runtime Receipt** | The compiled binary/container is booted and executing the new code path via its real entrypoint (`!= 0 callers`). | Deploy job URL + container digest (`:b<N>` / `sha256`) + pasted startup/structured log output or live CLI/API response payload. | Every backend service, daemon, worker, or CLI change. |
+| **2. Browser / Surface Receipt** | The user-facing UI renders and mutates state against the live backend without console/CORS/network faults. | Annotated screenshot (with the full environment URL bar visible) or Playwright/Loom trace recorded against staging/prod. | Every web, mobile, TUI, or dashboard change. |
+| **3. Release Custody Receipt** | The merged commit is packaged inside the immutable release artifact that external users or workstations actually pull (`P-9`). | Link to the published Forgejo/GitHub Release tag (`vX.Y.Z`), Harbor OCI chart digest in `norns-gitops`, or Homebrew formula bump PR. | Any customer-shipping feature or workstation CLI release (`P-9`). |
+| **4. Infrastructure / State Receipt** | The target cluster, firewall, or database schema converged to the declared state with zero drift. | Pasted output of `kubectl get pods` (showing running digest), `terraform plan` (0 changes), or `schema_migrations` row query. | Every GitOps, network, database migration, or secret-routing ticket. |
+| **5. Independent Human Acceptance** | Someone other than the code author confirmed the live behavior solves the operational problem stated in the ticket. | Signed comment from the Operator, requester, or customer (`"Verified on prod tenant X; export CSV now populates 1,420 rows"`). | Non-trivial product features, bug fixes reported via Asks/Customer Requests, and all agent-authored PRs (`P-14`). |
 
-The cost of skipping Validation compounds in three directions. First, the Operator's Done count becomes unreliable. "Nine issues Done this sprint" means nothing if three of them shipped broken. Worse, the Operator does not know which three. The number is theater (P-28). Second, the customer-facing surface develops a quiet backlog of half-shipped features — code merged, migration forgotten, flag not flipped, deploy never pushed to the customer-visible cluster. The team thinks it shipped. The customer does not see the change. The gap between team-reality and customer-reality grows until someone in a Slack DM names it. Third, Leadership loses faith in the rollup. The monthly initiative health report (Chapter 13) is built from project updates, which are built from issue counts. If issue counts lie, the entire reporting chain collapses into theater (P-28). The Operator becomes the person who keeps having to retract the Friday update.
+**The Two-Receipt Rule for Production (`P-9`)**: For any issue that ships to production or touches customer-visible surfaces, crossing from `Validation` to `Done` requires **two orthogonal receipts** - typically **Runtime/Release Receipt + Browser Receipt**, or **Infrastructure Receipt + Independent Human Acceptance**. A runtime log alone misses a frontend pointing at the wrong route; a browser screenshot alone can be taken accidentally against `localhost` while production still runs last Tuesday's container. Requiring two orthogonal receipts closes every seam from the 2026-09-13 and 2026-09-09 post-mortems.
 
-Validation is the state that fixes all three at once. It is a holding pen with one rule: do not enter Done without evidence. The evidence is not the Operator's word; it is an artifact in a system the Operator cannot fabricate (P-8). The code host says the PR is merged. The deploy log says the binary is running. The screenshot shows the customer-facing URL renders. The Terraform plan says the resource exists. The customer reply says they tried it. Until one of those exists and matches what was promised, the issue stays in Validation.
-
-This is the difference between a workspace that ships and a workspace that ships broken software with confident summaries.
-
-> **Augmentation Surface — Evidence Reconciliation**
+> **Augmentation Surface - Automated Validation Harvesters**
 >
-> Where an agent layer makes this work better: scanning every issue in Validation on a schedule, checking the linked PR, deploy pipeline, release artifact, or browser surface for the expected evidence type, posting the evidence as a comment when it is findable, and escalating to the Operator only when it is not. The Validation queue stops being a queue the Operator clears manually and becomes a queue the Operator only sees when judgment is required.
+> Where an agent layer makes this work better: watching the `Validation` column continuously. When an issue enters `Validation` after PR merge, a verification agent reads the merged commit SHA, checks whether the `.forgejo/workflows/build.yml` or GitHub Actions release pipeline published `:b<N>`, verifies whether Argo CD (`norns-gitops`) synced the new digest onto the cluster pods, runs an automated headless Playwright or `curl` smoke probe against the live route, and posts the collected receipts directly into the Linear issue comment thread. If the deploy hasn't rolled out after 24 hours (the exact `the-work` failure from 2026-09-13), the agent flags the issue in the Operator's morning sweep.
 >
-> What the PM keeps: the call on whether the evidence is actually sufficient — the human-acceptance test, the "is this really what we promised" judgment, the decision to push back when a screenshot is technically present but shows the wrong state.
+> What the PM keeps: reading the harvested evidence, executing the human-acceptance check, and making the final `Validation -> Done` transition. The agent fetches the receipts onto the bench; the human judges whether they satisfy the contract (`P-7`, `P-14`).
 
-### The five evidence types
+### Killing the tenth state - why variations belong in `stage:*` labels (`P-11`)
 
-Not all Validation is the same. The Method recognizes five evidence types, each appropriate to a different kind of work. The Operator (and any agent layer assisting) needs to know which type the issue requires before it enters Validation, not after.
+Every month, someone with good intentions will ask to add a tenth workflow state to Linear: *"Can we add a `Design Review` state before `Ready`?"*, *"Can we split `Validation` into `Staging QA`, `Security Signoff`, and `Pending Release Window`?"*, *"Can we add an `On Hold` column next to `Blocked`?"*
 
-**Runtime evidence** — the code is running where it should be. The deploy pipeline log shows green. A log line confirms startup. A smoke test returns the expected payload. Use for backend changes, scheduled jobs, infrastructure services, anything where "the binary is up" is the question. Example artifact: a link to the deploy job output, plus a paste of the relevant log line.
+The answer is always **no** (`P-10`, `P-11`).
 
-**Browser evidence** — the user-facing surface is reachable and renders correctly. A screenshot of the page in the deployed environment. A short Loom of the new flow. A browser session log for an instrumented test. Use for any change a customer or internal user sees. Example artifact: a screenshot annotated with the URL bar visible, so the environment is unambiguous.
+The moment you split `Validation` into three custom state columns on one team, every cross-workspace query, every cycle-time Insight (Chapter 8), and every Enterprise Dashboard (Chapter 9) fractures. If a team genuinely needs to track sub-steps inside an active gate, they attach a namespaced `stage:*` label (`P-11`) while keeping the workflow state canonical:
+- Need design sign-off before engineering pulls the ticket? State stays `Backlog` (or `In Review` for a design task) with label `stage:design-review`.
+- Merged to `main`, verified on staging, and waiting for Thursday's production release window? State stays `Validation` with label `stage:awaiting-release`.
+- Waiting on security penetration sign-off before flipping the feature flag? State stays `Validation` with label `stage:security-review`.
 
-**Release evidence** — the work is in the release artifact customers actually receive. The release tag exists. The changelog entry is present. The app-store version is approved and rolled out. The container image is tagged and pulled by the production cluster. Use whenever merge to main is not the same as customer availability (P-9). Example artifact: a link to the release in Linear Releases or the equivalent code-host release page.
-
-**Infrastructure evidence** — the underlying resources are in the expected state. A Terraform plan showing zero drift. A `kubectl get pods` output showing the expected count and image tag. A secret rotation log entry. Use for platform, capacity, security, and compliance work. Example artifact: a paste of the relevant command output, with the command itself included for reproducibility.
-
-**Human acceptance** — someone other than the assignee has confirmed the work meets the acceptance criteria. The customer replied "this fixed it." A UAT signoff comment from the requester. The Operator's own acceptance comment after walking through the feature. Use whenever the question is "does this actually solve the problem we agreed to solve," which is most non-trivial work. Never the assignee's own assertion — that is not evidence, it is restatement.
-
-For most issues, one evidence type is enough. For production work that ships to customers, the Method requires two: either runtime evidence plus browser evidence, or a deploy log plus a human-acceptance comment (P-9). The combination matters. A runtime green without a browser check has missed a frontend that points at the wrong API. A browser check without a deploy log has confirmed staging while production is still on the old binary. Two evidence types in production work is the cheapest insurance against the 4:48 Friday.
-
-### The three-person team flow
-
-The Method's flow for a 3-person team — Operator, Engineer A, Engineer B — is concrete enough to install on a Monday. Here is the lifecycle of a single deliverable.
-
-The Operator and Engineer A scope the issue together in a fifteen-minute conversation. Acceptance criteria go into the issue body. The estimate is reasonable. The issue is deliverable-sized — single outcome, two weeks or less to verify, one owner (P-4). If the acceptance criteria run past five items, the issue splits into a parent with sub-issues (P-12). State moves from Backlog to Ready.
-
-Engineer A picks the issue up Monday morning. The code-host integration (Chapter 12 owns the mechanics) creates a branch named with the issue ID, and the state moves to In Progress. Engineer A is the assignee. The branch name carries the issue ID so the code host can match commits and PRs back to Linear.
-
-Engineer A opens a PR on Wednesday. The Linear–GitHub integration moves the issue to In Review automatically — on the GitLab equivalent, the merge-request integration does the same. Engineer B reviews. On a 3-person team, the reviewer pool is one person; this means review is fast, not optional. If Engineer B is heads-down on a separate issue, the Operator owns the call on whether the PR waits.
-
-The PR merges Thursday. **Here the integration does not move the issue to Done.** It moves it to Validation (Chapter 12 covers the configuration). This transition is automated by the code-host integration (available on Free), or run by hand where it isn't wired. Either way, the rule is the same: merge does not equal Done.
-
-Engineer A posts evidence in a Validation comment. For a backend change, a link to the deploy log plus the relevant startup line. For a UI change, a screenshot of the deployed environment with the URL visible. For an infrastructure change, the Terraform plan output. The evidence type was decided when the issue was scoped, not invented now.
-
-The Operator confirms the evidence matches the acceptance criteria. Not the Operator's vibe — the literal acceptance criteria written in the issue body when the work was scoped. If it matches, the Operator moves the issue to Done. If it does not, the Operator comments on the gap and the issue stays in Validation. The assignee does not move their own work to Done.
-
-If the change is production and customer-visible, the Operator waits for release evidence — the Linear Releases entry, or the equivalent on the code host — before Done (P-9). For a 3-person team this is usually a one-day wait, not a one-week wait. The cost is small. The cost of skipping it is the 4:48 Friday.
-
-The Leadership Team never sees any of this. They see the Friday summary and the monthly rollup. The reason those rollups are trustworthy is that the issue counts behind them mean what they say.
-
-### Nine states is the contract
-
-When someone — a new engineer, an experienced PM joining the team, a vendor consultant — proposes a tenth state, the answer is no. The most common proposals are "In QA," "Pending Approval," "Design Review," and "Soft Launch." Each one feels reasonable. Each one is a `stage:*` label, not a state (P-11).
-
-"In QA" is `stage:qa` on an issue that is In Progress or In Review. "Pending Approval" is `stage:awaiting-approval` on an issue in Validation. "Design Review" is `stage:design-review` on an issue in In Review. "Soft Launch" is `stage:soft-launch` on an issue in Validation, waiting for full release evidence before Done. Labels carry the variation; the canon stays at nine (P-11).
-
-This is doctrine, not preference. The reason is brutal: a workflow with thirteen states has thirteen places work can stall invisibly. A workflow with nine has nine. The Method's nine are the smallest set that preserves the Validation distinction, which is the only state difference that actually matters for the question "did this ship?" Everything else is a label (P-11), a comment, or a project milestone.
-
-The canon is nine. Hold it.
+Labels carry local sub-process granularity; the nine state slots hold the universal physical truth of the work graph (`P-10`, `P-11`). Never touch the state canon.
 
 > **Where this gets hard**
 >
-> The Operator's team does not own production. A separate platform team controls the deploy, the cluster, and the release pipeline. Getting a deploy-log link on every customer-visible Validation issue requires the platform team's cooperation, which they have no incentive to provide — their on-call rotation does not care about your Linear hygiene, and the link in their CI system requires permissions you do not have.
+> Installing the `Validation` state in Linear takes thirty seconds; enforcing it when your GitHub or Forgejo webhooks are still pre-wired to auto-close issues on PR merge, when your developers are accustomed to claiming credit at `git push`, and when your CI/CD pipeline provides zero visibility into which commit SHA is actually running in production is where teams stall. Without wiring the code host transitions (Chapter 12) and the release custody gates (Book III: RROM), `Validation` either gets skipped or turns into a 90-ticket bottleneck nobody knows how to clear.
 >
 > Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
@@ -106,7 +93,7 @@ The canon is nine. Hold it.
   content: pass
   funnel: pass
   chapter-type-extras: n/a (not a tier, doctrine, integration, reporting, or closing chapter)
-  word-count: 2400
-  principle-citations: P-3, P-4, P-6, P-7, P-8, P-9, P-10, P-11, P-12, P-28
+  word-count: ~2650
+  principle-citations: P-1, P-3, P-4, P-5, P-6, P-7, P-8, P-9, P-10, P-11, P-12, P-14, P-15, P-19, P-20, P-28
   flagged-principle-gaps: none
 -->

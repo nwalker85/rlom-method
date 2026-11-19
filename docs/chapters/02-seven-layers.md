@@ -1,85 +1,85 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
 <!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
-## Chapter 2 — The Seven Operating Layers
+## Chapter 2 - The Seven Operating Layers
 
-You installed Linear yesterday. You created a team, accepted Engineer A and Engineer B, and now you're looking at an empty workspace with at least ten primitives staring back at you: initiatives, projects, issues, cycles, milestones, views, Triage, Asks, Customer Requests, releases, labels, documents. The product is opinionated, but it doesn't tell you which primitives carry which weight. So you do what most operators do: you create a few projects, dump issues into them, and within a week you can't tell which view is the one you check on Mondays.
+A live planning session opened on the bench with one bounded question: *which model holds the fleet supervisor seat during concurrent slice execution?* Ten minutes in, verifying how the supervisor signed its dispatch tokens pulled the conversation downward into hardware-backed PKI. PKI pulled it sideways into service-to-service identity. Identity branched upward into a full platform tenancy redesign, which branched downward again into a rewrite of the agent memory substrate. Three hours later the session log held four thousand words of architecture notes, six new design threads, and zero answers to who sat in the supervisor chair.
 
-The Method's first job is to give you a structural map. Linear has many features; the Method uses seven layers. Everything else is supporting machinery that belongs to one of the seven.
+That branch-up, branch-down trap is what happens to a recursive mind - human or LLM - when nothing holds the goal list at a fixed altitude. A flat issue tracker fails the exact same way. You install Linear on Tuesday, invite Engineer A and Engineer B, and stare at ten unlabelled primitives in the sidebar: initiatives, projects, issues, cycles, milestones, custom views, Triage, Asks, Customer Requests, releases, labels, documents. Because the tool does not force a containment hierarchy out of the box, v1 of almost every workspace is a flat bucket. A quarter-long reliability goal, a six-week CI migration, a four-hour branch-naming fix, and a 2,000-word database post-mortem all get filed as sibling issues in the same backlog. By week three, picking up a ticket to fix a webhook pulls the engineer into an unclosed architectural debate from two months ago. Nobody knows which screen to check on Monday morning.
+
+The Method stops altitude drift by locking the workspace into **seven operating layers**. Every primitive Linear ships is bolted to one of those seven floors. Nothing floats between them.
 
 ### Why seven layers, not two
 
-Jira gives you epics and tickets. Trello gives you cards on a board. Both leave the objective layer and the evidence layer to your imagination — you bolt OKRs onto a spreadsheet and your "done" definition onto a Slack channel. Linear ships both natively: initiatives sit above projects as a real objective container (P-2), and the integration surface with the code host ships evidence into the issue automatically (P-8). The Method's seven layers are not a methodology imposed on Linear; they are the layers Linear already exposes, named honestly so you can reason about them.
+Legacy trackers give you two buckets and wish you luck. Jira gives you epics and stories; Trello gives you lists and cards. Both leave the strategic objective layer and the cryptographic proof layer outside the building, forcing you to tape quarterly OKRs into a slide deck and paste deployment receipts into a dying Slack thread. Linear ships the whole vertical column natively: initiatives sit above projects as a true quarter-scale objective container (`P-2`), while code-host webhooks inject merge and deployment evidence directly into the bottom of the issue (`P-8`). RLOM does not bolt an alien taxonomy onto Linear; it names the seven load-bearing surfaces already in the silicon and assigns each one a strict altitude and clock speed.
 
-The payoff is scale without restructuring. A 3-person team can run all seven layers in a thin form on Monday morning. A 30-person team runs the same seven layers with more rows in each, more views slicing them, and more agents reading them — but no new layers and no rearrangement. The Method is meant to survive headcount growth without a re-platforming exercise.
+The dividend is scale without structural demolition. A 3-person squad runs all seven layers on Monday morning with two projects and five saved views. When that organization scales to 30 engineers and a fleet of autonomous worker slices, the schema does not change. More rows flow through the tables, more views slice the index, and automated gates verify the transitions, yet the seven layers stay bolted to the same studs. Build the frame once.
 
-### Initiatives — the objective layer
+### Initiatives - the objective layer
 
-**Definition.** An initiative is a durable, quarter-or-longer outcome that groups projects under a single owner.
+**Definition.** An initiative is a durable, quarter-or-longer strategic outcome that groups bounded projects under a single accountable owner.
 
-Initiatives are where the question "what are we trying to accomplish this quarter" gets a real, hyperlinked answer. They roll up projects (P-2), carry a target date, a health indicator, and an update cadence. They do not carry deadlines tighter than a quarter and they do not contain issues directly. The Method treats Linear as the active work graph (P-1), so an initiative without active projects under it is a smell — either revive it with a project or move the idea to a wiki.
+Initiatives hold the high-altitude question - *what must be measurably true by the end of the quarter that is not true today?* - so individual feature builds do not wander off into adjacent architecture rewrites. Initiatives aggregate projects (`P-2`), carry a target horizon, expose a three-color health signal, and run on a biweekly update clock (`P-21`). They never carry deadlines tighter than a quarter, and they never hold raw issues directly. Because Linear is the active work graph (`P-1`), an initiative with zero active or planned projects underneath it is dead weight; attach a real execution project to it this week or evict the essay to your wiki.
 
-For the 3-person team, the Operator's first initiative might be **Platform Reliability** — a durable objective that survives every individual release. It rolls up two projects: a CI/CD Backbone the engineers are building now, and a Production Stability project that's planned for next quarter. Health is "On Track." Updates run biweekly (P-21). The Leadership Team consumes the initiative update; it does not browse the projects underneath.
+For our 3-person squad, the Operator stands up **Platform Reliability** as the anchor initiative. It spans multiple releases and parents two concrete projects: the **CI/CD Backbone** Engineer A is building right now, and the **Production Stability** hardening effort queued for next month. Health reads `On Track`. Every second week, the Operator writes a compressed initiative update (`P-21`). Leadership reads that rollup; they never spelunk through the issue queue underneath.
 
-### Projects — the main execution container
+### Projects - the main execution container
 
-**Definition.** A project is a bounded program of work with a single lead, a start and target date, milestones, and a weekly update.
+**Definition.** A project is a bounded program of engineering work with a single human lead, explicit start and target dates, sequential milestones, and a mandatory weekly status receipt.
 
-Projects are the Method's main execution container (P-3). Active work without a project is the second-most-common smell in a Linear workspace; the first is doc-shaped issues (covered under Issues). A project answers five questions explicitly: what is being built, by when, by whom, with what milestones, blocked by what. The Operator owns project shape; the project lead — often an engineer at this scale — owns the weekly status update (P-19).
+Projects are the primary execution container (`P-3`). In-flight engineering work floating outside a project is an immediate structural smell; it means work is burning capacity without a milestone gate or a weekly health check. Every valid project answers five questions on its front card: what we are building, when it lands, who leads it, which milestones gate the path, and what blocks the critical chain today. The Operator governs project scope and boundaries; the project lead - frequently Engineer A or Engineer B at squad scale - writes the Monday status receipt (`P-19`).
 
-Engineer A's first project is **CI/CD Backbone**. Lead: Engineer A. Start: this week. Target: end of quarter. Milestones: Pipeline online → First service migrated → Documentation handed off. The project rolls up to the Platform Reliability initiative. It carries a Monday status update every week without exception (P-19), even when the update is "no movement, see last week."
+Engineer A leads **CI/CD Backbone**, parented under Platform Reliability. Start date: Monday. Target date: end of quarter. Milestones lock the sequence: `Pipeline online` -> `First service migrated` -> `Runbook handed off`. Every Monday morning, without fail, Engineer A posts the weekly project update (`P-19`). Even if the project sat frozen behind an upstream blocker all week, the Monday entry goes into the ledger. Silence is never a valid status.
 
-### Issues — deliverable-sized work units
+### Issues - deliverable-sized work units
 
-**Definition.** An issue is a single-outcome, single-owner work unit with exit criteria and an estimate measured in days, not weeks.
+**Definition.** An issue is an atomic, single-outcome, single-owner unit of delivery with binary exit criteria and an execution horizon measured in days, never weeks.
 
-Issues are where execution actually happens. The Method's rule is strict: one outcome, one owner, exit criteria you could read aloud at standup, and verification possible within two weeks (P-4). An issue whose acceptance criteria list more than five items, or whose implementation spans more than two days or two files, gets split into a parent issue with sub-issues (P-12). The Method also enforces a locality rule (P-18): an issue's exit criteria override the project's defaults, which override workspace defaults. Closer-to-the-work guidance wins.
+Execution lives inside issues. The sizing law (`P-4`) is unforgiving: one verifiable outcome, one human assignee in the seat, exit criteria crisp enough to test with a command or inspect in thirty seconds, and full completion including Validation inside two weeks. The moment an issue accumulates more than five acceptance bullets, crosses more than two days of implementation, or sprawls across unrelated subsystems, split it into a parent tracking issue with atomic sub-issues (`P-12`). Issues also obey strict locality (`P-18`): an issue's explicit exit criteria override the parent project's defaults, which in turn override workspace-wide templates. Closer to the metal wins.
 
-Issues are also where the Method's hardest discipline lives: documentation owns deep context (P-5). An issue is not the place for an ADR, a runbook, or a five-paragraph rationale. Link to the doc; keep the issue scoped to "what changed and how do we know."
+This layer is also where teams must enforce the boundary between the work graph and the library (`P-5`). When an engineer starts pasting a six-page Architecture Decision Record, a schema migration runbook, or a root-cause timeline into an issue description, stop them. Long-form rationale belongs in version-controlled repository `docs/` or the team wiki; the Linear issue holds the link, the diff boundary, and the exit test.
 
-Engineer B's first issue is **Add Linear-to-PR branch naming convention to the contributing guide**. Single outcome (the guide names the convention). Single owner (Engineer B). Exit criteria: PR merged, link posted to Engineer A and the Operator, two-line update in the parent project. Estimate: half a day.
+Engineer B picks up the squad's first atomic issue: **Add Linear-to-PR branch naming guard to `CONTRIBUTING.md`**. One outcome: the repository docs and pre-push hook specify the exact `<type>/<issue-id>-<slug>` contract. One owner: Engineer B. Exit criteria: pull request merged to `main`, link attached, and parent milestone incremented. Estimate: four hours.
 
-### Views — the operator's daily control panel
+### Views - the operator's daily control panel
 
-**Definition.** A view is a saved filter over issues or projects that the Operator (and the team) checks on a recurring cadence.
+**Definition.** A view is a persisted, shared query over issues or projects that the Operator and squad sweep on a fixed daily or weekly clock.
 
-Views are how the Method becomes operational. A workspace with no views is a workspace you can only navigate by clicking; a workspace with the right views is one where the Operator's morning takes ten minutes. The Method requires a small standard set: a "Now" view scoped to in-flight work, a "Waiting on Operator" view, a "Needs Validation" view, a "Stale Projects" view, and a "Blocked Critical Path" view. Each view is read at a defined cadence — daily, weekly, or before reporting.
+Saved views turn a passive database into an air-traffic control board. If you have to click through team sidebars and build ad-hoc filters to find out what is wedged, your operating surface is broken. RLOM installs seven shared views as the squad's instrument panel: **Operator's Now** (active in-flight execution), **Waiting on the Operator** (decisions queued on the human seat), **Blocked Critical Path**, **In Review**, **Needs Validation / Evidence**, **Projects Without Recent Updates**, and **Stale Triage**. Each view is wired to a specific time of day.
 
-Views also justify the entire label system. Labels exist to serve views (P-16). A label that no view cites is a candidate for deletion. The Operator does not add a `domain:security` label because security feels important; they add it because the security-domain view is a real surface someone reads on a real day.
+Views also govern the life and death of every label in the workspace (`P-16`). Labels are query indices, not decorative stickers. If you create a label that no saved view filters against, you just added friction to issue creation for zero operational return. Delete every label that lacks a view.
 
-The 3-person team shares one Now view that filters to all issues in Ready, In Progress, In Review, or Validation. The Operator looks at it Monday morning. Engineer A and Engineer B look at it before standup. It is the same view; the Method does not invent a separate operator view and a separate engineer view at this scale.
+On our 3-person team, the Operator, Engineer A, and Engineer B all open the exact same **Operator's Now** view before morning standup. It filters to issues in `Ready`, `In Progress`, `In Review`, and `Validation`, grouped by assignee. Nobody maintains a private stash of hidden boards. One truth sits on the glass.
 
-> **Augmentation Surface — Layer Reconciliation**
+> **Augmentation Surface - Layer Reconciliation**
 >
-> Where an agent layer makes this work better: scanning the workspace nightly for layer drift — an issue with three weeks of activity that should have been split into a project, a project whose only artifact is a long description and no issues that should have stayed a wiki page, a doc-shaped issue whose body would belong in a repo `docs/` directory. The agent surfaces candidates with proposed new homes.
+> Where an agent layer makes this work better: running a nightly structural sweep across the graph to catch altitude violations - flagging an issue that has accumulated twenty comments and three weeks of churn because it is secretly an undeclared project, identifying a "project" with zero issues and five pages of prose that belongs in the wiki (`P-5`), or catching active `In Progress` issues orphaned outside any parent project (`P-3`). The agent posts the reclassification candidates to the Operator's morning queue.
 >
-> What the PM keeps: deciding the new home. Layer assignment is a judgment call about how the team will actually use the artifact next week, and that judgment stays with the Operator.
+> What the PM keeps: clicking the move button. Deciding whether an overgrown issue gets promoted to a bounded project or split into sub-issues (`P-12`) is a scope and priority call (`P-13`), never an automated background mutation.
 
-### Intake — the entry point for new work
+### Intake - the entry point for new work
 
-**Definition.** Intake is the set of surfaces through which new work enters the workspace: Triage, Asks (Slack/email), Customer Requests, and ad-hoc creation by the Operator or an agent.
+**Definition.** Intake is the airlock where raw signals - Triage items, Slack/email Asks, Customer Requests, bug reports, and agent-surfaced defects - enter the workspace before touching the active backlog.
 
-Intake is the layer that fails silently when it fails. A team without an intake discipline accumulates work in three places: a Slack channel nobody triages, a doc nobody re-reads, and a Linear backlog of un-prioritized issues. The Method's rule is that Triage is the single funnel: all new work enters Triage and gets classified within seven days (P-20) — accepted into a project, merged with a duplicate, canceled, converted to a Customer Request, escalated to the Operator, or moved to docs-only. Customer feedback does not bypass Triage on its way to scope (P-22); it becomes a Customer Request, and the Operator decides if and when it converts.
+When intake has no airlock, a team drowns in three separate swamps at once: DM requests promised in Slack, half-baked notes in a shared doc, and raw tickets dumped straight into `Backlog` where they rot alongside real commitments. RLOM locks the front door: every unscheduled signal lands in **Triage** first and faces a hard seven-day SLA (`P-20`). Before day seven expires, the Operator classifies the item - accepting it into a bounded project, merging it into a duplicate, canceling it outright, attaching it to a Customer Request, or routing it to repository documentation (`P-1`). Raw customer requests never jump the airlock straight into engineering scope (`P-22`); they attach as signal until the Operator schedules the work.
 
-Intake also includes the Operator's own quick captures and any agent-created issues. The Method treats Linear as the system of record (P-23) — capture in Linear, not in a side channel that requires later re-entry.
+All capture happens inside Linear (`P-23`). Never keep a secondary spreadsheet or shadow backlog to "pre-triage" ideas before creating tickets. Put it in Triage and let the seven-day clock force the verdict.
 
-For the 3-person team, intake is thin: the Operator creates most issues, Engineer A and Engineer B drop the occasional "this should be tracked" into Triage, and a Slack-to-Asks intake gets installed when the team grows past five people. The discipline still applies: nothing sits in Triage longer than seven days unclassified.
+### Delivery evidence - the substrate for Validation
 
-### Delivery evidence — the substrate for Validation
+**Definition.** Delivery evidence is the verifiable proof generated outside Linear - merged pull request URLs, passing CI run links, container digest tags, deployment logs, browser screenshots, and non-author acceptance sign-offs - that proves a change works in reality.
 
-**Definition.** Delivery evidence is the set of artifacts produced outside Linear that prove an issue is implemented: PR URLs with merge status, CI results, deploy logs, screenshots, release notes, acceptance comments.
+This layer is the firewall between theater and engineering. A merged pull request proves only that code is *implemented*; runtime verification in the target environment proves that code is *trusted* (`P-6`). Between `In Review` and `Done` sits the **Validation** state (detailed in Chapter 10), and the Validation gate only opens when hard delivery evidence lands on the issue (`P-7`). The code host and deployment rails generate those receipts automatically (`P-8`): GitHub, GitLab, or Forgejo webhooks attach the PR lifecycle, CI task results, and release tags directly to the Linear issue record. Linear indexes the receipts; it never asks a human to re-type them.
 
-This is the layer that distinguishes the Method from teams that "use Linear." Code that is merged is implemented; code that has evidence of running in the target environment is trusted (P-6). The Method's Validation state (covered in detail in Chapter 10) is the gate between the two, and the gate is only as good as the evidence flowing into it. The code host produces that evidence (P-8): GitHub posts merge state, CI checks, and deploy outcomes; the GitLab equivalent posts merge request state, pipeline status, and deployment jobs. Linear links to those artifacts; Linear does not duplicate them.
+For production-bound changes (`release:production`), an issue without runtime proof never crosses into `Done` (`P-9`). Engineer A's CI/CD Backbone ticket sits in `Validation` until the new pipeline actually builds, pushes, and deploys a live service end-to-end and the execution log is linked on the ticket. The Operator checks the receipt, not the adjective.
 
-For production-affecting work, no artifact means no Done (P-7). Engineer A's CI/CD Backbone issue stays in Validation until the pipeline has run a real deployment end-to-end and the log is linked in the issue. The Operator's job at that gate is to verify the link is real, not to take Engineer A's word for it.
+### Analytics - the reporting substrate
 
-### Analytics — the reporting substrate
+**Definition.** Analytics is the read-only aggregation layer - Linear Insights, view counters, and portfolio dashboards - that compiles verified graph state into cycle times, throughput trends, and SLA health.
 
-**Definition.** Analytics is the layer of Insights, dashboards, and view-level metrics that converts the work graph into numbers the Operator and the Leadership Team can read.
+Analytics sits at the bottom of the seven layers because math over dirty state is garbage. When active work hides outside projects, Triage rots past thirty days, and issues jump straight from `In Progress` to `Done` on a pinky promise, every throughput chart in Insights is fiction. Once the upper six layers hold their structural contracts, analytics requires zero manual spreadsheet assembly: cycle time, blocker dwell, Triage SLA compliance (`P-20`), and weekly project health (`P-19`) read straight off the live graph.
 
-Analytics is the last layer because it depends on every layer above it being clean. Throughput, cycle time, stale-project counts, Triage SLA health, agent throughput — all of these are derivable from a workspace where projects have updates, issues have evidence, and views are real. In a workspace where projects are stale and issues close without evidence, the same metrics measure theater.
-
-The Method uses analytics sparingly at the 3-person stage: one Insights panel showing issue count by status on the Now view, one showing project age on the Stale view. As the team grows, dashboards consolidate the metrics the Operator hands upward — and the monthly review (Chapter 13) rolls initiative health up to the Leadership Team. The chain holds only because each lower layer carries its own evidence (P-28).
+At 3-person squad scale, keep analytics ruthless and minimal: one counter tracking status distribution across the active board, and one aging query watching `Projects Without Recent Updates` and `Stale Triage`. As the organization scales into Business and Enterprise tiers, those exact primitives feed the monthly leadership review (Chapter 13) through an unbroken chain of custody from merge commit to executive summary (`P-28`).
 
 ### Layer-to-capability map
 
@@ -95,11 +95,11 @@ The Method uses analytics sparingly at the 3-person stage: one Insights panel sh
 
 ### Closing
 
-The seven layers are necessary; you cannot drop one without weakening the work graph. The operating surface — labels, views, templates — covered in Chapter 5 is how those layers actually show up in the workspace day to day. The workflow canon and the Validation gate in Chapter 10 are the most opinionated part of the Method, and they sit on top of these seven layers. Everything that follows in this document assumes the layers are named, owned, and used as defined here.
+Drop any one of these seven layers and the containment hierarchy fails: drop Initiatives and projects lose their quarter-scale anchor; drop Delivery Evidence and `Done` becomes a lie; drop Views and your labels decay into unindexed graffiti. Chapter 5 wires these seven layers into daily workspace hardware through orthogonal labels, seven shared views, and poka-yoke templates. Chapter 10 locks the nine-state workflow canon and the Validation gate onto that surface. Hold the layers at their assigned altitudes.
 
 > **Where this gets hard**
 >
-> Layer assignment becomes archeology when a team has historical work scattered across three shapes — some in tickets nobody updated, some in docs nobody linked, some in chat threads nobody can search — and the question "is this an issue, a project, or a wiki page" can't be answered without reading a quarter of context for each item.
+> Installing seven layers into an empty workspace takes an hour. Retrofitting them onto a two-year-old tracker where initiatives were filed as epics, architecture docs were pasted into ticket comments, and 400 half-finished tasks sit in `In Progress` with no parent project is forensic archaeology. You cannot bulk-move those rows without reading the dependency seams first.
 >
 > Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
@@ -108,7 +108,7 @@ The seven layers are necessary; you cannot drop one without weakening the work g
   content: pass
   funnel: pass
   chapter-type-extras: n/a (not a tier, doctrine, integration, reporting, or closing chapter)
-  word-count: ~1750
-  principle-citations: P-1, P-2, P-3, P-4, P-5, P-6, P-7, P-8, P-12, P-16, P-18, P-19, P-20, P-21, P-22, P-23, P-28
+  word-count: 2050
+  principle-citations: P-1, P-2, P-3, P-4, P-5, P-6, P-7, P-8, P-9, P-12, P-13, P-16, P-18, P-19, P-20, P-21, P-22, P-23, P-28
   flagged-principle-gaps: none
 -->

@@ -1,103 +1,138 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
 <!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
-## Appendix A — The Operations-Team Variant
+## Appendix A - The Operations-Team Variant
 
-It is Monday, and the Operator runs a 3-person internal-services team — process automation and system integrations for the rest of the company. The board on the screen did not come from a roadmap the team wrote. It came from other people. Engineer A spent Friday on an integration a director asked for in a hallway, verbally, with no ticket. Engineer B is three weeks into an automation nobody formally requested, because a manager asked in a Slack DM and saying no felt rude. Two separate VPs each believe their request is next in line; neither is written down anywhere the other can see. There is no front door, so every door is the front door, and the Operator spends the first hour of every week reconstructing what the team even agreed to do.
+It is Monday morning on a three-person internal operations and infrastructure team - the group that runs network changes, security access reviews, vendor evaluations, and commercial process automation for the rest of the company. Nothing on the screen came from a roadmap the team authored. Engineer A burned all of Friday rebuilding a firewall rule and a webhook integration that a director asked for verbally in a hallway, with zero ticket, zero rollback plan, and zero post-change verification receipt. Engineer B is three weeks deep into an internal workflow automation nobody chartered because a department manager asked nicely in a Slack DM and saying no felt political. Two VPs each believe their vendor evaluation is next on the bench; neither request is recorded where the other VP can see it. Worse, when an infrastructure change on `odin` or an OPNsense VLAN cutover goes sideways at 2:00 a.m., there is no Request for Change (RFC) linked to an execution playbook and no second witness on the verification output. When every Slack channel and hallway is a front door, there is no front door - and the Operator spends the first two hours of every week doing forensic archaeology just to figure out what the team touched.
 
-That is the problem this appendix exists to solve, and it is a different problem than the rest of the Method addresses.
+That is the operational crime scene this appendix locks down. Non-software operations - infrastructure engineering, security governance, vendor due diligence, and internal Centers of Excellence (CoEs) - suffer from the exact same failure modes as software delivery, plus an intake tsunami they do not control. They run on the exact same ledger discipline.
 
-### Supply-side and demand-side — and who should skip this appendix
+### Supply-side and demand-side - and who should skip this appendix
 
-The Method's default reader is a **supply-side** team: a product-dev team that builds what is on its own board. Work originates inside the team, from a roadmap the Operator and Leadership set. Intake is a thin layer — the occasional bug report or feature idea the team chooses to accept — and the Triage-and-Asks machinery in Chapter 8 covers it completely. Everything that matters happens *after* an item is on the board.
+Chapters 1 through 14 assume a **supply-side** engineering team: a product or platform crew that builds against its own roadmap. Work originates inside the team from initiatives and projects the Operator and Leadership set. External intake is a bounded stream - bug reports, feature requests, and customer escalations - handled cleanly by the `Triage` and `Asks` mechanics in Chapter 8. Ninety percent of the governance happens *after* an issue enters the active board.
 
-A Center of Excellence, an operations team, a PMO, an internal platform or shared-services group is **demand-side**. The organization requests work *through* it. Its board is populated almost entirely by other people's asks, and the hardest, most failure-prone part of its operating model is not delivery — it is the seam where a request becomes committed work. For a demand-side team, intake *is* the product.
+An infrastructure operations team, a security engineering group, a PMO, a vendor-evaluation desk, or an internal automation CoE is **demand-side**. The rest of the enterprise routes work *at* it. Its backlog is populated almost entirely by external asks, and the highest-friction failure seam is not coding - it is the intake boundary where an unvetted request becomes a real-world commitment or a live infrastructure mutation. For a demand-side team, **intake and change custody are the product.**
 
-Here is the load-bearing claim of this appendix: the Method's **back half is roughly 80% identical for both kinds of team and is not restated here.** Once a request is accepted, it becomes an issue in a project under an initiative (P-2, P-3); it runs the nine-state workflow canon; it hits the Validation gate and must produce evidence before Done; it rolls up through the weekly-biweekly-monthly reporting cadence in Chapter 13; its health is computed, not picked. None of that changes. What changes is the **front half** — how work *enters* and is *governed* — and that is all this appendix installs. It swaps the demand-side front half in for teams that need it and leaves everything downstream exactly as the core chapters describe.
+Here is the core architectural rule of this appendix: **the back eighty percent of the Method is identical for code and non-code operations and is not repeated here.** Once an infrastructure RFC, a security audit, a vendor evaluation, or an automation build is accepted, it becomes a deliverable issue inside a dated project under a quarterly initiative (P-2, P-3). It traverses the exact same nine-state workflow canon (Chapter 10). It parks in `Validation` after execution and cannot enter `Done` until an immutable receipt and a second witness verify the live state (P-6, P-7). It rolls up through the exact same Friday project updates, biweekly initiative updates, and Monthly Operating Review with deterministic Red / Amber / Green health (Chapter 13).
 
-State the negative plainly, because it is the more common case: **a pure product-dev team does not need this appendix.** If the majority of your board originates from your own roadmap rather than from other people's requests, the intake pipeline, the service catalog, the service SLAs, and the field rigor below are overhead that fails the overbuild test (P-24). Install this variant only when you are answering demand you did not generate.
+What changes for a demand-side operations team is the **front twenty percent** - how requests enter the ledger, how infrastructure mutations are governed before execution, and what evidence proves a non-code deliverable actually works. If your team builds software mainly from its own product roadmap, **skip this appendix**; installing a service catalog, intake dwell clocks, and strict create-time field matrices on a pure product team violates the overbuild test (P-24). Install this variant when you govern shared infrastructure or answer organizational demand you did not invent.
 
-### Intake as a first-class layer
+### Intake as a first-class pipeline
 
-A demand-side team cannot treat intake as a side effect of Triage. It needs a formal flow that every request travels, visibly, on the record:
+A demand-side operations team cannot treat intake as a casual inbox that engineers dip into when bored. Every inbound ask must traverse four explicit stages on the record before it ever touches the delivery backlog:
 
-1. **Request** — captured through the front door (below), never verbally, never in a DM. A request that exists only in a hallway conversation does not exist (P-1).
-2. **Intake Review** — the request has been seen and is being sized and clarified, but has not been accepted. Nothing is committed here.
-3. **Groomed** — the request is understood well enough to accept or decline: scope is clear, the objective it serves is named, the requester has confirmed what they actually want.
-4. **Accepted** — the request converts to a project or issue, gets a home in an initiative, and is assigned a target release version (P-29). Only here does it enter the nine-state delivery canon at Backlog.
+1. **Request:** Captured exclusively through the published front door (Linear Asks or structured webhook intake), never via verbal hallway tap or personal DM. If a request is not in the ledger, it does not exist and zero engineering minutes may be spent on it (P-1).
+2. **Intake Review:** The request has been acknowledged within the first-response clock and is being sized, checked for security or blast-radius implications, and inspected for missing inputs. Zero execution commitment exists here.
+3. **Groomed / Chartered:** Scope, blast radius, rollback plan (for infra), and target objective are complete; the requester and sponsor have signed off on the trade-off.
+4. **Accepted:** The item is bound to a parent project and initiative, assigned a target window or SemVer operational release batch (P-29), and promoted into the nine-state workflow canon at `Backlog` or `Todo`.
 
-The stage worth building deliberately is **Intake Review**, and its purpose is a metric. A product-dev team would never add it — the workflow canon is nine states and a tenth is a smell (P-10), and a supply-side team should reach for a `stage:*` label before a new state every time (P-11). A service team earns the exception, because the number Intake Review produces is the number a service team is judged on: **dwell time** — how long a request sits between arriving and being accepted. That is the seven-day Triage clock (P-20) generalized into a service-health metric. Intake Review lives in the intake pipeline *before* Backlog, so it never touches the nine delivery states; what it adds is a timestamp pair the Operator can report. When average intake dwell climbs from two days to nine, the team has a capacity problem its requestors are already feeling — and now it can see it before the complaints arrive, instead of after (P-20).
+Why add **Intake Review** as an explicit pre-backlog stage when Principle P-10 guards the nine workflow states so fiercely? Because Intake Review sits *upstream* of `Backlog` in the triage funnel, and the timestamp delta between **Request** and **Accepted** produces the single most important health metric a service team owns: **intake dwell time**.
 
-### The Service Catalog
+A product team cares how fast committed code ships; an internal operations team is judged by its internal customers on how long a request sits in a black hole before receiving a ruling. Generalizing the seven-day Triage clock (P-20) into tracked intake dwell time turns stakeholder complaints into queue math. When median intake dwell climbs from forty-eight hours to nine days, the Operator has hard numerical proof of a capacity bottleneck before a single VP escalates in an executive meeting.
 
-The cure for "every door is the front door" is one published door. The team defines a small set of named **request types** and publishes them as its service catalog — the front-of-house menu of what the team does and how to ask for it. Generic examples a CoE tends to carry: a **process-automation candidate**, an **enhancement request** against a system the team owns, an **integration build**, and a **governance exception**. The catalog is the difference between a team that receives requests and a team that receives *legible* requests.
+### The Service Catalog: From Thor RFCs to Vendor Due Diligence
 
-Each request type maps to a Linear **Asks** template (Chapter 8) built from the operating surface's own label, view, and template mechanics (Chapter 5) — it pre-tags the team, the target project, and the labels the type always carries, and presents an intake form whose required fields are fixed for that type. Submitting the form auto-creates a triaged issue that already has its structure — the Operator opens a sized, labeled, routable request instead of "can you help with something?" from a channel they do not watch. This is P-17 doing its job at the front door: templates lower the cost of doing the right thing, so the right thing is the path of least resistance. It replaces the ad-hoc hallway-Slack-email intake that was drowning the Operator on Monday, and it does so without the Operator having to police anyone — the form is easier than the DM (P-22: a request is captured and triaged, never converted straight to scope by whoever asked loudest).
+The only cure for "every Slack DM is a front door" is a single, low-friction front door backed by a named **Service Catalog**. The operations team publishes the exact menu of request types it executes, and wires each type to a dedicated **Linear Asks template** (Chapters 5 and 8).
 
-> **Augmentation Surface — Intake Classification**
+In the Ravenhelm estate and across mature technical operations teams, non-software work falls into five concrete catalog archetypes:
+
+1. **Infrastructure Change / Thor RFC (`type:rfc`):** In Ravenhelm's architecture, **Thor** is the declarative infrastructure change-management contract and **Mjolnir** is the deterministic playbook runner that executes it. Nobody SSHes into `odin`, mutates an OPNsense VLAN rule, or edits a live Docker container by hand. An infrastructure request enters as a structured Thor RFC naming the target host or cluster (`odin`, `hrafngud`, `norns`), the declarative repo diff, the blast radius, the rollback command, and the Mjolnir playbook or GitOps manifest that will execute the change.
+2. **Security Incident, Access Elevation, or Audit Gate (`type:security`):** Requests for credential rotation, OpenBao AppRole onboarding, firewall egress openings, or vulnerability remediation. Each template demands the principal identity, least-privilege scope, expiry timestamp, and verification query.
+3. **Vendor Evaluation & Due Diligence (`type:vendor`):** Structured technical and commercial assessments of external SaaS, RPA, or infrastructure vendors against non-negotiable architectural gates (self-hosting capability, SAML/OIDC SSO, full API coverage, RBAC, audit logs, OpenTelemetry export, and TCO math). The deliverable is not code; the deliverable is an evidence-backed decision matrix and signed recommendation.
+4. **Process Automation & Integration Build (`type:automation`):** Internal workflow builds, webhook bridges, database sync pipelines, or scheduled compliance jobs requested by another department.
+5. **Governance Exception (`type:exception`):** A time-bounded waiver against an engineering or security standard, requiring a named executive approver and a hard expiration date on creation.
+
+Each catalog item maps 1:1 to a Linear Asks form in Slack or the web portal. When a director wants a vendor evaluated or a network route opened, submitting the Asks form takes ninety seconds and automatically tags the target team, applies the orthogonal labels (`domain:`, `type:`), and enforces the required fields at creation time. This is Principle P-17 and the Poka-Yoke rule in action: **never price the governed path above the unsafe shortcut.** When the Asks form is faster and clearer than hunting down an engineer in Slack, the hallway bypass dies on its own (P-22).
+
+> **Augmentation Surface - Intake Classification & Playbook Pre-Flight**
 >
-> Where an agent layer makes this work better: reading each inbound request as it lands, matching it to a catalog request type, pre-filling the intake form, flagging the missing required fields, drafting a first-response acknowledgment inside the service SLA, and tracking intake dwell so the queue self-reports (P-20). A demand-side team runs two agent roles, not one — an *intake* agent that classifies and routes what arrives, distinct from any *build* agent that executes what was accepted — and keeping them separate keeps classification from quietly becoming commitment.
+> Where an agent layer makes this work better: inspecting every inbound Linear Ask the second it lands, matching it to the Service Catalog, flagging missing mandatory fields (such as an RFC missing a rollback command or a vendor evaluation missing SSO documentation links), posting an immediate first-response acknowledgment inside the SLA clock, and - for Thor infrastructure RFCs - running a read-only Mjolnir dry-run (`plan` / `validate`) and attaching the pre-flight output directly to the ticket before the Operator reviews it. Keep the **intake agent** strictly separate from any **execution agent**: classification and pre-flight checking never grant permission to mutate production state.
 >
-> What the PM keeps: the accept-or-decline call and the charter decision. Customer and requester feedback is signal, not scope (P-22); priority, taste, risk, and real-world commitments do not delegate (P-13). The agent sizes and routes the request; the Operator decides whether the team takes it.
+> What the PM / Operator keeps: the accept-or-reject ruling, charter sign-off, and human authorization to execute (P-13). Tools and agents assemble the dossier and pre-flight receipts; a human clicks the accept button.
 
-### Governance cadence
+### Execution custody: Thor RFCs, Mjolnir Playbooks, and the Second-Witness Gate
 
-The core reporting cadence in Chapter 13 — weekly project updates (P-19), biweekly initiative updates, a monthly operating review (P-21) — holds unchanged. A demand-side team extends it at both ends rather than replacing it, and the discipline is to frame these as extensions, not a parallel bureaucracy that fails the overbuild test (P-24).
+How do you enforce Principle P-6 (*Validation separates implemented from trusted*) and Principle P-7 (*Evidence beats assertion*) when the deliverable is not a software pull request, but a firewall change, a database backup restore test, a vendor selection, or a commercial operations cutover?
 
-At the fast end, a **daily** rhythm: a short standing pass over Intake Review, so no request sits un-acknowledged past its first-response clock, and the day's accepted work is visible. At the slow end, a **Quarterly Business Review** — the QBR — where the team reports to its sponsors on what it accepted, what it delivered, intake dwell and SLA-breach trends, and what it is declining and why. The QBR is the monthly review (P-21) compressed one more level, aimed at the people who fund the team rather than the people who read weekly updates.
+You apply the exact same J3B counterintelligence and sovereign custody law that governs code: **separations exist to make innocence demonstrable, and no actor self-certifies `Done` without an independent witness.**
 
-Two governance gates matter for a team that spends other people's mandate:
+- **For Infrastructure & Network Operations (Thor -> Mjolnir -> Witness):**
+  1. `In Progress`: The engineer authors the declarative configuration diff or Thor RFC and links the PR or Mjolnir playbook run.
+  2. `In Review`: A peer reviews the blast radius and rollback command before execution.
+  3. `Validation`: Mjolnir executes the playbook (or Argo CD syncs the manifest). The ticket stops in `Validation`. It **never** closes when the command exits `0`, because shell exit code `0` lies constantly (like a backup script printing `OK` while dumping one database out of eight, or a `sha256` check comparing two empty strings `"" == ""` on a broken restore).
+  4. `Done`: A **second witness** - either the Operator, a peer engineer on rotation, or an independent verification probe running under a separate read-only identity - queries the live running system from the outside, confirms the state change and reachability, and attaches the terminal or telemetry receipt to the Linear issue. Only then does the issue transition to `Done`.
+- **For Vendor Evaluations & Commercial Operations:**
+  1. `In Progress`: The analyst tests the vendor sandbox, pulls public API/SSO documentation, and fills the evaluation scorecard.
+  2. `Validation`: The draft evaluation artifact (in Outline or the repository `docs/` tree per P-5) is linked to the Linear issue with concrete pricing, architecture proofs, and disqualifier receipts.
+  3. `Done`: The accountable stakeholder or Operator reviews the evidence matrix, records the formal Accept / Reject ruling in the issue comment, and closes the ticket.
 
-- **A charter-approval gate.** Before a project leaves intake and starts, a named sponsor signs off on it — the objective it serves, the rough cost, the trade-off against what the sponsor's request displaces. This is P-13 rendered as a gate: a real-world commitment does not get made because a form was submitted; it gets made because the Operator (Chapter 4) and an accountable sponsor both agreed to it. The gate is what stops the loudest requester from setting the team's priorities by volume (P-22).
-- **RACI on stakeholder-heavy initiatives.** When an initiative touches several departments, name who is Responsible, Accountable, Consulted, and Informed on it, in the initiative document. A supply-side team rarely needs this; a demand-side team with five stakeholders per initiative needs it to keep "who approves this" from being re-litigated every update.
+Whether you are shipping a Rust binary, rotating an OpenBao secret, or disqualifying an enterprise SaaS vendor, the physics are invariant: **work happens in the specialist surface; `Validation` holds the gate; independent evidence closes the ledger.**
+
+### Governance cadence and charter gates
+
+The reporting spine from Chapter 13 - weekly Friday project updates (P-19), biweekly initiative updates, and the Monthly Operating Review (P-21) - runs without modification. A demand-side operations team adds two boundary ceremonies to protect its capacity from being cannibalized by whoever yells loudest:
+
+- **Daily Intake & SLA Sweep (10 minutes):** Every morning alongside the `Blocked` sweep, the Operator sweeps `Intake Review` so zero inbound requests breach the time-to-first-response clock and answered stakeholder questions move immediately into grooming or execution.
+- **Quarterly Sponsor & Capacity Review (QBR):** Once a quarter, the monthly operating review expands to show department sponsors the exact ledger of demand versus supply: how many requests entered per department, median intake dwell time, SLA compliance rate, capacity split between keeping the lights on and building new automation, and which low-leverage requests were declined and why.
+
+Enforce two structural gates before any multi-week operations request crosses from `Intake Review` into active execution:
+
+1. **The Sponsor Charter Gate:** When a department requests a multi-week automation build or platform integration, a named sponsor must explicitly sign off on the objective it serves and what existing item in their queue gets pushed right to pay for it. This turns Principle P-13 and the seventy-percent capacity law (P-26) into a public contract: if everything is P0, nothing is P0.
+2. **Explicit RACI on cross-department initiatives:** When an operations initiative spans Security, Finance, IT, and Engineering, write the single **Responsible**, **Accountable**, **Consulted**, and **Informed** human names directly at the top of the Linear Initiative description. Never let a cross-functional project enter `In Progress` with two people thinking they own the veto.
 
 ### Service SLAs
 
-This is the commitment a service team owes that a product-dev team owes no one. A supply-side team answers to its own roadmap; a demand-side team answers to requestors who are waiting, and it owes them clocks. Two, specifically, layered onto the Business-tier SLAs in Chapter 8:
+A supply-side product team owes dates to its own roadmap; a demand-side operations team owes response clocks to external requesters waiting on a decision. Using Linear's native Business-tier SLA rules (Chapter 8), bind two distinct clocks to your intake and execution queues:
 
-- **Time-to-first-response** — how long from a request landing to the requester hearing back, even if the answer is "received, in Intake Review, decision by Thursday." This is the clock that most cheaply buys trust, because most requester frustration is silence, not delay.
-- **Time-to-resolution** — how long from acceptance to Done, tracked per request type, because an integration build and a governance exception do not carry the same promise.
+- **Time-to-First-Response (Intake SLA):** The maximum elapsed time between a request landing in `Triage` / `Intake Review` and the requester receiving a structured human or agent-verified response (*"Received; sized as a Tier-2 Thor RFC; scheduled for Thursday change window"*). Silence is what destroys trust in an operations team; a twenty-four-hour first-response clock eliminates silence cheaply.
+- **Time-to-Resolution (Delivery SLA by Request Type):** Tracked from `Accepted` to verified `Done`, stratified by catalog type:
+  - *Urgent Security / Access Revocation:* 4 hours.
+  - *Standard Thor Infrastructure RFC:* 3 business days.
+  - *Vendor Due Diligence Evaluation:* 10 business days.
+  - *Cross-System Automation Build:* Governed by project milestone target date (P-3).
 
-Both attach to Triage and to Asks-sourced items using Linear SLAs, which are a Business-tier capability (Chapter 8). Alongside them, keep the escalation rule the core already implies and make it explicit for a service team: **an item blocked more than N days escalates** to the Operator and, past a second threshold, to the sponsor. As Chapter 8 warns, calibrate these against real history — an SLA on every request produces a queue where everything is breaching and nothing is urgent, and an untrusted SLA is worse than none (P-25). The clock exists to make silence impossible, not to manufacture false alarms.
+Pair these clocks with an automatic blocker escalation law: **any accepted operations issue sitting in `Blocked` waiting on requester input for more than 5 business days auto-notifies the requester's sponsor; at 10 days, it closes as `Canceled` with a reopen pointer.** Never let a requester stall an active ticket for a month and then blame the operations team for slow turnaround.
 
 ### CoE-grade field discipline
 
-A demand-driven team needs rigor at issue creation that a 3-person product team can skip, and the reason is the demand itself: when work arrives from dozens of requesters across the org, the only way a report rolls up honestly is if every item was captured to the same shape. A supply-side team of three shares context in its heads; a service team's context lives in the fields or it does not live at all.
+When work originates from thirty different requesters across five departments, shared tribal context is zero. If the required metadata is not captured on the issue card at creation time, the quarterly rollup turns into guesswork. Demand-side teams therefore enforce three field rules that are deliberately stricter than the core three-person product scaffold:
 
-Three rules, stricter than core:
+1. **The Rule of One:** Every accepted parent issue must carry **exactly one** primary strategic objective or initiative link - never zero, and never three bolted together to make a pet request look cross-functional (P-2, P-16). One parent objective per deliverable guarantees that when the QBR totals engineering hours across the portfolio, the column sums to 100% with zero double-counting and zero orphan favors.
+2. **Create-Time Required-Field Matrix:** Enforced mechanically via Linear Asks forms and issue templates so incomplete requests cannot enter `Intake Review` (P-17, P-25):
 
-- **The Rule of One.** Each parent issue carries exactly one required objective or OKR label — one, not zero and not three — plus a matched set of required single-select fields for its type. One objective per parent is what makes the rollup unambiguous: every unit of work answers to exactly one stated goal, so the QBR can total effort by objective without double-counting or orphans (P-2, P-16).
-- **A per-issue-type required-field matrix**, enforced as a hard create-time block, not a habit. Because the rule is checked programmatically at creation rather than policed after the fact, it actually holds (P-25):
+   | Catalog Request Type | Mandatory Fields at Creation | Required `Validation -> Done` Receipt |
+   |---|---|---|
+   | **Thor Infrastructure RFC** | Requester, target host/cluster, declarative PR link, blast radius, rollback command | Mjolnir / GitOps run log + independent 2nd-witness reachability output |
+   | **Security / Access Gate** | Requester, principal identity, target resource, least-privilege scope, expiry date | Policy commit SHA + live `auth can-i` or OpenBao token verification |
+   | **Vendor Evaluation** | Requester, executive sponsor, problem statement, candidate vendor URLs, budget ceiling | Published evaluation matrix doc (Outline/repo) + signed Accept/Reject ruling |
+   | **Automation / Integration** | Requester, sponsor, source/target systems, current manual hours/week, data sensitivity | Merged PR + live production execution receipt + requester acceptance sign-off |
+   | **Governance Exception** | Requester, policy ID waived, compensating control, executive approver, hard expiry date | Signed approval comment + scheduled revocation issue created for expiry date |
 
-  | Request type | Required fields at creation |
-  |---|---|
-  | Process-automation candidate | requester, sponsor, objective label, current-effort estimate, expected saving |
-  | Enhancement request | requester, target system, objective label, priority, acceptance criteria |
-  | Integration build | requester, source system, target system, objective label, data-sensitivity |
-  | Governance exception | requester, policy referenced, objective label, approver, expiry date |
+3. **Zero Unparented Execution:** No accepted operations issue may enter `Todo` or `In Progress` without being linked to an active Project and Initiative (P-3). An unparented ticket on a service team's board is an untracked hallway favor; allow five of them, and your seventy-percent capacity ceiling (P-26) is gone.
 
-- **Mandatory objective and initiative linkage** per parent — no accepted parent issue exists without a project and an initiative above it (P-3). A supply-side team can tolerate a loose issue for a day; a demand-side team cannot, because a request with no objective above it is a favor, and a board full of favors is how a service team loses the ability to say what it is for.
+Audit every field in that matrix once a quarter against the overbuild test (P-24): if a required field is not actively consumed by an automation script, a safety gate, or the Monthly Operating Review, delete it from the form immediately.
 
-The discipline is deliberately heavier than the core, and the overbuild test (P-24) is the check on it: each required field must earn its place by feeding a decision, a report, or the charter gate. A field nobody reads is a tax on every requester, and a service team's requesters abandon a form faster than a teammate does.
+### Two optional label axes for service portfolios
 
-### Two optional label axes
+Add either of these two label namespaces only when a recurring executive question demands the view (P-16, P-24):
 
-Two label axes serve views (Chapter 5) a demand-side team tends to want, and both are strictly optional — add either only when a real view needs it, never speculatively (P-16, P-24).
+- **`layer:` (`capability` | `delivery` | `impact`):** In plain shop-floor language: *building the factory (`capability`), running the factory (`delivery`), and proving the factory works (`impact`)*. Operations teams constantly get drowned in day-to-day `delivery` tickets until their own automation tooling rots. Filtering the work graph by `layer:` shows Leadership in one chart whether 95% of the quarter went to manual ticket-whacking while 5% went to `capability` automation.
+- **`customer:` (`internal` | `external`):** Separates requests that touch internal employee workflows from work that sits in the blast radius of paying external customers (which must clear Chapter 10's highest production evidence bar, P-9).
 
-- **`layer:`** — `capability` / `delivery` / `impact`. The plain-language version is *building the factory / running the factory / measuring the value*: `capability` is the team's own tooling and platform build-out, `delivery` is the run-the-factory work of fulfilling requests, `impact` is the measurement and value-tracking work. The view this serves is the mix question every service team's sponsor eventually asks — how much of the quarter went to building versus running versus proving worth — which is unanswerable without the axis and trivial with it.
-- **`customer:`** — `internal` / `external`. This splits requests by who they ultimately serve, so the team can show internal-facing versus external-facing load on one filter. It matters most when a CoE straddles both — automating an internal finance process one week and shipping something a paying customer touches the next, at very different evidence bars.
+### Computed RAG governance for operations
 
-Neither axis is prescribed. Each is justified the moment its view is one Leadership or a sponsor asks for repeatedly, and deleted the moment no view cites it (P-16).
+An operations team reports portfolio health upward using the exact **deterministic Red / Amber / Green ladder** defined in Chapter 13 (P-28). You never pick colors by gut feel on Friday afternoon.
 
-### Computed RAG governance
+For a demand-side team, the weekly health computation script folds two additional queue sensors into the ladder alongside project target dates, blocker age (>7 days), and receipt coverage:
 
-A CoE reports health to its executives on a rolled-up RAG dashboard, and the operating model for that health is already written — this appendix does not restate it. The deterministic Red / Amber / Green ladder, the rule that health is computed rather than picked, the escalation on stale rollups, and the split between the health *field* Linear gives you and the computation *rules* the Method gives you all live in Chapter 13, and they apply here without modification (P-28). The demand-side additions feed the same computation rather than replacing it: intake dwell time (from Intake Review) and SLA-breach counts become inputs the executive board watches next to project and initiative color.
+1. **Intake Dwell Breach:** If the team's median `Intake Review` dwell time crosses the 7-day SLA ceiling (P-20), the intake operations project automatically flips to **Amber (`At Risk`)**.
+2. **Unwitnessed Closures:** If any infrastructure RFC or security issue is closed to `Done` without both an execution pointer and a second-witness verification comment (P-6, P-7), the audit script reopens the issue into `Validation` and flags the parent project **Amber**.
 
-Where that board *lives* is the only tier-dependent part. A per-project health color is Free; portfolio trends are an Insights question and Insights is Business; the org-level RAG board — every initiative's color on one screen for the sponsors — is a Dashboard, and Dashboards are an Enterprise capability (Chapter 9). Leadership reads that board, not the workspace beneath it (P-27); the Operator's job is to keep the layers under it honest so the color the sponsors see is one the team can defend all the way down to the evidence (P-28).
+On Linear Free and Basic, these computed health states live directly on each Project and roll up into the markdown Monthly Operating Review (Chapter 13). On Business, historical dwell and SLA breach curves render in **Insights** (Chapter 8). On Enterprise, the entire cross-department RAG matrix, SLA thermometer, and `layer:` allocation chart render live on executive **Dashboards** (Chapter 9) so sponsors see the exact load on the floor without ever opening an issue card (P-27).
 
 > **Where this gets hard**
 >
-> The organization that wants a real front door — a published catalog, enforced intake, service SLAs the requesters trust, a charter gate that survives a VP walking up to an engineer's desk — is asking a 3-person team to hold a governance boundary against people who outrank it, using rigor (the Rule of One, the required-field block, the RACI) that is only worth the friction if it is installed and calibrated correctly the first time. Install the field discipline too loose and the reports lie; too tight and the requesters route around the form and you are back to the hallway. The catalog ships in an afternoon; the boundary that makes it stick takes a season and a mandate the team usually does not have alone.
+> Installing a Linear Asks catalog takes an afternoon; enforcing the boundary when a senior VP bypasses the form, drops a "quick firewall change" or an unvetted vendor contract into an engineer's DM at 4:30 p.m., and demands immediate execution takes institutional spine. If the field matrix is calibrated too loosely, your operations board turns back into a junk drawer of unverified favors; if it is calibrated like a hostile DMV window, departments route around the team and spin up shadow IT. Designing the intake forms, wiring automated Thor/Mjolnir pre-flight checks so the governed path is faster than the backdoor, and establishing the executive air cover that makes the charter gate hold is the hardest part of demand-side operations.
 >
 > Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
@@ -105,8 +140,8 @@ Where that board *lives* is the only tier-dependent part. A per-project health c
   structural: pass
   content: pass
   funnel: pass
-  chapter-type-extras: pass — appendix (opt-in variant); demand-side front-half only, back half deferred to core chapters; intake pipeline as ordered list; required-field matrix as table
-  word-count: ~2550 (prose; ~2765 incl. table/callouts)
-  principle-citations: P-1, P-2, P-3, P-10, P-11, P-13, P-16, P-17, P-19, P-20, P-21, P-22, P-24, P-25, P-27, P-28, P-29
+  chapter-type-extras: pass - appendix (opt-in variant); grounds non-code ops in Thor RFCs, Mjolnir playbooks, vendor evaluations, second-witness verification, and evidence-gated closure; intake pipeline as ordered list; required-field + receipt matrix as table
+  word-count: ~2900
+  principle-citations: P-1, P-2, P-3, P-5, P-6, P-7, P-9, P-10, P-13, P-16, P-17, P-19, P-20, P-21, P-22, P-24, P-25, P-26, P-27, P-28, P-29
   flagged-principle-gaps: none
 -->

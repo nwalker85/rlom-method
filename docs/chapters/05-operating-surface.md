@@ -1,94 +1,126 @@
 <!-- LICENSE: © 2026 Ravenhelm LLC. Licensed material. -->
 <!-- All rights reserved except as granted in LICENSE. Inquiries: nate@ravenhelm.co -->
 
-## Chapter 5 — The Operating Surface: Labels, Views, Templates
+## Chapter 5 - The Operating Surface: Labels, Views, Templates
 
-Open a workspace that has been running without a method for a year. Three engineers each invented their own label scheme, so the workspace has `bug`, `Bug`, `type:Bug`, and `defect` — all of them in use, none of them filtered against. Half the labels are attached to a single issue. The views panel shows nineteen private views and three shared ones, and the three shared ones don't agree on what "active" means. The Operator opens Linear in the morning, sees a different workspace than either engineer sees, and spends the first forty minutes reconstructing what changed overnight. There is no single screen anyone can point to and say *this is what we are working on now*.
+When we dumped the schema of our own v1 workspace onto the bench, the tag table returned **~160 ad-hoc labels alongside 14 custom workflow states**. Three engineers and a handful of early automation scripts had each invented their own dialect, leaving `bug`, `Bug`, `type:Bug`, and `defect` all live in the same drop-down menu and filtered by nothing. Nearly half of the 160 labels sat attached to a single forgotten issue. Over in the sidebar, nineteen private views and three shared views fought over what the word "active" meant. Every morning the Operator opened Linear, stared at a completely different slice of reality than Engineer A or Engineer B saw, and burned forty minutes clicking through tabs just to reconstruct what moved overnight. Nobody could point at one glass pane and say: *this is the floor right now.*
 
-That is the gap this chapter closes. The seven layers in Chapter 2 describe the shape of the work graph. The numbered principles in Chapter 3 describe the doctrine. This chapter is how the Method actually shows up in the workspace — the labels you index against, the views the team watches, and the templates that make it cheaper to do the right thing than the wrong thing.
+Principles written in a handbook live in people's heads; the operating surface lives in the silicon of the workspace. Chapter 2 established the seven containment layers, and Chapter 3 laid down the 29 numbered laws. This chapter wires the physical switches that enforce those laws every day: **orthogonal label namespaces, seven shared control-panel views, and friction-killing templates**.
 
-The operating surface is the *enforceable* part of the Method. Principles in a document live in heads. Labels and views live in the workspace. When two team members disagree about whether a piece of work is in flight, the answer is in a saved view — not in conversation. That makes the operating surface the verification surface (P-25): a rule you can't check programmatically decays into folklore. Labels and views are the check.
+This surface is where `P-25` (*Verify what you enforce*) gets teeth. A workflow rule that requires a human to remember five invisible conventions decays into folklore inside a month. When the label index feeds a saved view and the template pre-loads the required verification fields, compliance stops being a test of character. The board checks itself.
 
 ### Labels are an index, not an organizational scheme
 
-The single most common mistake in a one-year-old workspace is treating labels as a filing cabinet. The Method treats them the opposite way: a label exists to serve a view, and a label not cited by any view is a candidate for deletion (P-16). That inverts the usual instinct. You do not create a `frontend` label because work *is* frontend. You create a `domain:product` label because a specific view filters on it and the Operator needs that view to decide something.
+Every broken workspace makes the same category error: treating labels like manila folders in a filing cabinet. Someone touches a frontend file, so they slap a `frontend` sticker on the ticket and feel organized. Six months later you have ~160 stickers and zero working queries. RLOM inverts the rule: **labels exist solely to power saved views, and any label cited by zero views gets deleted (`P-16`)**. Never mint a label because a topic *exists*. Mint a label only when an Operator or engineer needs a deterministic query axis to drive a recurring decision.
 
-The Method uses eight namespaced label groups. They are namespaced because flat label spaces collapse to noise inside six months, and because the colon prefix lets you scan a label list and see structure instead of an alphabetical pile.
+To prevent flat-namespace rot, RLOM partitions labels into **eight colon-namespaced axes**. A flat alphabetical list of 80 tags is cognitive noise; eight orthogonal prefixes act like a typed schema in the drop-down menu:
 
-- `type:*` — Feature, Bug, Chore, Documentation, Research, Gate. Every issue gets exactly one. The "Gate" type marks issues whose only purpose is to hold a decision or an approval until it lands.
-- `component:*` — one per service or subsystem the team owns. Let the reader fill in the names; the Method does not prescribe them. A team running three services might have `component:api`, `component:web`, `component:worker`. A team with one monolith might skip this namespace until they split.
-- `domain:*` — broad areas of concern: `domain:security`, `domain:infrastructure`, `domain:product`, `domain:operations`. Use sparingly. Domain answers "who would be interested in this if it broke" — not "what code does it touch."
-- `risk:*` — `low`, `medium`, `high`. Applied at Triage. Drives one view (Blocked Critical Path) and one report (the weekly risk roll-up in Chapter 13).
-- `source:*` — `asks`, `slack`, `support`, `github`, `sentry`. Where the work came in from. Drives Triage analytics: if eighty percent of incoming work is `source:slack`, the team needs Asks (Chapter 7), not more meetings.
-- `release:*` — `production`, `staging`, `internal`, `none`. Marks the deployment surface so the Validation gate (Chapter 10) knows what evidence to require. `release:production` means runtime evidence is non-negotiable before Done (P-9).
-- `stage:*` — `design`, `qa`, `uat`, `soft-launch`. These are the "states that aren't states" (P-11). The workflow canon is nine states (Chapter 10); anything that looks like a tenth state — pending approval, in QA, soft-launch — is a stage label applied during In Progress, In Review, or Validation. The canon stays at nine.
-- `parking-reason:*` — `waiting-on-vendor`, `waiting-on-decision`, `waiting-on-budget`, `waiting-on-customer`. Applied only to Urgent or High issues sitting in Backlog. An Urgent issue in Backlog without a parking reason is a smell — either the priority is wrong or the reason is hiding.
+- `type:*` - `Feature`, `Bug`, `Chore`, `Documentation`, `Research`, `Gate`. Every issue carries exactly one `type:*` tag. The `type:Gate` value marks a milestone or dependency hold whose sole job is to block downstream waves until an approval, cutover, or external artifact lands.
+- `component:*` - one value per bounded service, binary, or subsystem your squad owns (for example, `component:api`, `component:web`, `component:worker`). Keep this axis mapped one-to-one with your deployable boundaries; if you run a single monolith, skip `component:*` until you actually split a service out.
+- `domain:*` - cross-cutting operational planes: `domain:security`, `domain:infrastructure`, `domain:product`, `domain:operations`. Use a light hand. Whereas `component:*` names *which code* changes, `domain:*` names *which discipline wakes up if this diff catches fire*.
+- `risk:*` - `low`, `medium`, `high`. Stamped at `Triage`. Drives the **Blocked Critical Path** view and feeds the weekly risk table in Chapter 13.
+- `source:*` - `asks`, `slack`, `support`, `github`, `sentry`. Records the intake pipe that spawned the ticket. When Triage analytics show that 80% of incoming bugs carry `source:slack`, you know you have an unbridled chat problem that needs Linear Asks (Chapter 8), not another standup meeting.
+- `release:*` - `production`, `staging`, `internal`, `none`. Declares the blast-radius target so the `Validation` gate (Chapter 10) knows which receipt to demand. Any issue carrying `release:production` is mechanically barred from `Done` until runtime production proof is attached (`P-9`).
+- `stage:*` - `design`, `qa`, `uat`, `soft-launch`. These are the sub-states that naive teams mistakenly add as workflow columns (`P-11`). Because the workflow canon is locked at exactly nine states (`P-10`), sub-phases ride as `stage:*` labels while the issue sits in `In Progress`, `In Review`, or `Validation`.
+- `parking-reason:*` - `waiting-on-vendor`, `waiting-on-decision`, `waiting-on-budget`, `waiting-on-customer`. Applied exclusively to `Urgent` or `High` priority issues parked in `Backlog`. An `Urgent` issue sitting in `Backlog` without a `parking-reason:*` tag is a contradiction on its face: either the priority is inflated or a hidden blocker is going unreported.
 
-Each namespace serves at least one view. `type:Bug` plus `risk:high` plus `release:production` is the filter behind the Operator's morning incident scan. `source:slack` is the filter behind the weekly Asks review. `stage:uat` is the filter behind the Validation queue. `parking-reason:*` populates a sanity-check view the Operator runs before standup: *what am I claiming is urgent that I am actually not working on, and why?*
+Notice how every single namespace above unlocks a concrete operational query. Combining `type:Bug` + `risk:high` + `release:production` gives the Operator a zero-noise morning incident radar. Filtering on `stage:uat` isolates the user-acceptance queue without polluting cycle-time charts. Querying `Priority in (Urgent, High)` + `State = Backlog` + `Label != parking-reason:*` exposes priority theater in five seconds before Monday standup. No view, no label (`P-16`). If you just want to find a topic six months from now, use full-text search.
 
-This is P-16 in action. No view, no label. Before adding `type:Spike`, ask which view it serves. If the answer is "I just want to find them later," that is what search is for.
+One hard schema guard before moving to views: **never use a label to shadow a native Linear typed field**. Priority, Estimate, Workflow State, Assignee, and Project Health are single-valued database columns enforced by Linear's state engine. Creating a `priority:high` label, a `health:red` label, or a `status:done` label guarantees split-brain drift because labels allow set membership (an issue can accidentally carry both `priority:low` and `priority:high`) while native fields enforce a single value. That exact collision is how `bug`, `Bug`, and `defect` poisoned our v1 workspace. Use native columns for state; reserve labels for orthogonal query axes.
 
-One more discipline before views: prefer Linear's native typed fields over labels for anything Linear already models. Priority, estimate, workflow state, and project health are single-valued typed fields — a label that duplicates one of them (a `priority:high` label, a `red` health label, a `done` label) is drift waiting to happen, because a label is set membership and a native field is a single enforced value. The `bug`/`Bug`/`defect` collision that opens this chapter is what labels do when they impersonate a typed field. Reach for a label only when the concept is a genuine many-to-one index that no native field captures.
-
-> **Augmentation Surface — Surface Maintenance**
+> **Augmentation Surface - Surface Maintenance**
 >
-> Where an agent layer makes this work better: detecting labels with zero referencing views, views with no recent activity, templates that no one uses, and stage labels that have outlived their underlying state. The agent generates a monthly hygiene report — *these 12 labels are referenced by no view; these 4 views were last opened three months ago; this template has been used twice in 90 days* — so the Operator can make deletion decisions on evidence instead of guesswork.
+> Where an agent layer makes this work better: running a monthly schema audit across the workspace API - listing every label referenced by zero saved views (`P-16`), identifying near-duplicate tag strings (`bug` vs `type:Bug`), flagging `stage:*` labels still stuck on issues that already crossed into `Done`, and reporting saved views with zero opens in the last 90 days. The agent hands the Operator a crisp deletion manifest.
 >
-> What the PM keeps: deciding whether a dormant artifact should be removed, repurposed, or left in place because a future workflow needs it.
+> What the PM keeps: approving the purge. Deleting a dormant label or consolidating two component tags is a schema decision that stays in the Operator's chair.
 
 ### Views are the daily control panel
 
-A view is a saved question. The Method requires a small set of shared views — shared so every team member sees the same workspace — and treats them as the daily control panel. The Operator opens these views before standup; the engineers open the ones that touch them. Private views are fine for personal scratch work, but the load-bearing views are shared.
+A saved view is an operational question compiled into a permanent filter. RLOM installs **seven shared views** as the squad's common glass. They are shared across the workspace so the Operator, Engineer A, and Engineer B never argue from different screens. Keep personal scratch views in your private sidebar if you must, but run the floor off the seven shared boards.
 
-**Operator's Now.** Filter: priority Urgent or High, state in Ready, In Progress, In Review. Group by assignee. This is what is actively in flight. The Operator watches it every morning. Engineer A and Engineer B each glance at it before picking up new work. It enforces P-3 (active work has a project) by making project-less issues look out of place, and P-4 (issues are deliverable-sized) by making oversized issues conspicuous.
+**1. Operator's Now.** Filter: `Priority in (Urgent, High)` AND `State in (Ready, In Progress, In Review)`, grouped by `Assignee`. This is the live execution floor. The Operator scans it first thing every morning; Engineer A and Engineer B check it before pulling their next unit of work. By displaying parent projects inline, this view immediately exposes orphan tickets violating `P-3` (active work without a project) and bloated monoliths violating `P-4` (deliverable sizing).
 
-**Waiting on the Operator.** Filter: issues whose state is not Done and whose human-decision flag is set, plus issues whose blocker text names the Operator. Only the Operator subscribes; engineers see it on request. This is the queue P-13 makes load-bearing — priority, taste, risk, and real-world commitments do not delegate. If this view has more than five items, the Operator's calendar is wrong, not the engineers' execution.
+**2. Waiting on the Operator.** Filter: `State != Done/Canceled` AND (`Label = stage:decision` OR blocker/delegate relation pointing to the Operator seat). This is the human accountability queue required by `P-13`. Priority rulings, taste calls, risk acceptances, and external commitments queue here. If this board ever holds more than five rows at the end of the day, the squad is not failing; the Operator's calendar is broken. Clear your own queue first.
 
-**Blocked Critical Path.** Filter: state Blocked, priority Urgent or High. Engineer B owns this view because they sit downstream of the most platform dependencies and are blocked most often; they raise items in standup. It enforces P-10 — Blocked is a state of the canon, and an issue in Blocked must name its blocker. A Blocked issue with no named blocker is a triage failure.
+**3. Blocked Critical Path.** Filter: `State = Blocked` AND `Priority in (Urgent, High)`. Owned day-to-day by the engineer sitting deepest in the platform dependency chain (Engineer B in our 3-person squad) and reviewed first at standup. Under `P-10`, moving a ticket into `Blocked` requires naming the exact blocking issue or external vendor in a relation or comment. A `Blocked` ticket with no named obstruction is a triage defect; fix the link or put it back in `In Progress`.
 
-**In Review.** Filter: state In Review with at least one linked PR. The view shows the PR status (checks passing, requested reviewers, mergeable). Both engineers subscribe; the Operator scans it once a day to spot review backlog. This is where P-8 lives: the code host proves implementation, and this view is the bridge between Linear and that proof.
+**4. In Review.** Filter: `State = In Review` with linked code-host pull request metadata displayed (`CI status`, `reviewers`, `mergeability`). Both engineers subscribe; the Operator sweeps it once daily to catch review starvation before a PR rots on the branch. This view bridges Linear to `P-8` (*The code host proves implementation*).
 
-**Needs Validation / Evidence.** Filter: state Validation, age greater than 24 hours. The Operator and Engineer A both subscribe. This view is the Validation gate (Chapter 10 owns the doctrine; this chapter owns the surface). An item sits here until evidence is posted — a deploy log, a screenshot, an acceptance comment from someone other than the assignee (P-7). Validation separates implemented from trusted (P-6), and this view is where the separation gets enforced day-to-day.
+**5. Needs Validation / Evidence.** Filter: `State = Validation` AND `Time in state > 24h`. Watched jointly by the Operator and the lead engineer. Chapter 10 details the Validation doctrine; this view is the physical turnstile where `P-6` (*Validation separates implemented from trusted*) and `P-7` (*Evidence beats assertion*) execute. Merged tickets park here until the staging log, container `:b<N>` digest, screenshot, or production probe (`P-9`) lands in the comments. Nothing leaves this view without a receipt.
 
-**Projects Without Recent Updates.** Filter: project status Active, last update older than seven days. The Operator watches it on Monday morning. This view operationalizes P-19 — active projects get an update every week, the format can compress when there is nothing to say, the cadence does not move. If a project surfaces here, the Operator either writes the update or moves the project to Planned.
+**6. Projects Without Recent Updates.** Filter: `Project Status = Active` AND `Last Project Update > 7 days ago`. Checked by the Operator every Monday at 8:30 a.m. This view mechanizes `P-19` (*Active projects get a status update every week*). If an active project lights up this board on Monday morning, the project lead writes the update before standup or the Operator downgrades the project status to `Planned` or `Paused`. Zero silent projects.
 
-**Stale Triage.** Filter: state Triage, age greater than five days. Surfaces P-20 violations one to two days before the seven-day SLA so the Operator has runway, not just an alarm. Operator-only.
+**7. Stale Triage.** Filter: `State = Triage` AND `Created > 5 days ago`. Gives the Operator a 48-hour early warning before an incoming item breaches the hard seven-day Triage SLA (`P-20`).
 
-Seven shared views, named for the question each one answers. The fight is to keep this list short. Every new view dilutes the daily scan — when there are eighteen shared views, no one looks at any of them. When there are seven, the team agrees on what they are looking at.
+Seven views. Seven exact questions. Guard the count ruthlessly. The day a workspace accumulates eighteen shared views in the sidebar is the day everyone stops looking at all of them.
 
 ### Templates lower the cost of doing the right thing
 
-A template is a default. The right behavior should be the easy behavior (P-17). The Method requires four issue templates and one project template at minimum, plus a commenting template for agent delegation that becomes load-bearing at Tier 3 (Chapter 8).
+During an audit of agent tool-routing failures (`WALKER-004J` / `RAV-1962`), we watched an autonomous coding slice inside the `yager` repository read dozens of source files, write a patch, run zero unit tests, and ship a fatal module-level `NameError`. Why? In that harness configuration, calling `read_file` was frictionless and free, whereas invoking `bash` to run `pytest` popped an interactive human approval prompt. The agent was not malicious; it was an optimizer following the cost gradient of its environment. When we priced the verification command higher than guessing, the actor guessed.
 
-**Feature template.** Sections: Outcome (one sentence — what changes for whom), Scope (in/out, plus what is explicitly deferred), Acceptance criteria (testable bullets, not prose), Evidence expected (which artifact proves Done — deploy log, screenshot, acceptance comment), GitHub repo (the GitLab equivalent is the GitLab project path), Design link (when visual review applies). The template forces the issue author to decide what Done looks like before opening the issue, which is the cheapest moment to decide.
+The law we wrote on the wall that afternoon governs every human and agent interface in the estate: **never price the oversight path above the unsafe one.**
 
-**Bug template.** Sections: Reproduction (exact steps, environment, version), Blast radius (who is affected and how many), Severity (P0–P3 with the Method's definitions inline so the author cannot guess), Evidence required for the fix (regression test, manual repro confirmation, monitoring confirmation). The blast-radius field is the one most teams skip and the one that most often determines whether a bug deserves the priority it was opened with.
+An issue template is a pricing mechanism (`P-17`). If opening a blank, unstructured ticket takes two seconds and writing a properly scoped deliverable with exit criteria and validation commands requires remembering six Markdown headings from scratch, tired humans and rushed agents will file blank tickets every time. By pre-loading the exact headings into Linear's default templates, you make the disciplined path the lowest-effort path on the bench. RLOM installs four issue templates, one project template, and one delegation comment template:
 
-**Research spike template.** Sections: Timebox (hours or days — a spike with no timebox is a project in disguise), Question the spike answers, Expected artifact (a decision doc, a prototype branch, a benchmark table), Decision deadline (the date by which the spike's output must drive a decision or get archived). Spikes that produce no decision artifact are how research budgets disappear.
+**Feature template.** Pre-populates six mandatory fields:
+- **Outcome:** One declarative sentence stating what works after this lands and for whom.
+- **Scope Boundary:** Explicit `In Scope`, `Out of Scope`, and `Deferred` bullets so the executor does not branch-drift into adjacent refactors.
+- **Acceptance Criteria:** Five or fewer binary, testable statements (`P-4`, `P-12`).
+- **Expected Validation Receipt:** The exact artifact required to clear `Validation` into `Done` (`P-6`, `P-7`) - e.g., Harbor `:b<N>` digest, staging curl readout, or browser screenshot.
+- **Target Repository & Paths:** Canonical repo and directory boundary.
+- **Design / ADR Link:** Pointer to the external specification (`P-5`).
 
-**Standard project template.** Sections: Goal (the durable outcome, not the next step), Milestones (the Method's canonical phases — Scope accepted, Implementation, Validation, Production rollout, Documentation and handoff — plus any project-specific phases), Dependencies (other projects, vendor commitments, hiring), First update (drafted at kickoff, posted within forty-eight hours), Exit criteria (what makes this project Done, in plain language). Every project starts from this template. A project without a first update within forty-eight hours surfaces on Projects Without Recent Updates by day seven.
+**Bug template.** Forces diagnostic facts before anyone touches code:
+- **Reproduction Receipt:** Exact command, URL, payload, environment, and commit/version tag.
+- **Blast Radius:** Who is impacted right now, how many tenants/requests are failing, and whether data custody is at risk.
+- **Severity:** `P0` through `P3` with the one-line criteria printed inline inside the template comment so the filer never guesses.
+- **Verification Proof Required:** Regression test name, live log query, or synthetic check required at the `Validation` gate (`P-7`, `P-9`).
 
-**Agent delegation comment template.** A comment, not an issue. Used when the Operator (or, at Tier 3, the agent layer) hands an issue to a specialist agent. Sections: Outcome, Scope, Validation command (the exact command or check that proves the work is correct), Expected artifact (PR URL, document, file path), Repo and file paths. Required by P-15 — vague delegation produces vague output. Chapter 8 carries the full pattern; this chapter installs the comment template so the muscle is in place before agents arrive.
+**Research Spike template.** Stops open-ended exploration from turning into a shadow project:
+- **Hard Timebox:** Exact hours or days allocated (a spike without a kill clock is an untracked project).
+- **Root Question:** The single architectural or vendor question this spike must answer in the affirmative or negative.
+- **Required Decision Artifact:** An committed ADR, benchmark table, or throwaway proof-of-concept branch (`P-5`).
+- **Decision Deadline:** The calendar date when the spike either spawns a bounded project (`P-3`) or closes to `Canceled`.
 
-These templates encode locality (P-18). The template is the workspace default; a project description can override it for that project; an individual issue's acceptance criteria override the project default for that issue. Closer-to-the-work guidance wins.
+**Standard Project template.** Governs every execution container (`P-3`):
+- **Durable Goal:** The outcome delivered to the parent Initiative (`P-2`).
+- **Canonical Milestones:** Pre-populated as `1. Scope & DAG Accepted` -> `2. Implementation` -> `3. Validation & Receipts` -> `4. Production Rollout` -> `5. Runbook & Handoff`.
+- **Upstream / Downstream Dependencies:** Linked projects or external gates.
+- **Kickoff Update Slot:** Must be posted within 48 hours of creation so the project never hits `Projects Without Recent Updates` (`P-19`).
+- **Exit Criteria:** What must be running in production to mark the project `Completed`.
+
+**Agent Delegation Comment template.** Saved as a reusable Linear template snippet and stamped whenever the Operator or lead engineer assigns a task to a coding or triage agent (`P-14`, `P-15`). Fields: **Target Outcome**, **Strict File/Module Boundary**, **Exact Validation Command** (e.g., `cargo test --workspace` or `./scripts/compile.sh`), and **Required Return Artifact** (PR URL + test output). Handing an agent this template makes running the test suite cheaper than hallucinating success.
+
+All six templates obey **Locality wins (`P-18`)**. The workspace template sets the floor; a project spec can tighten the rules for a high-risk migration; an individual issue's exit criteria override both for that specific diff.
 
 ### Relations and recurring issues
 
-Two native primitives the Method uses deliberately but does not over-invest in.
+Two native Linear mechanics finish the surface wiring when used with discipline.
 
-**Issue relations.** Linear models relations between issues — *blocking* / *blocked-by*, *related*, and *duplicate*. The Method leans on the dependency pair and uses the rest sparingly. *Blocked-by* is the structural complement to the Blocked state (P-10): the state says "this is stuck," the relation says "on what." When a Blocked issue is held up by another tracked issue, link it *blocked-by* in addition to naming the blocker in a comment — so the dependency shows on the blocker's side too and nobody has to carry the chain in their head. *Duplicate* is set at Triage (it is a native status type). *Related* is for genuine cross-references, not a substitute for a parent issue (P-12) or a project — if you are building a tree out of *related* links, the work wanted a parent-and-sub-issues shape instead. Relations are an index of dependency, not a second hierarchy.
+**Issue relations (`blocks` / `blocked by`, `duplicate`, `related`).** Treat `blocks` and `blocked by` as hard structural edges in your execution DAG. Whenever an issue moves into the `Blocked` workflow state (`P-10`), bind it with a native `blocked by` relation to the upstream issue holding the gate, in addition to naming the blocker in the comment thread. That bidirectional pointer makes the dependency visible on both tickets so Engineer A knows that merging their schema PR immediately unblocks Engineer B's API ticket. Use `duplicate` at `Triage` to collapse redundant bug reports while preserving customer signal links. Use `related` sparingly; if you find yourself chaining six issues together with `related` links, stop and group them under a parent issue with sub-issues (`P-12`) or a bounded project (`P-3`).
 
-**Recurring issues.** Repeating operating work — the weekly project-update sweep, the Monday Triage clear, the monthly label-hygiene pass, the quarterly overbuild audit (P-24) — should be a recurring issue, not a reminder in someone's head or a line in a doc that rots. A recurring issue puts the cadence in the work graph where the Method can see it: it appears in views, carries evidence when it is done, and surfaces on Stale Triage if it is ignored. The Method's own maintenance — the verification it depends on (P-25) — is the first thing to make recurring.
+**Recurring issues (mechanizing maintenance).** Remember the corpse that opened Chapter 1: we designed a clean system, got bored of manual upkeep, and watched the workspace rot to 14 states, ~160 labels, and 0 of 45 projects with health set. You cure maintenance boredom by turning workspace upkeep into scheduled, recurring issues inside the work graph itself:
+- A weekly recurring Monday issue for the **Triage & Stale Project Sweep** (`P-19`, `P-20`).
+- A monthly recurring issue for the **Orphan Label & Zombie View Purge** (`P-16`).
+- A quarterly recurring issue for the **Overbuild Audit** (`P-24`).
+
+Because recurring issues spawn straight into the active board, they show up on `Operator's Now`, require a completion receipt (`P-7`) to close, and trigger alarm views if ignored. The operating model maintains itself on the exact same rails it uses to ship code.
 
 ### The overbuild test
 
-Before adding any new label, view, or template, run it through P-24's five questions. Does it help the Operator decide faster? Does it help an executor execute faster? Does it preserve evidence the team would otherwise lose? Does it reduce repeated PM work? Does it make risk visible earlier? Four or more yes — adopt. Three or fewer — skip.
+Every month somebody on the team will propose a ninth label namespace, an eighth shared view, or a custom workflow column for a special project. Before creating it, run the proposal through the five-question **Overbuild Test (`P-24`)**:
 
-The operating surface gets cluttered the same way a kitchen counter does: each individual item seemed useful when it landed, and now nothing can be found. The overbuild test is the cabinet door. Apply it every time and the surface stays operational. Skip it for a year and the surface becomes the problem the next operating model is brought in to fix.
+1. Does it help the Operator make a priority, taste, or risk decision faster?
+2. Does it help an engineer or agent slice execute and verify work faster?
+3. Does it capture delivery evidence we would otherwise lose at the `Validation` gate?
+4. Does it eliminate recurring manual translation work for the PM?
+5. Does it expose blast-radius or schedule risk earlier in the week?
+
+Count the `yes` answers. **Four or five:** build it and wire it to a view. **Three or fewer:** reject it on the spot. A workbench stays fast because of what you refuse to bolt onto it. Keep the surface clean.
 
 > **Where this gets hard**
 >
-> When label sprawl has gone unmanaged for a year and an audit reveals one hundred fifty labels of which thirty are cited by views, the deletion sweep is political, not technical — every label has someone who created it and a story for why it should stay. The same dynamic hits a view list that has accumulated nineteen private dashboards no one else can see.
+> Cutting ~160 legacy labels down to 25 orthogonal tags and collapsing 19 private boards into 7 shared views is a five-minute API script wrapped inside a two-week political fight. Every zombie label and private dashboard has an author who swears their workflow will collapse without it. Pulling them onto a shared control panel requires replacing their private workarounds with shared views that answer their real questions faster.
 >
 > Ravenhelm assesses your operating surface and installs the Method tuned to your team, your code host, and your reporting structure. nate@ravenhelm.co
 
@@ -97,7 +129,7 @@ The operating surface gets cluttered the same way a kitchen counter does: each i
   content: pass
   funnel: pass
   chapter-type-extras: n/a (not a tier, doctrine, integration, reporting, or closing chapter)
-  word-count: ~2400 prose (expanded with relations/recurring + typed-fields note)
-  principle-citations: P-3, P-4, P-6, P-7, P-8, P-9, P-10, P-11, P-12, P-13, P-15, P-16, P-17, P-18, P-19, P-20, P-24, P-25
+  word-count: 2560
+  principle-citations: P-2, P-3, P-4, P-5, P-6, P-7, P-8, P-9, P-10, P-11, P-12, P-13, P-14, P-15, P-16, P-17, P-18, P-19, P-20, P-24, P-25
   flagged-principle-gaps: none
 -->
